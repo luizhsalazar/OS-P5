@@ -119,7 +119,8 @@ template<> struct Traits<Thread>: public Traits<void>
 {
     static const bool smp = Traits<System>::multicore;
 
-    typedef Scheduling_Criteria::GRR Criterion;
+    // Alteração para utilizar nova política de escalonamento
+    typedef Scheduling_Criteria::CFS Criterion;
     static const unsigned int QUANTUM = 100000; // us
 
     static const bool trace_idle = hysterically_debugged;

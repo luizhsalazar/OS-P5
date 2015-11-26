@@ -18,8 +18,8 @@ class Thread
 {
     friend class Init_First;
     friend class System;
-    friend class Scheduler<Thread>;
-    //friend class Scheduler_MultiList<Thread,Traits<Thread>::Criterion>;
+//    friend class Scheduler<Thread>;
+    friend class Scheduler_MultiList<Thread>;
     friend class Synchronizer_Common;
     friend class Alarm;
     friend class IA32;
@@ -154,8 +154,8 @@ protected:
 
     static volatile unsigned int _thread_count;
     static Scheduler_Timer * _timer;
-    static Scheduler<Thread> _scheduler;
-   // static Scheduler_MultiList<Thread> _scheduler;
+//    static Scheduler<Thread> _scheduler;
+    static Scheduler_MultiList<Thread> _scheduler;
     static Spin _lock;
 };
 

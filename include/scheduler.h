@@ -98,15 +98,21 @@ namespace Scheduling_Criteria
                 IDLE   = (unsigned(1) << (sizeof(int) * 8 - 1)) - 1
             };
             static const unsigned int QUEUES = 4; // Informa o número da sublista na lista
+
+            static const unsigned int HEADS = Traits<Machine>::CPUS;
+
             static const bool timed = false;
             static const bool dynamic = false;
             static const bool preemptive = false;
             int id;
 
-        public:
-            CFS(int p = NORMAL,int _id = Machine::cpu_id()):id(_id){}; // Defined at Alarm
-            static unsigned int current_head(){ return Machine::cpu_id(); };
 
+        public:
+            CFS(int p = NORMAL, int _id = Machine::cpu_id()): id(_id) {}; // Defined at Alarm
+
+            static unsigned int current_queue(){ return Machine::cpu_id(); };
+
+            static unsigned int queue(){ return 0; };
         };
 
 }
@@ -205,9 +211,8 @@ class Scheduling_Queue_Multi_List: public Scheduling_Multilist<T, R> {};
 
 // Scheduler_MultiList
 // Using Multihead_Scheduling_List instead of Scheduling_List
-template<typename T,
-		 typename R = typename T::Criterion>
-class Scheduler_MultiList: public Scheduling_Queue_Multi_List<T, R>
+template<typename T>
+class Scheduler_MultiList: public Scheduling_Queue_Multi_List<T, Scheduling_Criteria::CFS>
 {
 private:
     typedef Scheduling_Queue_Multi_List<T> Base;
@@ -233,17 +238,18 @@ public:
 
     void insert(T * obj) {
        db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::insert(" << obj << ")" << endl;
-        unsigned int list;
-        if(obj->link()->rank() == Criterion::IDLE || obj->link()->rank() == Criterion::MAIN){
-        	list = Machine:: cpu_id();
-        }else
-        	list = choose_list();
+//        unsigned int list;
+//        if(obj->link()->rank() == Criterion::IDLE || obj->link()->rank() == Criterion::MAIN){
+//        	list = Machine:: cpu_id();
+//        }else
+//        	list = choose_list();
 
+       Base::insert(obj->link());
 
-        obj->link()->cpu_id = list;
-        Base::insert(obj->link());
-        if(list != Machine::cpu_id())
-        	APIC::ipi_send(list,49);
+//        obj->link()->cpu_id = list;
+//        Base::insert(obj->link());
+//        if(list != Machine::cpu_id())
+//        	APIC::ipi_send(list,49);
         //envia interrupcao
     }
 
@@ -264,29 +270,29 @@ public:
 
     T * remove(T * obj) {
         db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::remove(" << obj << ")" << endl;
-        unsigned int list = obj->link()->cpu_id;
+//        unsigned int list = obj->link()->cpu_id;
         T * o = Base::remove(obj->link()) ? obj : 0;
-        if( list!= Machine::cpu_id())
-			APIC::ipi_send(list,49);
+//        if( list!= Machine::cpu_id())
+//			APIC::ipi_send(list,49);
                 //envia interrupcao
         return o;
     }
 
     void suspend(T * obj) {
         db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::suspend(" << obj << ")" << endl;
-        unsigned int list = obj->link()->cpu_id;
+//        unsigned int list = obj->link()->cpu_id;
         Base::remove(obj->link());
-        if( list!= Machine::cpu_id())
-        	APIC::ipi_send(list,49);
-                        //envia interrupcao
+//        if( list!= Machine::cpu_id())
+//        	APIC::ipi_send(list,49);
+//                        //envia interrupcao
     }
 
     void resume(T * obj) {
         db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::resume(" << obj << ")" << endl;
-        unsigned int list = obj->link()->cpu_id;
+//        unsigned int list = obj->link()->cpu_id;
         Base::insert(obj->link());
-        if( list!= Machine::cpu_id())
-        	IC::ipi_send(list,49);
+//        if( list!= Machine::cpu_id())
+//        	IC::ipi_send(list,49);
              //envia interrupcao
     }
 

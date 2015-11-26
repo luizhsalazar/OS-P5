@@ -15,8 +15,8 @@ __BEGIN_SYS
 // Class attributes
 volatile unsigned int Thread::_thread_count;
 Scheduler_Timer * Thread::_timer;
-Scheduler<Thread> Thread::_scheduler;;
-//Scheduler_MultiList<Thread> Thread::_scheduler;;
+//Scheduler<Thread> Thread::_scheduler;;
+Scheduler_MultiList<Thread> Thread::_scheduler;;
 Spin Thread::_lock;
 
 // Methods
@@ -359,15 +359,16 @@ bool Thread::migration_needed(){
 }
 
 void Thread::dispatch(Thread * prev, Thread * next, bool charge)
-{ int percentage=0;
-   if(charge) {
-        if(Criterion::timed){
-        	percentage = _timer->reset();
-        	prev->calculate_priority(percentage, prev);
-        }
-    }
+{
+	int percentage=0;
+	if(charge) {
+		if(Criterion::timed){
+			percentage = _timer->reset();
+			prev->calculate_priority(percentage, prev);
+		}
+	}
 
-    if(prev != next) {
+   if(prev != next) {
         if(prev->_state == RUNNING)
             prev->_state = READY;
         next->_state = RUNNING;
