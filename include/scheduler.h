@@ -6,6 +6,7 @@
 #include <utility/list.h>
 #include <cpu.h>
 #include <machine.h>
+#include <utility/random.h>
 
 __BEGIN_SYS
 
@@ -99,22 +100,27 @@ namespace Scheduling_Criteria
             };
             static const unsigned int QUEUES = 4; // Informa o número da sublista na lista
 
+            // POR QUE ISTO TEM QUE DE ESTAR AQUI PARA COMPILAR? CORRIGIR!!
             static const unsigned int HEADS = Traits<Machine>::CPUS;
 
-            static const bool timed = false;
+            static const bool timed = true;
             static const bool dynamic = false;
             static const bool preemptive = false;
-            int id;
-
 
         public:
-            CFS(int p = NORMAL, int _id = Machine::cpu_id()): id(_id) {}; // Defined at Alarm
+            // DEFINE A CPU QUE A THREAD TERÁ AFINIDADE (Baseado no número de threads em cada lista)
+            CFS(int p = NORMAL): Priority(p),
+            	     _affinity( ((p == IDLE) || (p == MAIN)) ?  Machine::cpu_id() : 0) {}
 
             static unsigned int current_queue(){ return Machine::cpu_id(); };
 
-            static unsigned int queue(){ return 0; };
-        };
+        	const volatile int & queue() const volatile { return _affinity; }
 
+//        	void set_affinity(int aff) { _affinity = aff; }
+
+        private:
+             volatile int _affinity;
+        };
 }
 
 
@@ -238,26 +244,28 @@ public:
 
     void insert(T * obj) {
        db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::insert(" << obj << ")" << endl;
-//        unsigned int list;
-//        if(obj->link()->rank() == Criterion::IDLE || obj->link()->rank() == Criterion::MAIN){
-//        	list = Machine:: cpu_id();
-//        }else
-//        	list = choose_list();
+
+//       unsigned int list;
+//       if(obj->link()->rank() == Criterion::IDLE || obj->link()->rank() == Criterion::MAIN){
+//			list = Machine:: cpu_id();
+//		}else
+//			list = choose_list();
+
+       // MIGRAÇÃO?
 
        Base::insert(obj->link());
 
-//        obj->link()->cpu_id = list;
-//        Base::insert(obj->link());
-//        if(list != Machine::cpu_id())
-//        	APIC::ipi_send(list,49);
-        //envia interrupcao
+//		obj->link()->cpu_id = list;
+//		Base::insert(obj->link());
+//		if(list != Machine::cpu_id())
+//			APIC::ipi_send(list,49);
     }
 
     int choose_list(){
     	int ncpus = Machine::n_cpus();
     	unsigned int menor = 100;
     	int lista;
-    	for(int i= 0; i<ncpus;i++){
+    	for(int i= 0; i < ncpus; i++){
     		if(Base::_list[i].size()<menor){
     			lista = i;
     			menor = Base::_list[i].size();
@@ -265,16 +273,17 @@ public:
     	}
 
     	return lista;
-
     }
 
     T * remove(T * obj) {
         db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::remove(" << obj << ")" << endl;
+
+        // MIGRAÇÃO?
+
 //        unsigned int list = obj->link()->cpu_id;
         T * o = Base::remove(obj->link()) ? obj : 0;
 //        if( list!= Machine::cpu_id())
 //			APIC::ipi_send(list,49);
-                //envia interrupcao
         return o;
     }
 
@@ -284,7 +293,6 @@ public:
         Base::remove(obj->link());
 //        if( list!= Machine::cpu_id())
 //        	APIC::ipi_send(list,49);
-//                        //envia interrupcao
     }
 
     void resume(T * obj) {
@@ -293,7 +301,6 @@ public:
         Base::insert(obj->link());
 //        if( list!= Machine::cpu_id())
 //        	IC::ipi_send(list,49);
-             //envia interrupcao
     }
 
     T * choose() {

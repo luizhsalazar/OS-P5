@@ -4,6 +4,8 @@
 #include <system.h>
 #include <thread.h>
 #include <alarm.h> // for FCFS
+#include <utility/ostream.h>
+#include <display.h>
 
 // This_Thread class attributes
 __BEGIN_UTIL
@@ -11,6 +13,9 @@ bool This_Thread::_not_booting;
 __END_UTIL
 
 __BEGIN_SYS
+
+//OStream cout;
+
 
 // Class attributes
 volatile unsigned int Thread::_thread_count;
@@ -43,7 +48,7 @@ void Thread::constructor_epilog(const Log_Addr & entry, unsigned int stack_size)
                     << "," << *_context << "}) => " << this << endl;
 
     if((_state != READY) && (_state != RUNNING))
-        _scheduler.suspend(this);
+    	_scheduler.suspend(this);
 
     if(preemptive && (_state == READY) && (_link.rank() != IDLE))
         reschedule();
@@ -52,6 +57,8 @@ void Thread::constructor_epilog(const Log_Addr & entry, unsigned int stack_size)
             unlock(false);
         else
             unlock();
+
+//    this->link()->rank() .set_affinity(0); // _scheduler.choose_list());
 }
 
 
@@ -319,9 +326,12 @@ void Thread::reschedule()
 
 void Thread::time_slicer(const IC::Interrupt_Id & i)
 {
-    lock();
+////	Display::position(0, 0);
+//	cout << " time slicer ";
 
-    reschedule();
+	lock();
+
+	reschedule();
 }
 
 void Thread::calculate_priority(int percentage, Thread * prev){
@@ -364,7 +374,7 @@ void Thread::dispatch(Thread * prev, Thread * next, bool charge)
 	if(charge) {
 		if(Criterion::timed){
 			percentage = _timer->reset();
-			prev->calculate_priority(percentage, prev);
+//			prev->calculate_priority(percentage, prev);
 		}
 	}
 
