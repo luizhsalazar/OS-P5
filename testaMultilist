@@ -1,0 +1,3475 @@
+make --print-directory run1
+make[1]: Entering directory `/home/thaisa/workspace/eposP5'
+(cd etc && make --print-directory)
+make[2]: Entering directory `/home/thaisa/workspace/eposP5/etc'
+sed -e 's/^#define MODE.*$/#define MODE library/' -i /home/thaisa/workspace/eposP5/include/system/config.h
+sed -e 's/^#define ARCH.*$/#define ARCH ia32/' -i /home/thaisa/workspace/eposP5/include/system/config.h
+sed -e 's/^#define MACH.*$/#define MACH pc/' -i /home/thaisa/workspace/eposP5/include/system/config.h
+sed -e 's/^#define MMOD.*$/#define MMOD legacy/' -i /home/thaisa/workspace/eposP5/include/system/config.h
+sed -e 's/^#define APPL.*$/#define APPL parallel_philosophers_dinner/' -i /home/thaisa/workspace/eposP5/include/system/config.h
+sed -e 's/^#define __mode_.*__$/#define __mode_library__/' -i /home/thaisa/workspace/eposP5/include/system/config.h
+sed -e 's/^#define __arch_.*__$/#define __arch_ia32__/' -i /home/thaisa/workspace/eposP5/include/system/config.h
+sed -e 's/^#define __mach_.*__$/#define __mach_pc__/' -i /home/thaisa/workspace/eposP5/include/system/config.h
+sed -e 's/^#define __mmod_.*__$/#define __mmod_legacy__/' -i /home/thaisa/workspace/eposP5/include/system/config.h
+make[2]: Leaving directory `/home/thaisa/workspace/eposP5/etc'
+(cd tools && make --print-directory)
+make[2]: Entering directory `/home/thaisa/workspace/eposP5/tools'
+(cd eposcc && make --print-directory)
+make[3]: Entering directory `/home/thaisa/workspace/eposP5/tools/eposcc'
+install -m 775 eposcc /home/thaisa/workspace/eposP5/bin
+sed -e 's/^EPOS=.*$/EPOS=\/home\/thaisa\/workspace\/eposP5/' -i /home/thaisa/workspace/eposP5/bin/eposcc
+make[3]: Leaving directory `/home/thaisa/workspace/eposP5/tools/eposcc'
+(cd eposmkbi && make --print-directory)
+make[3]: Entering directory `/home/thaisa/workspace/eposP5/tools/eposmkbi'
+install -m 775 eposmkbi /home/thaisa/workspace/eposP5/bin
+make[3]: Leaving directory `/home/thaisa/workspace/eposP5/tools/eposmkbi'
+make[2]: Leaving directory `/home/thaisa/workspace/eposP5/tools'
+(cd src && make --print-directory)
+make[2]: Entering directory `/home/thaisa/workspace/eposP5/src'
+(cd utility && make --print-directory)
+make[3]: Entering directory `/home/thaisa/workspace/eposP5/src/utility'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/home/thaisa/workspace/eposP5/src/utility'
+(cd architecture && make --print-directory)
+make[3]: Entering directory `/home/thaisa/workspace/eposP5/src/architecture'
+(cd ia32 && make --print-directory)
+make[4]: Entering directory `/home/thaisa/workspace/eposP5/src/architecture/ia32'
+install ia32_crt0.o ia32_crtbegin.o ia32_crtend.o /home/thaisa/workspace/eposP5/lib
+make[4]: Leaving directory `/home/thaisa/workspace/eposP5/src/architecture/ia32'
+make[3]: Leaving directory `/home/thaisa/workspace/eposP5/src/architecture'
+(cd machine && make --print-directory)
+make[3]: Entering directory `/home/thaisa/workspace/eposP5/src/machine'
+(cd common && make --print-directory)
+make[4]: Entering directory `/home/thaisa/workspace/eposP5/src/machine/common'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/thaisa/workspace/eposP5/src/machine/common'
+(cd pc && make --print-directory)
+make[4]: Entering directory `/home/thaisa/workspace/eposP5/src/machine/pc'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/home/thaisa/workspace/eposP5/src/machine/pc'
+make[3]: Leaving directory `/home/thaisa/workspace/eposP5/src/machine'
+(cd abstraction && make --print-directory)
+make[3]: Entering directory `/home/thaisa/workspace/eposP5/src/abstraction'
+/usr/local/ia32/gcc-4.4.4/bin/ia32-g++ -c --no-exceptions --no-rtti --no-use-cxa-atexit -std=c++0x -Wa,--32 -O2 -nostdinc -Wall -Werror -fdata-sections -ffunction-sections -I/home/thaisa/workspace/eposP5/include thread.cc
+/usr/local/ia32/gcc-4.4.4/bin/ia32-ar rcs /home/thaisa/workspace/eposP5/lib/libsys_ia32.a thread.o
+make[3]: Leaving directory `/home/thaisa/workspace/eposP5/src/abstraction'
+(cd setup && make --print-directory)
+make[3]: Entering directory `/home/thaisa/workspace/eposP5/src/setup'
+install pc_setup /home/thaisa/workspace/eposP5/img
+make[3]: Leaving directory `/home/thaisa/workspace/eposP5/src/setup'
+(cd boot && make --print-directory)
+make[3]: Entering directory `/home/thaisa/workspace/eposP5/src/boot'
+dd if=pc_boot of=pc_boot.tmp ibs=32 skip=1 obs=512 >& /dev/null
+install pc_boot.tmp /home/thaisa/workspace/eposP5/img/pc_boot
+rm -f pc_boot.tmp
+make[3]: Leaving directory `/home/thaisa/workspace/eposP5/src/boot'
+(cd system && make --print-directory)
+make[3]: Entering directory `/home/thaisa/workspace/eposP5/src/system'
+/usr/local/ia32/gcc-4.4.4/bin/ia32-ld  -nostdlib -L/home/thaisa/workspace/eposP5/lib -Bstatic -i system_scaffold.o -o pc_system.o
+install application_scaffold.o pc_application.o
+install pc_system.o /home/thaisa/workspace/eposP5/lib
+install pc_application.o /home/thaisa/workspace/eposP5/lib
+make[3]: Leaving directory `/home/thaisa/workspace/eposP5/src/system'
+(cd init && make --print-directory)
+make[3]: Entering directory `/home/thaisa/workspace/eposP5/src/init'
+install init_first.o pc_init_first.o
+install init_system.o pc_init_system.o
+install init_application.o pc_init_application.o
+install pc_init_first.o /home/thaisa/workspace/eposP5/lib
+install pc_init_system.o /home/thaisa/workspace/eposP5/lib
+install pc_init_application.o /home/thaisa/workspace/eposP5/lib
+make[3]: Leaving directory `/home/thaisa/workspace/eposP5/src/init'
+make[2]: Leaving directory `/home/thaisa/workspace/eposP5/src'
+(cd app && make --print-directory)
+make[2]: Entering directory `/home/thaisa/workspace/eposP5/app'
+/home/thaisa/workspace/eposP5/bin/eposcc --library  --gc-sections  -o parallel_philosophers_dinner parallel_philosophers_dinner.o
+install parallel_philosophers_dinner /home/thaisa/workspace/eposP5/img
+make[2]: Leaving directory `/home/thaisa/workspace/eposP5/app'
+(cd img && make --print-directory)
+make[2]: Entering directory `/home/thaisa/workspace/eposP5/img'
+/home/thaisa/workspace/eposP5/bin/eposmkbi /home/thaisa/workspace/eposP5 parallel_philosophers_dinner.img parallel_philosophers_dinner
+
+EPOS bootable image tool
+
+  EPOS mode: library
+  Machine: pc
+  Model: legacy
+  Processor: ia32 (32 bits, little-endian)
+  Memory: 262144 KBytes
+  Boot Length: 128 - 512 (min - max) KBytes
+  Node id: will get from the network
+
+  Creating EPOS bootable image in "parallel_philosophers_dinner.img":
+    Adding boot strap "/home/thaisa/workspace/eposP5/img/pc_boot": done.
+    Adding setup "/home/thaisa/workspace/eposP5/img/pc_setup": done.
+    Adding application "parallel_philosophers_dinner": done.
+    Adding system info: done.
+
+  Adding specific boot features of "pc": done.
+
+  Image successfully generated (70356 bytes)!
+
+make[2]: Leaving directory `/home/thaisa/workspace/eposP5/img'
+(cd img && make --print-directory run)
+make[2]: Entering directory `/home/thaisa/workspace/eposP5/img'
+qemu-system-i386 -smp 4 -m 262144k -nographic -no-reboot -fda  parallel_philosophers_dinner.img | tee parallel_philosophers_dinner.out
+<1>: PC_Setup(bi=0x0010b000,sp=0x00109f3c) :<1>
+<2>: PC_Setup(bi=0x0010b000,sp=0x00108f3c) :<2>
+<3>: PC_Setup(bi=0x0010b000,sp=0x00107f3c) :<3>
+<0>: PC_Setup(bi=0x0010b000,sp=0x0010af3c) :<0>
+<0>: PC_Setup::detect_memory() :<0>
+<0>: PC_Setup::calibrate_timers() :<0>
+<0>: PC_Setup::detect_pci() :<0>
+Setting up this machine as follows: 
+  Processor:    IA32 at 2806 MHz (BUS clock = 125 MHz)
+  Memory:       262144 Kbytes [0x00000000:0x10000000]
+  User memory:  261752 Kbytes [0x00000000:0x0ff9e000]
+  PCI aperture: 44996 Kbytes [0xfc000000:0xfebf1000]
+  Node Id:      will get from the network!
+  Setup:        25984 bytes
+  APP code:     42432 bytes	data: 768 bytes
+<0>: setup_idt(idt=0x0ffff000) :<0>
+<0>: setup_gdt(gdt=0x0fffe000) :<0>
+<0>: setup_sys_pt(pmm={idt=0x0ffff000,gdt=0x0fffe000,pt=0x0fffd000,pd=0x0fffc000
+,info=0x0fffb000,tss0=0x0fffa000,mem=0x0ffba000,io=0x0ffae000,sysc=0x0ffae000,sy
+sd=0x0ffae000,syss=0x0ff9e000,memb=0x00000000,memt=0x0ff9e000,fr1b=0x0000b000,fr
+1t=0x000a0000,fr2b=0x00100000,fr2t=0x00400000},code_size=0,data_size=0,stack_siz
+e=16) :<0>
+<0>: setup_sys_pd(pmm={idt=0x0ffff000,...},mem_base=0x00000000,mem_top=0x0ff9e00
+0,io_base=0xfc000000,io_top=0xfebf1000) :<0>
+<0>: setup_tss0(tss0=0xff405000) :<0>
+<0>: PC_Setup::load_app() :<0>
+<0>: PC_Setup::call_next(ip=0x00000040,sp=0xff7c3ff8) => APPLICATION :<0>
+<1>: PC_Setup::call_next(ip=0x00000040,sp=0xff7c7ff8) => APPLICATION :<1>
+<2>: PC_Setup::call_next(ip=0x00000040,sp=0xff7cbff8) => APPLICATION :<2>
+<3>: PC_Setup::call_next(ip=0x00000040,sp=0xff7cfff8) => APPLICATION :<3>
+<0>: Init_System() :<0>
+<1>: Init_System() :<1>
+<2>: Init_System() :<2>
+<3>: Init_System() :<3>
+<0>: CPU::init() :<0>
+<0>: IA32_MMU::free(frame=0x0000b000,n=149) :<0>
+<0>: IA32_MMU::free(frame=0x00100000,n=768) :<0>
+<0>: IA32_MMU::free(frame=0x00401000,n=64413) :<0>
+<0>: IA32_MMU::alloc(frames=80) => 0x00050000 :<0>
+<0>: Heap(addr=0x00050000,bytes=327680) => 0x0040017c :<0>
+<0>: PC::init() :<0>
+<0>: IC::init() :<0>
+<0>: PCI::init(pmm.io_mem=0xfc000000) :<0>
+<0>: Timer::init() :<0>
+<0>: Alarm:<1>: Timer::init() <2>: Timer::init() :<<:init() :<0>
+<:<0>
+<1>: Semaph0>
+<2>: S2>:oremaphore(v Time2>: e(vaar::inSemalue=1) =>lue=it()phore(valu 0x01) = 
+:<3>e=0400> 0x004000
+<3>1) =0a0 :<1a: >>
+0
+<2>S 0x00<1>: Init:e4000_Applicati maa0 :<0>
+onIpho<0>: Init(nr_) it_Applicae(A:tion()vp<1>
+ap
+lueli=1ca) ti=o> 0nx0()040
+00a0
+<3>: Init_Application() :<3>
+<<3<<1>: Init_>:11>: First() : I>Init<2>
+n: _FiritIs_At()Fi32rs_M
+t(MU)::
+alloc(frames=69) => 0x0000b000
+<0>: IA32_MMU::alloc(f<1>: Set Thread::priority(this=0x00000000,prio=666668288) 
+:<1>
+<2>: Set Thread::priority(this=0x00000000,prio=666668288) :<2>
+<3>: Set Thread::priority(this=0x00000000,prio=666668288) :<3>
+<0>: Set Thread::priority(this=0x00000000,prio=666668288) :<0>
+r<1>: Set Thread::priority(this=0x00000000,prio=666668288) :<1>
+<2>: Set Thread::priority(this=0x00000000,prio=666668288) :<2>
+<3>: Set Thread::priority(this=0x00000000,prio=666668288) :<3>
+ames=768) => 0x00100000
+<0>: IA32_MMU::alloc(frames=6<1>: Set Thread::priority(this=0x00000000,prio=6666
+68288) :<1>
+4413) => 0x004<2>: Set Thread::priority(this=0x00000000,prio=666668288) :<2>
+<3>: Set Thread::priority(this=0x00000000,prio=666668288) :<3>
+01000
+<0>: Init_First() :<0>
+<0>: Thread(entry=0x00000048,state=0,priority=0,stack={b=0x0009bf18,s=16384},con
+text={b=0x0009fee8,{eflags=0x200,eax=0,ebx=0,ecx=0,edx=0,esi=0,edi=0,ebp=0x00000
+000,esp=0x0009fee8,eip=0x00000048,cs=8,ccs=8,cds=10,ces=10,cfs=10,cgs=10,css=10,
+cr3=0x0fffc000}}) => 0x0009ff94 :<0>
+<0>: Thread(entry=0x00005ab0,state=1,priority=2147483647,stack={b=0x00097eec,s=1
+6384},context={b=0x0009bebc,{eflags=0x200,eax=0,ebx=0,ecx=0,edx=0,esi=0,edi=0,eb
+p=0x00000000,esp=0x0009bebc,eip=0x00005ab0,cs=8,ccs=8,cds=10,ces=10,cfs=10,cgs=1
+0,css=10,cr3=0x0fffc000}}) => 0x0009bef0 :<0>
+<1>: Thread(entry=0x00005ab0,state=0,priority=2147483647,stack={b=0x00093ee8,s=1
+6384},context={b=0x00097eb8,{eflags=0x200,eax=0,ebx=0,ecx=0,edx=0,esi=0,edi=0,eb
+p=0x00000000,esp=0x00097eb8,eip=0x00005ab0,cs=8,ccs=8,cds=10,ces=10,cfs=10,cgs=1
+0,css=10,cr3=0x0fffc000}}) => 0x0009ff6c :<1>
+<2>: Thread(entry=0x00005ab0,state=0,priority=2147483647,stack={b=0x0008fee4,s=1
+6384},context={b=0x00093eb4,{eflags=0x200,eax=0,ebx=0,ecx=0,edx=0,esi=0,edi=0,eb
+p=0x00000000,esp=0x00093eb4,eip=0x00005ab0,cs=8,ccs=8,cds=10,ces=10,cfs=10,cgs=1
+0,css=10,cr3=0x0fffc000}}) => 0x0009ff44 :<2>
+<3>: Thread(entry=0x00005ab0,state=0,priority=2147483647,stack={b=0x0008bee0,s=1
+6384},context={b=0x0008feb0,{eflags=0x200,eax=0,ebx=0,ecx=0,edx=0,esi=0,edi=0,eb
+p=0x00000000,esp=0x0008feb0,eip=0x00005ab0,cs=8,ccs=8,cds=10,ces=10,cfs=10,cgs=1
+0,css=10,cr3=0x0fffc000}}) => 0x0009ff1c :<3>
+<0>: Semaphore::p(this=0x004000a0,value=1) :<0>
+[2J[000;000HThe Philosopher's Dinner:
+<0>: Semaphore(value=1) => 0x0008becc :<0>
+<0>: Semaphore(value=1) => 0x0008beb8 :<0>
+<0>: Semaphore(value=1) => 0x0008bea4 :<0>
+<0>: Semaphore(value=1) => 0x0008be90 :<0>
+<0>: Semaphore(value=1) => 0x0008b<1>: Set Thread::priority(this=0x0009ff6c,prio
+=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x0009bef0) :<1>
+e7c
+<0>: Thread(entry=0x000014d0,state=1,priority=1,stack={b=0x00087e50,s=16384},con
+text={b=0x0008be14,{eflags=0x200,eax=0,ebx=0,ecx=0,edx=0,esi=0,edi=0,ebp=0x00000
+000,esp=0x0008be14,eip=0x000014d0,cs=8,ccs=8,cds=10,ces=10,cfs=10,cgs=10,css=10,
+cr3=0x0fffc000}}) => 0x0008be54 :<0>
+<0>: Set Thread::priority(this=0x0009ff94,prio=0) :<0>
+<0>: Thread(entry=0x000014d0,state=1,priority=1,stack={b=0x00083e24,s=16384},con
+text={b=0x00087de8,{eflags=0x200,eax=0,ebx=0,ecx=0,edx=0,esi=0,edi=0,ebp=0x00000
+000,esp=0x00087de8,eip=0x000014d0,cs=8,ccs=8,cds=10,ces=10,cfs=10,cgs=10,css=10,
+cr3=0x0fffc000}}) => 0x00087e28 :<0>
+<0>: Set Thread::priority(this=0x0009ff94,prio=0) :<0>
+<0>: Thread(entry=0x000014d0,state=1,priority=1,stack={b=0x0007fdf8,s=16384},con
+text={b=0x00083dbc,{eflags=0x200,eax=0,ebx=0,ecx=0,edx=0,esi=0,edi=0,ebp=0x00000
+000,esp=0x00083dbc,eip=0x000014d0,cs=8,ccs=8,cds=10,ces=10,cfs=10,cgs=10,css=10,
+cr3=0x0fffc000}}) => 0x00083dfc :<0>
+<0>: Set Thread::priority(this=0x0009ff94,prio=0) :<0>
+<0>: Thread(entry=0x000014d0,state=1,priority=1,stack={b=0x0007bdcc,s=16384},con
+text={b=0x0007fd90,{eflags=0x200,eax=0,ebx=0,ecx=0,edx=0,esi=0,edi=0,ebp=0x00000
+000,esp=0x0007fd90,eip=0x000014d0,cs=8,ccs=8,cds=10,ces=10,cfs=10,cgs=10,css=10,
+cr3=0x0fffc000}}) => 0x0007fdd0 :<0>
+<0>: Set Thread::priority(this=0x0009ff94,prio=0) :<0>
+<0>: Thread(entry=0x000014d0,state=1,priority=1,stack={b=0x00077da0,s=16384},con
+text={b=0x0007bd64,{eflags=0x200,eax=0,ebx=0,ecx=0,edx=0,esi=0,edi=0,ebp=0x00000
+000,esp=0x0007bd64,eip=0x000014d0,cs=8,ccs=8,cds=10,ces=10,cfs=10,cgs=10,css=10,
+cr3=0x0fffc000}}) => 0x0007bda4 :<0>
+<0>: Set Thread::priority(this=0x0009ff94,prio=0) :<0>
+P<1>: Set Thread::priority(this=0x0009bef0,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009bef0,next=0x0008be54) :<1>
+<1<2>>: Set Th: read::prioSemaphore::rip(tythis(t=his0x004=00x0000a0,v09afflu44,
+e=prio0=21) :<1474>83
+647)
+<2>: Thread::dispatch(prev=0x0009ff44,next=0x00087e28) :<2>
+<<33>: S>e:t Thr Semeaphorade::p(::tphriiorits=0x0040y(00athis=0x000,09valuffe=0
+) :<1c2>
+,prio=2147483647)
+<3>: Thread::dispatch(prev=0x0009ff1c,next=0x00083dfc) :<3>
+<3>: Semha<1>: phTorehre::p(ad::this=0x00sleep(runn4000a0,vaing=0x0lue=0) 008be5:
+4,q=0
+<3x>004000a0)
+<1>: S
+et Thread::priority(this=0x0008be54,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0008be54,next=0x0007fdd0) :<1>
+<<22>>: Thread: ::sSelmaeep(runnphiong=re::0x0p(t0087e28,q=his=0x00x04000a0,v0al0
+4
+ue=-0010a0) :<2) :><1>
+<
+2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00087e28,next=0x0007bda4) :<2>
+<<3>: S3>: Thremapead::sleehop(rreunn::ingp(t=h0isx000=0x0040830dfc0,a0q=,0x0v04a
+
+lue=-20) 00a0:<2>
+)
+<3>: Set Thread::priority(this=0x00083dfc,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x0009ff6c) :<3>
+ilo<1>: Thread::sleep(running=0x0007fdd0,q=0x004000a0) :<1>
+<1>: Set Thread::priority(this=0x0007fdd0,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007fdd0,next=0x0009bef0) :<1>
+<2>: Thread::sleep(running=0x0007bda4,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x0007bda4,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007bda4,next=0x0009ff44) :<2>
+sophers are alive and hungry!
+[007;074H/[013;074H\[016;065H|[013;057H/[007;057H\[019;030HThe dinner is served ...
+<0>: Semaphore::v(this=0x004000a0,value=-5) :<0>
+<0>: Thread::wakeup(running=0x0009ff94,q=0x004000a0) :<0>
+<0>: Set Thread::priority(this=0x0009ff94,prio=0) :<0>
+<0>: Thread::join(this=0x0008be54,state=1) :<0>
+<0>: Thread::suspend(this=0x0009ff94) :<0>
+<0>: Set Thread::priority(this=0x0009ff94,prio=0) :<0>
+<0>: Thread::dispatch(prev=0x0009ff94,next=0x0008be54) :<0>
+<3>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<3>
+<3>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff1c) :<3>
+[02<1>: Set Thread::priority(this=0x0009bef0,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff6c) :<1>
+0;000H ----------------------------------<2---------->: Set Thread::priority(this=0x00
+09ff44,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff44,next=0x0009bef0) :<2>
+----------------------- [021;000H Thread    cpu0   cpu1  cpu2  cpu3     Tempo total[022;000H Thread 0[022;010H  77[022;045H77[028;000H ------------------------------------------------------------------- <0>: Semaph
+ore::v(this=0x004000a0,value=-4) :<0>
+<0>: Thread::wakeup(running=0x0008be54,q=0x004000a0) :<0>
+<0>: Set Thread::priority(this=0x0008be54,prio=1) :<0>
+<0>: Thread::dispatch(prev=0x0008be54,next=0x00087e28) :<0>
+[020;000H ------------------------------------------------------------------- [021;000H Thread    cpu0   cpu1  cpu2  cpu3     Tempo total[023;000H Thread 1[023;010H  91[023;045H91[028;000H ------------------------------------------------------------------- <0>: Semaph
+ore::v(this=0x004000a0,value=-3) :<0>
+<0>: Thread::wakeup(running=0x00087e28,q=0x004000a0) :<0>
+<0>: Set Thread::priority(this=0x00087e28,prio=1) :<0>
+<0>: Thread::dispatch(prev=0x00087e28,next=0x0008be54) :<0>
+<0>: Semaphore::p(this=0x004000a0,value=-2) :<0>
+<0>: Thread::sleep(running=0x0008be54,q=0x004000a0) :<0>
+<0>: Set Thread::priority(this=0x0008be54,prio=1) :<0>
+<0>: Thread::dispatch(prev=0x0008be54,next=0x00083dfc) :<0>
+[<020;000H --1>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x00087e28) :<1>
+<1<>:2>: S Semaphore:et: Thrp(this=0x00e40a00d:a0,va:plue=-3) :<ri1>
+ority(this=0x0009bef0,prio=2147483647)
+<2>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff44) :<2>
+<3>: Set Thread::priority(this=0x0009ff1c,prio=2147483647) :<3>
+<3>: Thread::dispatch(prev=0x0009ff1c,next=0x0009ff6c) :<3>
+-<----1>: Thread::sleep(running=0x00087e28,q=0x004000a0) :<1>
+<1>: Set Thread::priority(this=0x00087e28,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00087e28,next=0x0009bef0) :<1>
+------------------------------------------------------------ [021;000H Thread    cpu0   cpu1  cpu2  cpu3     Tempo total[024;000H Thread 2[024;010H  82[024;045H82[028;000H ------------------------------------------------------------------- <0>: Semaph
+ore::v(this=0x004000a0,value=-4) :<0>
+<0>: Thread::wakeup(running=0x00083dfc,q=0x004000a0) :<0>
+<0>: Set Thread::priority(this=0x00083dfc,prio=1) :<0>
+<0>: Thread::dispatch(prev=0x00083dfc,next=0x0007fdd0) :<0>
+[020;00<2>: Set Thread::priority(this=0x0009ff44,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff44,next=0x00083dfc) :<2>
+<2>: Se0mH -aphore::p(--thi---------s=-0x----------00-400---------0a-0,v----------a
+lue
+---------=--3) ----------:<-2>-- [021;
+0<200H Thread>: Thread::sleep(running=0x00083dfc,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0009ff1c) :<2>
+    cp<3>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<3>
+<3>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff44) :<3>
+u0 <1>: Set Thread::priority(this=0x0009bef0,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff6c) :<1>
+  cpu1  cpu2  cpu3     Tempo total[025;000H Thread 3[025;010H  78[025;045H78[028;000H ------------------------------------------------------------------- <0>: Semaph
+ore::v(this=0x004000a0,value=-4) :<0>
+<0>: Thread::wakeup(running=0x0007fdd0,q=0x004000a0) :<0>
+<0>: Set Thread::priority(this=0x0007fdd0,prio=1) :<0>
+<0>: Thread::dispatch(prev=0x0007fdd0,next=0x0007bda4) :<0>
+[020;000H ------------------------------------------------------------------- [021;000H Thread    cpu0   cpu1  cpu2  cpu3     Tempo total[026;000H Thread 4[026;010H  91[026;045H91[028;000H ------------------------------------------------------------------- <0>: Semaph
+ore::v(this=0x004000a0,value=-3) :<0>
+<0>: Thread::wakeup(running=0x0007bda4,q=0x004000a0) :<0>
+<0>: Set Thread::priority(this=0x0007bda4,prio=1) :<0>
+<0>: Thread::dispatch(prev=0x0007bda4,next=0x0007fdd0) :<0>
+<<2>:2>: Semap Set Thread::priority(this=0x0009ff1c,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff1c,next=0x0008be54) :<2>
+[0ho0re5;0:6:p0Hthink(ithisng[
+2]<=2>: 0Sx004emaphore00:<30a0,value:v>(: Sethtis =0Thxr004e000a0,valuade=-2) :<
+::2prio>rity(
+this=0x0009ff44,prio=2147483647)
+<3>: Thread::dispatch(prev=0x0009ff44,next=0x0007bda4) :<3>
+<3>=-<: S1>: Set Thremaphoread::priorie::p(thisty(this=0x=0x004000a0009ff6c,pr0,
+value=-io=2) :<3>
+2147483647)
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x0009bef0) :<1>
+<2>: Thread::wakeup(running=0x0008be54,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x00087e28) :<2>
+<3>:[01 T
+h0;re07a4Hthinkingd:[2]<2>: Se:smaphore::v(lethis=0x004ep(000a0,valureu=nn-2in)g=0x000 
+:<2>
+
+7bda4,q=0x004000a0)
+<3>: Set Thread::priority(this=0x0007bda4,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007bda4,next=0x0008be54) :<3>
+2<1>: Set Thread::priority(this=0x0009bef0,prio=2147483647) :<1>
+<1<3>: Se>: Thread::mapdispatch(prhore::p(thev=0x0009beis=0x00400f0,ne0a0,valuxt
+=0x0009e=-2) :<3>ff1c) :<1>
+
+<2>: Thread::wakeup(running=0x00087e28,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00087e28,next=0x00083dfc) :<2>
+<3[0>:16;069Hthi Thr
+ead:nking[2]<2:s>: Semapholere::v(this=ep0x00400(r0a0,value=unning=0x0-2) :<2>
+008be54,q=0x004000a0)
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0008be54,next=0x00087e28) :<3>
+)<1>: Set Threa<d:3:p>ri: oSriemtya(tphihs=o0xre0::009pff1(this=0xc,00pri40o=002a
+1
+474083,v6a47lu) e=:-<2)1> :
+<<31>>:
+ Thread::dispatch(prev=0x0009ff1c,next=0x0009ff44)
+<2>: Thread::wakeup(running=0x00083dfc,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0007bda4) :<2>
+<[03>: Thread10;047Ht::hisleep(runnnking=0
+x00i0ng87[2e28]<,q2>=0: x00Se400ma0aph0) or:<e:3>:v
+(t<3hi>: sSe=t0x Thread::p00ri40ori00tya(this=0x000,v08al7eue28=-,p2) r:<io=2>1)
+
+
+<3>: Thread::dispatch(prev=0x00087e28,next=0x00083dfc) :<3>
+
+<1>: Set Thread:<:3pr>:io Sremaphoitrey(:th:pis(thi=0s=x000x0900ff40440,p0ria0o,=
+214748
+v36alu47e=)-2 ) :<:<3>
+<1>:3> T
+hread::dispatch(prev=0x0009ff44,next=0x0009ff6c)
+<2>: Thread::wakeup(running=0x0007bda4,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x0007bda4,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007bda4,next=0x0008be54) :<2>
+<3>: Thread::slee[p(r
+unni005;0ng6=0x00083d0fc,Hq=  0xhu00ngry[420]<2>0: Semap0aho0) :<3>
+r<e3>: S:et :vTh(trehiads:=0:priorityx(this0=040x00000a0803dfc,pr,vioal=1ue) =-:2
+<
+)3> :
+<3>: Thre<ad::dispat2ch(prev=>0x
+00083dfc,next=0x0007bda4)
+<0>: Thread::sle<ep(3>running=0: x0S007fdd0e,q=m0x0ap0ho4000a0) :<re0>::
+p<0(>: Set Tthhrise=a0d::priorixty(00t4his=00x000007fadd0,prio=10,) v:<0>
+<0>: aThread::dlispueat=-ch3(prev=0) x0:<003>7fdd0,next
+=0x0009bef0)
+<1>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff1c) :<1>
+<2>: Thread::wakeup(running=0x0008be54,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x00087e28) :<2>
+[<3>: 0T1
+0;hread::sle07ep4(runniH ng h=0unx0gr00y[7b2d]<a4,q=0x002>40:0 S0a0) :<3>em
+ap<ho3>re::: Svet T(thrheisa=d0::prioritxy(0th04i0s=0x0007bd00aa04,prio,=1)va :l<
+3>
+<3>: Thre
+ue=-3ad)::dispatch (p:rev<2=>0x0007
+bda4,next=0x0008be54)
+<<3>3>:: S Semaphorete Thread::p::rip(ority(thithsis=0=0xx0000900ff1c,prio=8b21e4
+7
+c48c36,47v)a :l<ue1>=1)
+
+<1>: Thread::dispatch(prev=0x0009ff1c,next=0x0009ff44) :<1>
+<2>: Thread::wakeup(running=0x00087e28,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00087e28,next=0x00083dfc) :<2>
+<[0163>: Sem;a0ph69
+ore::p(tH h huis=0x0008ngbry[eb8,value=<121)>: Set Thr]< e2>:a: <d:Semaphor3>:pe:
+:v(rth
+iiso=ri0xty00(t40h00a0,isv=al0xue=-2)
+0009ff44,prio=2147483647)
+<1>: Thread::dispatch(prev=0x0009ff44,next=0x00087e28) :<1>
+<<22>: >Thread::: waSkeup(ruemnaning=0x00p083dfhco,q=0x00re40:00:pa0() :<2th>is
+<2>: Se=t Thread::0xp0riority(0this=0x0000838dfbc,epbri8,o=va1)lu e:<2>
+<=12>) : :<Th1read:>:d
+ispatch(prev=0x00083dfc,next=0x0007fdd0)
+<3>: Sema<[pho1>: Thre0re:a16;051Hthi:dn
+
+:
+kp:sin(this=0x004lg[2]<2>00ee: Semaphor0ap(e0running=0x::,0v(tv00halue=87e28,q=0i-
+s=0x00
+
+x4000a0,va1) 00lue=-1) ::<08<2>2be
+>b8
+)
+<1>: Set Thread::priority(this=0x00087e28,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00087e28,next=0x00083dfc) :<1>
+<<22>>: Thread:::wa keuSp(erunmanipngh=0xo0007fddr0e,q:=:0px0(04000a0) :t<2h>i
+<s2=>: Set 0Thrxe0ad:0:pr0iorit8y(bthies=0x0007fdad40,prio=1) ,:<v2>
+<2>a: Tlhureaed::=dispa1t)ch( prev=0x000:7f<dd01,ne>xt=0x0007bd
+a4)
+<[03>: Threa1d:0:sl;04e7ep(Hrunn in g=0hx0
+008be5u4,ngry[2]q=<0x2004>000: Semaphorea0:) :<3:>v
+(<3>: Sett Thrheadi::psrio=ri0tyx(0this=0x000048b0e540,0prio=1) :<a3>0
+<,3>:v Threada:l:dispatch(uperev==-0x1)00 08b:e<254,next=0x>0007fdd
+0)
+<<22>>: :Th reSad:ema:pwakeup(runhning=0xo000r7bdea4:,<:q=0x0040003>pa0) :<2>
+: (<2>: Set TSethread::primahority(thisphore::i=0x0007bdap(s4,prio=1) th=:<2>
+<2>:is0 Thread::d=xis00patx0ch(00pr08ev=4b0x0007b00eda4,next=00a9x0008be54)0,0 :
+<2>
+v,[alue=0)
+va0<3lue0>=5;: Thr1060H ea)eating[2]d::  <2>: Semsl:aphoree<e::v(thp1is=0x00400(r>0a0,va
+luunne=-1)
+i
+ng=0x0007fdd0,q=0x004000a0)
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x0007bda4) :<3>
+<<<2>2>: Semaph2: Thread::or>wakeup(rune:::ning=0x000p 8be54,q=0x(S004thi0s00=0x
+0a000) :<2>8
+<b2ecc,value>:=0 ) :<3>Se
+t Thread::priority(this=0x0008be54,prio=1)
+<2>: Thread::dispatch(prev=0x0008be54,next=0x0007fdd0) :<2>
+<[3>0: 1T6hre;ad:05:1Hs  leep(ruhunnin
+g=0ngx0r007bda4,yq=0x0008b[ecc2) :<3]><
+<33>>: S:et Thread ::pSerimaorphiorty(this=0ex0007bda4:,pr:vio(=1) :<3th>is
+<3>: Th=rea0x004000d:a:d0,value=0is) :p<2atch(prev=>0x0007bda4,
+next=0x0008be54)
+<1>: Set Thread::priority(this=0x00083dfc,prio=1) :<1>
+emaphore::p(<2>:t Semaphorhe::p(thisis=0x=00x0008be90,04000a0,valvualuee=0) :<2>
+=
+<2>: Thr-ea1) d:<::1s>leep(runni
+ng=0x0007fdd0,q=0x0008be90)
+<2>: Set Thread::priority(this=0x0007fdd0,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007fdd0,next=0x0009ff6c) :<2>
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+[016;069H eating[1] 
+<1>: Semaphore::v(this=0x004000a0,value=0) :<1>
+<2>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff1c) :<2>
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<1>: Set Thread::priority(this=0x00083dfc,prio=1) :<1>
+<0>: Set Thread::priority(this=0x0009bef0,prio=2147483647) :<0>
+<0>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff44) :<0>
+<2>: Set Thread::priority(this=0x0009ff1c,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff1c,next=0x0009ff6c) :<2>
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<1>: Set Thread::priority(this=0x00083dfc,prio=1) :<1>
+<2>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff6c,next=0x0009bef0) :<2>
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<1>: Set Th<3r>: Semaphoere::p(thias=0x004000da0,value=1:) :<:3>
+priority(this=0x00083dfc,prio=1)
+[005;060H    sate[3]<3>: Sema<
+phore::v(thi
+s=20x>00:4000a0,val ueS=0e) t:< T3h>r
+ead::priority(this=0x0009bef0,prio=2147483647)
+<2>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff1c) :<2>
+<<1>:1>:  SemaphoreS:e:v(this=0xt0008becc,v alue=-1) :T<3>
+hread::priority(this=0x00083dfc,prio=1)
+<3>: Thread::wakeup(running=0x0008be54,q=0x0008becc) :<3>
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<3>:<1 >T:h rSeeamd::dispatcaphore::hp((prev=0x0008be54,next=0x0007bda4) :<3>
+<<1>: Set1 >Thread::pri:o rSemaphorei:t:p(this=0xy0008b(et7hci,sv=a0lxu0e0=1) :<0
+3>
+
+83dfc,prio=1)
+<1>: Thread::dispatch(prev=0x00083dfc,next=0x0008be54) :<1>
+<<22>>: :Se t STheremada::pprhioore::v(thriitsy(this==0x000x09ff1c,pr0i0o=021847b
+483647) 
+eb8,valu:<e=-21>
+<2>: T) h:read::di<sp1at>
+ch(prev=0x0009ff1c,next=0x00083dfc)
+this=0<3<x00>: Semapho14000re::p(this>a0,value=1=:) :<2>0x Thread::wa
+004000ak0e,uvpa(lue=1)
+running=0x0008be54,q=0x0008beb8)
+<1>: Set Thread::priority(this=0x0008be54,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0008be54,next=0x00087e28) :<1>
+<1>: Se[<m03>a16: Thre
+ap;069H    d:hsate[2]<2:so>: Semaphlerore::v(thep(eis=0x0040r:00a0,vaunn:p(this=0lixun0
+e=
+g
+-1=0) 00:x0007bda4,8<2>
+qb=0x004000aea4,va0lue=0)
+)
+<3>: Set Thread::priority(this=0x0007bda4,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007bda4,next=0x0008be54) :<3>
+<<1>: Th1r>: eSaemaphore::dp:(this=0x:0s0l400e0a0,veapl(ureu=nning=0-x00087e28,1q
+
+)= 0x0008b:e<a34>)
+
+<1>: Set Thread::priority(this=0x00087e28,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00087e28,next=0x0009ff6c) :<1>
+<2>: Thread::wakeup(running=0x00083dfc,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0007bda4) :<2>
+[<30>1:0 T;hr047H eatingea[d2::]sleep(run n
+
+ing=0x0<20>08be54,q=:0 x00S4e00m0aaphore::0)v (:<3>this=0x
+0<040003>a: 0Set,value=-1) T hr:ead::pr<i2or>ity(t
+his=0x0008be54,prio=1)
+<3>: Thread::dispatch(prev=0x0008be54,next=0x00083dfc) :<3>
+<<11>>: Semapho:r Set Threade:::priorit:yv(this(this=0x00=009xf0f008bea6c,prio=24
+147
+4,8v3alu6e4=7-)1) :<3>
+
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x0009bef0) :<1>
+<2>: Thread::wakeup(running=0x0007bda4,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x0007bda4,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007bda4,next=0x0008be54) :<2>
+[020;<03>: Threa0d::wakeup0(runninHg=0x0008 3dfc-,q=0x0008-bea4) :<3->
+<3>: -Set---- -Thread::p-r-io-rity-(-t---h-is=0-x---0-0083dfc,p-r-io=1-)- -:<3>
+<3>-: Thread:-:-di---s-patch(p-r----e-v-=0-x0-0-083dfc,ne-x-t-=0x0007bd-a4-)- -:-
+
+----<3->
+<1>: Set Th--read::p--rio-r---- [0ity(2t1;000H his=T0x0009bef0hr,prio=21474ea8d  3  6cp4u70 )   cpu1  c:pu<2 1>
+<1>: T chpu3  re a  Tempo tdotal[022:;:00d0Hispa Tthrceahd( 0p[022;r02e4H  19[0v2=2;045H960[028x;00000H0 -9----b--e--f-0,ne-xt=0x00--0-8--7--e28) :<1>
+<<2>: 2Set Th>r:ead::pri oSriety(this=0x0maphor00e8be:54:,ppri(ot=1) :<2>h
+<i2s>:= T0hrx004000eaad:0:,divspaatchl(puree=0) :<1>v=
+0x0008be54,next=0x00083dfc)
+<<1>: Threa1>d: Semapho::rse::lve(this=0xe0p(running=0008bxe0900,v0al8ue=-1)7 :e<
+2
+8,q=0x02>0
+4000a0)
+<1>: Set Thread::priority(this=0x00087e28,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00087e28,next=0x0008be54) :<1>
+--<2>: Thre-ad:---------:wa-keup(runn-ing=0x0008-3dfc,q=0x-------00-08be90) :---
+-<2->-
+--<-2>: Set T-----h--r-e--------- a<d1:>:priority:( tSehimsa=0pxh0o00re::v(th8is
+=0x0043d000a0,vafcl,uprei=o=-1) :<21>)
+
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0007fdd0) :<2>
+<2><3: Semaphore>: ::p(thiSset Th=r0x0008ebe7c,vada::lpriority(uthie=0) :s=<2>
+0x0007bda4,prio=1)
+<3>: Thread::dispatch(prev=0x0007bda4,next=0x00083dfc) :<3>
+<3>: Sem<aphore::p(t1his>: Thread::w=0x004000a0akeup(runni,value=-1) ng=0x0008be:
+<3>
+54,q=0x0
+04000a0)
+<1>: Set Thread::priority(this=0x0008be54,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0008be54,next=0x0007bda4) :<1>
+<2>: Thread::sleep(running=0x0007fdd0,q=0x0008be7c) :<2>
+<2>: Set Thread::priority(this=0x0007fdd0,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007fdd0,next=0x00087e28) :<2>
+<[0130;074H>: e
+ating[2 ] <2>:T Semaphore:hre:v(this=0x0ad04000a0,val::suleepe=-1) :<2>(r
+unning=0x00083dfc,q=0x004000a0)
+<3>: Set Thread::priority(this=0x00083dfc,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x0008be54) :<3>
+<3><2>: T: hread::wakeuSep(running=0xma00087e28,phq=0x004000a0or) :<2>
+e::<2>: Set p(tThhread::priorisity=0(thx00is=4000x000087a0e28,,vpriao=1lu) :e=<2-
+
+1>
+)<
+2>: Thread::dispatch(prev=0x00087e28,next=0x00083dfc) :<2>
+[<3>: Thre020ad;:000:sH -le---ep---(r---un---ni---n---g=---0x-00----08-be---54,q=0x004--0
+---00a---0) --:<---3>---
+<---3>:--- S---et -Thread::p---rio---rit---y(t- his=0[02x01;00000H8b Te54hre,pad ri o=1) :<3  c>pu
+<0  3> cp: u1 Th recpau2 d: cp:du3 is pat   chTem(ppo retv=ota0x0l0[0208be54,4;0ne00Hxt= Th0x0r0ead08 27e[02284;0) :<3>
+<1>24H  39[:02 Se4;t T04hrea5Hd::12priority1(thi[0s=280x0;000007bdH a---4,p---------ri--o=1--) :--<1>
+-----------------------------------------------<2>: Set Thread::priority(this=0x
+00083dfc,prio=1) :<2>
+-- <2>: Semaphore::v(this=0x004000a0,value=<0-1)> :<: S2>et 
+Thread::priority(this=0x0009ff44,prio=2147483647)
+<0>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff1c) :<0>
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+<2>: Thread::wakeup(running=0x00083dfc,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0008be54) :<2>
+<3>: Set[ T005;0hr60Hteadh::pi
+r
+nkiiong[rity(this=20x0]<02>087e28,pr: Semioaphor=1) :<3>
+e::v(<t3h>: is=0xTh0rea04d:0:di00a0,spavatch(prev=lue=0x000087e28,n) :<2ex>
+t=0x00083dfc)
+<3<>: Se1ma>phore:::p(th is=0xS004000ea0,valtu e=0) T:<3>h
+read::priority(this=0x0007bda4,prio=1)
+<1>: Thread::dispatch(prev=0x0007bda4,next=0x00087e28) :<1>
+[016;069Hthinking[3]
+<3>: Semaphore::v(t<his=0x0040020a0>: Se,value=0)mapho :<3>
+re::p(this=0x004000a0,value=0)
+[005;060H  hungry[2]<2>: Sema<
+phor
+3>: Seme::v(aphore::p(this=th0x004is=0x0040000a000a,valu0,value=0e=0) ) :<3>
+<:<3>3>: Threa
+d::sleep(running=0x00083dfc,q=0x004000a0)
+<3>: Set Thread::priority(this=0x00083dfc,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x0007bda4) :<3>
+<2>: Thread::wakeup(running=0x0008be54,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x00083dfc) :<2>
+[016;0<1>6: Se9H  hu
+ngt ryT[2hr]<2e>: Semaphador::pe:r:v(thiis=ority0x(th004000a0,ivs=al0uex=0)00087 
+e28,
+:pri<o=1)2 >
+:<1><
+<1>1: Semaphore>: Thread:::p:(dispattchis=0xh(0prev=0x000804000a07,valuee28,n=ex
+t=0)0 :<3>
+x0008be54)
+<<2>: Sem2aph[010;047>:oH    Semaphorer ::pes(this=
+0::ax00p(this=0x0te08be008bea4,va[3clue]<3>: Semac=phor,valu0) :<3>: Set e=0) <1
+>
+Thre:<1>a
+d::priority(this=0x0007bda4,prio=1)
+<3>: Thread::dispatch(prev=0x0007bda4,next=0x00087e28) :<3>
+<1>: Thread::sleep(running=0x0008be54,q=0x0008becc) :<1>
+<1>: Set Thread::priority(this=0x0008be54,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0008be54,next=0x0007bda4) :<1>
+e<::2>: vT(thhireasd::sleep(r=0unxning0=0x0400000a008,val3dfc,q=0x0ue00=8b0) :<1
+>e
+a4)
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0009ff6c) :<2>
+<1>: Sema<3>: Sept Thread::hore::v(thiprsior=ity(this=0x0x000087e28,0pri08beo=cc
+,1)valu :e=-<3>
+1)
+<1>: Thread::wakeup(running=0x0007bda4,q=0x0008becc) :<1>
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007bda4,next=0x0008be54) :<1>
+<1>: Semaphore::p(this=0x0008beb8,value=0) <2>: Set :<1>Thr
+ead::priority(this=0x0009ff6c,prio=2147483647)
+<2>: Thread::dispatch(prev=0x0009ff6c,next=0x0007bda4) :<2>
+<2>:<3> : SetSem aphToreh:r:v(ethias=0dx::0p008rbiorite7cy,(tvahluies=0x0=-10)08
+ 7:<e2>2
+8,prio=1)
+<1>: Thread::sleep(running=0x0008be54,q=0x0008beb8) :<1>
+<1>: Set Thread::priority(this=0x0<0083be5>4,: Spemariopho=re1) ::p:<1(>
+thi<1>s=: T0x0h040rea00ad:0:,vadluispe=1a) :tch<3>(pr
+ev=0x0008be54,next=0x0009bef0)
+<2>: Thread::wakeup(running=0x0007bda4,q=0x0008be7c) :<2>
+<2>: Set Thread::priority(this=0x0007bda4,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007bda4,next=0x0007fdd0) :<2>
+<[2>: Se
+m0a10;0phore::p(t74his=H    sate[0x30040]<3>: Se00ma0,aphore::v(vatlue=his=0x00401)0 :<2
+>
+0<a0,v2>: Thraleadue=0) :::sleep(r<3u>
+nning=0x0007fdd0,q=0x004000a0)
+<2>: Set Thread::priority(this=0x0007fdd0,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007fdd0,next=0x0007bda4) :<2>
+<<3>:3>:  ThSreeadm::waakpheuorep:(runn:p(itnhisg==00x0x0000408700e2a08,,qva=lu0e
+
+x0=04000-1)a0) : <:<3>3
+<>
+3>: Set Thread::priority(this=0x00087e28,prio=1)
+<3>: Thread::dispatch(prev=0x00087e28,next=0x0007fdd0) :<3>
+<[011>:6;0 S51et HTh ereaatd::ipring[o
+3] rit<3>y:(th Seisma=p0hox00r0e:9bef0,p:v(trioh=is=2140x07040400836a04,v7) a:<1l
+u
+e>
+=0)<1 :<>3>: T
+hread::dispatch(prev=0x0009bef0,next=0x00087e28)
+<<2>:2>:  STemahpreadhor::slee:e:pv(runn(thiings=0x=00008bebx08,00v7bada4l,ueq==-
+
+1) :0x<01>04
+000a0)
+<2>: Set Thread::priority(this=0x0007bda4,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007bda4,next=0x0009ff44) :<2>
+<3>: Thread::wakeup(running=0x0007fdd0,q=0x004000a0) :<3>
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x0007bda4) :<3>
+<[01>: Thread20;::w000H -----akeup(--r-----------unn-ing=0x00087e-28,q--=0x----------0008-
+b
+---------eb8) -:----------<1>--
+-----<1>:------- [ 02Set T1;h000H Threread:ad:pri    cpu0  ority(t chispu1  cpu2 =0x c00pu3     T087eme28,p
+prio=1) 
+:o tot<al[026;0010H>
+ Th<1>: Threared::addi sp4[026;031atcH  h65[026;045(prevH1=56[028;000x0H 00087---------e28,next----=0x0007-fdd-0) :<1>
+<----2>: Set --Thr-e-a--d::pr--------i----------or-----------ity(this=0-x000--9f
+f--44-,------- <3prio=>:21474836 S4emaph7ore:) ::v<2>(this=0x004000a0,v
+<2>: Threaaldu::e=0) :<3>d
+ispatch(prev=0x0009ff44,next=0x0008be54)
+<2><3: >: Semaphore:Se<:p(tma0hip>: Sshore::p(thiet=0x0s T040=0x004000ahr00a0,va0e
+lue=0) 
+,:<2va
+a>lue=1) d::
+:<3priority(t>
+his=0x0009ff1c,prio=2147483647)
+<0>: Thread::dispatch(prev=0x0009ff1c,next=0x00087e28) :<0>
+<0>: [005;060H <3eating[2>:] <2>: 
+S Temhraepahore::v(thisd=::0x00sleep(runn4000ain0,value=g=-1)0 x0007bda4:<2>
+,q=0x004000a0)
+<3>: Set Thread::priority(this=0x0007bda4,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007bda4,next=0x0009ff6c) :<3>
+S<1>: Set Thread::priority(this=0x0007fdd0,prio=1) :<1>
+<2>: Thread::wakeup(running=0x0008be54,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x0007bda4) :<2>
+em[010;047aHthinkping[2]ho<2re::v(this>: S=
+
+emaphore0x::v(0008bea4,vthis=0xal004ue=-1) :<0000a>0,
+<0>: Thrvead::wakalue=0) :<eu2>p
+(running=0x00087e28,q=0x0008bea4)
+<0>: Set Thread::priority(this=0x00087e28,prio=1) :<0>
+<0>: Thread::dispatch(prev=0x00087e28,next=0x0008be54) :<0>
+<1>: Set Thread::priority(this=0x0007fdd0,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007fdd0,next=0x00083dfc) :<1>
+<1><: Sem3a>:p Sehore::pt T(hthisr=ea0x00d::priori0<ty(th82>: Semaphisbe90ore=,v
+alue::0=px0000) (this=0x009f:<1>
+40f60c,prio=2140a0,v7483647)
+alue<3>: Threa=1) :d:<2>
+:dispatch(prev=0x0009ff6c,next=0x00087e28)
+<3<>:1>:  SeThremaad::slephorepe::(p(running=0xthis=00083dfc,0x00q=0x00040008be9
+0) :a0,<val1>
+<1ue>:=1) : <Set T3>hread
+::priority(this=0x00083dfc,prio=1)
+<1>: Thread::dispatch(prev=0x00083dfc,next=0x0007fdd0) :<1>
+[01<30;047H  >:hung Thrry[2]<2>ea:d:: Sems
+leep(raphore::unvning=0(tx0hi0087e28,q=s0x004000=a0) :<3>
+0x004000a<0,3>value=-1: )Se t :<2>Thread::pri
+ority(this=0x00087e28,prio=1)
+<3>: Thread::dispatch(prev=0x00087e28,next=0x0009bef0) :<3>
+<2>: Thread::wakeup(running=0x0007bda4,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x0007bda4,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007bda4,next=0x00087e28) :<2>
+[02<1>:0;000H -- S-----e-t Thread::-priority--(t--his=0x00--07fdd0,pri--o=1) :<1>-
+<1>: --T--hre--ad----------::dispatch(p-rev=0x000--7fdd0,n--ext=0x000-7bda4) :-<
+1>--
+<1-->: ----------S----------emaphore-::p(this-=0x000 [021;08becc,va00lue=0)H  :<1>Threa
+<1>: Thred ad::slee  p(runn cing=pu0x000 07  cpu1  cpbda4,q=0x00u08becc) :<2 1>
+<1> c:p Set Thuread:3 :pri    Tempoor total[02ity(t3;his00=0H0 Tx0007bda4hr,eadp 1[02ri3o=1;02) :<4H1>
+<1>: T h 48[023;rea045Hd13::d9is[028;000Hp a--t-ch(---p--rev-=-0---x00--07b-da4---------,---next=0x0007--fdd---0) :--<---
+1>
+----<3>: Se--t Thread::----p-r-ior---ity--(t---h-i-s=0x0009bef---0--,pri-- <2>: o
+
+=2S1e47ma4p8hore::v(t3h647) :<3>
+<3>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff44) :<3>
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+is=0x004000a0,value=0)
+<2>: Semaphore::p(this=0x004000a0,val<ue=1)1>:  :Semap<2hore>
+[010;0<1>: 74S
+et THthhinkireang[d2]<:2:p>r: Semapiority(thisho=0x0007fdred0,pri::vo(=1) :<th1is>
+
+=0x004000a0,val
+::uep(t=0)
+his=0x004000a0,value=1)
+[01<6;2051H    s>ate: Semaphor[e::p1](
+this=0<x004000a0,1>: Semaphovare::v(lue=0) :this=0x00<24000a0,va>l
+<ue=0)2>: Thr :ea<1>d::sle
+ep(running=0x00087e28,q=0x004000a0)
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00087e28,next=0x0009ff1c) :<2>
+<3>: Set Thread::priority(this=0x0009ff44,prio=2147483647) :<3>
+<3>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff6c) :<3>
+<1>: Thread::wakeup(running=0x0007fdd0,q=0x004000a0) :<1>
+<1>: Set Thread::priority(this=0x0007fdd0,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007fdd0,next=0x00087e28) :<1>
+<[2>: S
+010;074H  hetu Thread::npriority(gry[1]<1>: thSis=0ex0009ff1cm,prio=214aphore::v(t748h3i
+s=0x006447) :<2>
+0<2>: Thre0ad::dispa0a0,value=0tch) :<1>
+(prev=0x0009ff1c,next=0x0007fdd0)
+<<1>: Semap1>: Semhaore::v(thpis=0x000h8be90,voalue=-1) r:e<:2>
+<2>: :Thread::wpakeup(runn(this=0inxg=0x000007fdd00,q=0x00088be90) :<b2>
+<2e>: Set bThread::p8,value=0ri) :<1>
+ority(this=0x0007fdd0,prio=1)
+<2>: Thread::dispatch(prev=0x0007fdd0,next=0x00083dfc) :<2>
+<<3>: Set3 Thr>ea:d ::Spreimaphore::por(this=0x0it0400y(0this=0x00a09ff6c,pr0,via
+lue=1
+) :o=214748364<2>7)
+<3>: T
+hread::dispatch(prev=0x0009ff6c,next=0x0007fdd0) :<3>
+<<11>>::  SThemaread::slpeheopr(er:unning=:0vx00087e28,q(=t0hx0008beb8i)s=0x0008 
+:<1>
+<1>
+:b Seet Thread:7:priority(tch,ivsalue=0) :<3=0x0008>7e
+28,prio=1)
+<1>: Thread::dispatch(prev=0x00087e28,next=0x0009bef0) :<1>
+<[3<016>: Semap0
+;
+hore::>:0p(t Set Thre69had::H eis=0x0pra040iority(thiti0sng[2] <20a=0>: 0,value=0)x0S 
+
+008be54,
+e:primaph<3>
+oore::v(th=is=0x0040100a0,v)alue=0)
+
+[020;000H ------------------------------------------------------------------- [021;000H Thread    cpu0   cpu1  cpu2  cpu3     Tempo total[025;000H Thread 3<3>: Set Thread::priority(this=0x0007fdd0,prio=1)
+ :<3>
+[025;031H <2>: Set 1 Thread::pr[iority(this=0025;x00083dfc,04prio=1) :<25H>
+
+79[028;000H ------------------------------------------------------<1>: Set Th------------re
+ad::prio- <3>: Semaritphorey(this=0x00::v(this=0x09bef0,pr00400io=21474830a0,val
+ue=647) :<1>0)
+
+<1>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff44) :<1>
+<3>: Semaphore::p(this=0x004000a0,value=1) :<3>
+[016;051Hthinking[3<0]<3>: Semap>:hore
+::v(t Shis=0x00400et0a0, Tvalue=0h) :<3>
+read::priority(this=0x0008be54,prio=1)
+<3>: Semaphor<2>: Set Te:h:p(this=0rx00e4000a0,vaalue=1) :<d3>
+::priority(this=0x00083dfc,prio=1)
+[016;051H  hungry[3]<3>: Semaphore::vS
+et Thread::priority(this=0x0007fdd0,prio=1) :<3>
+(<t1>h:i sS=0xe0t04000a0,v aTlhuree=0) :<3>
+ad::priority(this=0x0009ff44,prio=2147483647)
+<1>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff1c) :<1>
+<3>: Semaphore::<p2>:( Set Ththris=0x0008ebe90,avd:a:prioritylu(e=0) :<3>t
+his=0x00083dfc,prio=1)
+<3>: Thread::sleep(running=0x0007fdd0,q=0x0008be90) :<3>
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x0009ff6c) :<3>
+<1>: Set Thread::priority(this=0x0009ff1c,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff1c,next=0x0009bef0) :<1>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<0>: Set Thread::priority(this=0x0008be54,prio=1) :<0>
+<3>: Set Thread::priority(this<=20x0009ff>: Se6cm,prio=214a74836phore::p(t47h) :
+<3>i
+<3>: Thrsead::=0x004000a0di,spatch(prvev=0x000a9ff6c,nexlt=ue=1) :<2>0x
+0009ff44)
+[016;069H    sate[2]
+<2>: Semaphore::v(this=0x004000a0,value=0) :<2>
+<2>: Semaphore::v(this=0x0008bea4,value=0) :<2>
+<2>: Semaphore::v(this=0x0008be90,value=-1) :<2>
+<2>: Thread::wakeup(running=0x00083dfc,q=0x0008be90) :<2>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0007fdd0) :<2>
+<2>:<1>: Set Th Sreaed::pmriority(thiaps=0horx0009bef0,pe:rio=2:147483647) p(:<1
+>
+<1>th: Thread::diisspatch(prev==00x0x009b0ef00,ne0xt=80x0b0083ed7fc)c, :<1v>
+al<1>u: Seema=phore:1):p(this=0x0 04000a0,val:<ue=1) 1>:<1>
+
+<[020;000H 2>-----------: -----------Se-----------map-----------ho-r-----------e:---------
+:p(-- [021;00th0isH Thread  =0  cpu0x0   cpu1  cp04u2  cpu3   00  T0aempo total0,[024;000H Tvalhread 2[02ue4;017H=1  74[024;0)45H <3>195[028;00:<:0H 2 Set->
+ T-----------h-rea-d::priority(-this-=-0x000-----------9-ff44,prio=2-1-474-8--3-
+--------6-4---7)
+<3>: Th-rea--------d::dispatch-----------(prev=0x000 <1>: Semap9fhore::v(thifs=0
+x004044,next=0x000009ff1c)a0,value= :<3>
+0)
+<1>: S[emaphore::p01(6thi;s051H=0x004000a0 e,
+value=1
+a)tin :<1>
+<1>:g[ Thread:2]:sleep(runn <in2g=0x>0008:3dfc ,Semaqp=0x004000hoa0)r :<1>e:
+:v<1>: Set Th(tread::priorhiis=0x004ty(this=0x00000083dfc,prioa=1) :<1>0,
+<1>: Threvaad::dispalutch(prev=0xe=00083dfc,ne-xt=0x00091ff6c)) :< 2>
+:<2>
+<2>: Thread::wakeup(running=0x0007fdd0,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x0007fdd0,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007fdd0,next=0x00083dfc) :<2>
+[016;069Hthinking[2]
+<2>: Semaphore::v(this=0x004000a0,value=0) :<2>
+<2>: Semaphore::p(this=0x004000a0,value=1) :<2>
+[016;069H  hungry[2]
+<2>: Semaphore::v(this=0x004000a0,value=0) :<2>
+<2>: Semaphore::p(this=0x<000>08bea4,v: alSeut The=1) :<2>read:
+:priority(this=0x0008be54,prio=1)
+<0>: Thread::dispatch(prev=0x0008be54,next=0x0007fdd0) :<0>
+<2>: Semaph<ore::p(t3>his=0x0: 008beS90,value=0)et :<2>
+ Thread::priority(this=0x0009ff1c,prio=2147483647)
+<3>: Thread::dispatch(prev=0x0009ff1c,next=0x0008be54) :<3>
+<2>: Thread::sleep(running=0x00083dfc,q=0x0008be90) :<2>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0009bef0) :<2>
+<1>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff44) :<1>
+<3>: Semaphore::p(this=0x004000a0,value=1) :<3>
+[005;060H    sate[3]<3>: Sema
+pSet Thread::priority(this=0x0008be54,prio=1) :<3>
+hore::v(this=0x004000a0,value=0)
+<3>: Semaphore::v(this=0x0008becc,value=-1) :<3>
+<3>: Thread::wakeup(running=0x0008be54,q=0x0008becc) :<3>
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0008be54,next=0x0007bda4) :<3>
+<3>: Semaphore::p(this=0x0008be7<2>: Set Thc,read::priorvaity(this=0xlu0009bef0,
+e=0prio=2)1474 8364:7) :<<2>2>
+
+<2>: Thread::dispatch(prev=0x0009bef0,next=0x0008be54) :<2>
+<<33>: Semapho>:re::v(this= T0x0008beb8,hrvalue=-1) :ea<2>d:
+:sleep(running=0x0007bda4,q=0x0008be7c)
+<3>: Set Thread::priority(this=0x0007bda4,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007bda4,next=0x0009ff1c) :<3>
+<1>: Set Thread::priority(this=0x0009ff44,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff6c) :<1>
+<2>: Thread::wakeup(running=0x0008be54,q=0x0008beb8) :<2>
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x00087e28) :<2>
+<2>: Semaphore::p(this=0x0008bea4,value=0) :<2>
+<2>: Thread::sleep(running=0x00087e28,q=0x0008bea4) :<2>
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00087e28,next=0x0008be54) :<2>
+<2>: Semaphore::p(this=0x004000a0,value=1) :<2>
+[020;000H ------------------------------------------------------------------- [021;000H Thread    cpu0   cpu1  cpu2  cpu3     Tempo total[022;000H Thread 0[022;024H  95[022;045H172[028;000H ------------------------------------------------------------------- <2>: Semaph
+or<0e>: ::v(this=0Sext T0h0rea4000a0,vald:u:pre=0)io rity:(t<2>his=0x0007fd
+d0,prio=1)
+<<3>:3> Se: maphSore::p(thiset=0x004000a0 Th,value=1) :rea<2>
+d::priority(this=0x0009ff1c,prio=2147483647)
+<3>: Thread::dispatch(prev=0x0009ff1c,next=0x0009bef0) :<3>
+<1>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff44) :<1>
+[005;060Hthinking[2]<2>: Sema
+phore::v(this=0x004000a0,value=0) :<2>
+<2>: Semaphore::p(this=0x004000a0,value=1) :<2>
+[005;060H  hungry[2]<2>: Sema
+phore::v(this=0x004000a0,value=0) :<2>
+<2>: Semaphore::p(this=0x0008becc,value=0) :<2>
+<2>: Thread::sleep(running=0x0008be54,q=0x0008becc) :<2>
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x0009ff1c) :<2>
+<3>: Set Thread::priority(this=0x0009bef0,prio=2147483647) :<3>
+<3>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff6c) :<3>
+<1>: Set Thread::priority(this=0x0009ff44,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff44,next=0x0009bef0) :<1>
+<0>: Set Thread::priority(this=0x0007fdd0,prio=1) :<0>
+<2>: Set Thread::priority(this=0x0009ff1c,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff1c,next=0x0009ff44) :<2>
+<3>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<3>
+<3>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff1c) :<3>
+<1>: Set Thread::priority(this=0x0009bef0,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff6c) :<1>
+<2>: Set Thread::priority(this=0x0009ff44,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff44,next=0x0009bef0) :<2>
+<0>: Set Thread::priority(this=0x0007fdd0,prio=1) :<0>
+<3>: Set Thread::priority(this=0x0009ff1c,prio=2147483647) :<3>
+<3>: Thread::dispatch(prev=0x0009ff1c,next=0x0009ff44) :<3>
+<1>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff1c) :<1>
+<0>: Semaphore::p(this=0x004000a0,value=1) :<0>
+[016;051H    sate[0]<0>: Semaphore::v(
+this=0x004000a0,value=0) :<0>
+<0>: Semaphore::v(this=0x0008be90,value=-1) :<0>
+<0>: Thread::wakeup(running=0x0007fdd0,q=0x0008be90) :<0>
+<0>: Set Thread::priority(this=0x0007fdd0,prio=1) :<0>
+<0>: Thread::dispatch(prev=0x0007fdd0,next=0x00083dfc) :<0>
+<0>: Semaphore::p(this=0x004000a0,value=1) :<0>
+[016;069H eating[0] 
+<0>: Semaphore::v(this=0x004000a0,value=0) :<0>
+<2>: Set Thread::priority(this=0x0009bef0,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009bef0,next=0x0007fdd0) :<2>
+<2>: Semaphore::v(this=0x0008be7c,value=-1) :<2>
+<2>: Thread::wakeup(running=0x0007fdd0,q=0x0008be7c) :<2>
+<2>: Set Thread::priority(this=0x0007fdd0,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007fdd0,next=0x0007bda4) :<2>
+<2>: Semaphore::p(this=0x004000a0,value=1) :<2>
+[010;047H eating[2] <2>: Semaphore::v(this
+=0x004000a0,val<ue=0) :<2>3>
+: Set Thread::priority(this=0x0009ff44,prio=2147483647)
+<3>: Thread::dispatch(prev=0x0009ff44,next=0x0007fdd0) :<3>
+<3>: Se<1>: Set Thmaphoread::prre::p(this=i0x004000a0,ority(thisvalue=0) :<=0x03
+>
+009ff1c,prio=2147483647)
+<1>: Thread::dispatch(prev=0x0009ff1c,next=0x0009ff6c) :<1>
+[020;000H ------------------------------------------------------------------- [021;000H Thread    cpu0   cpu1  cpu2  cpu3     Tempo total[025;000H Thread 3[025;031H  70[025;045H148[028;000H ------------------------------------------------------------------- <3>: Semaph
+ore::v(this=0x004000a0,value=0) :<3>
+<3>: Semaphore::p(this=0x004000a0,value=1) :<3>
+[016;051Hthinking[3]<3>: Semaphore::v(
+this=0x004000a0,value=0) :<3>
+<0>: Se<3>: Semt aphoreThr::p(this=0exad004000a0,v::alpriority(tue=1) :<3>hi
+s=0x00083dfc,prio=1)
+[016;051H  hungry[3]<3>: Semaph<2>: Se
+tor e::v(Thread::prthiority(thisis==00xx0007bda4,p00rio=1) :<2>40
+00a0,value=0)
+<3Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+>: Sem<1aphore::p(>: Set Threthis=0x0008ad::prioritbe90,valy(this=0x00ue=0) :<3>0
+
+
+9ff6c,prio=2147483647)
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x0009bef0) :<1>
+<3>: Thread::sleep(running=0x0007fdd0,q=0x0008be90) :<3>
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x0009ff44) :<3>
+<2>: Set Thread::priority(this=0x0007bda4,prio=1) :<2>
+<1>: Set Thread::priority(this=0x0009bef0,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff1c) :<1>
+<3>: Set Thread::priority(this=0x0009ff44,prio=2147483647) :<3>
+<3>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff6c) :<3>
+<0>: Set Thread::priority(this=0x00083dfc,prio=1) :<0>
+<2>: Set Thread::priority(this=0x0007bda4,prio=1) :<2>
+<2>: Semaphore::p(this=0x004000a0,value=1) :<2>
+[010;047H    sate[2]<2>: Semaphore::v(this
+=0x004000a0,value=0) :<2>
+<2>: Semaphore::v(this=0x0008becc,value=-1) :<2>
+<2>: Thread::wakeup(running=0x0007bda4,q=0x0008becc) :<2>
+<2>: Set Thread::priority(this=0x0007bda4,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007bda4,next=0x0008be54) :<2>
+<2>:< Semap1>: Set Thhorerad:e:pr:iority(this:p=0x(000t9ff1c,prihio=214s=7483647
+) 0x:<1>
+<1>: 0008beb8T,vahread::displuatch(prev=0e=x00009ff1c,) next=0x0:<007bda4) :<1>1
+>
+<1>: S
+<em2>aphore::v(t: his=0x0008bThe7c,valuer=ead::0) :<1>
+sleep(running=0x0008be54,q=0x0008beb8)
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x0009bef0) :<2>
+<3>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<3>
+<3>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff44) :<3>
+<1>: Semaphore::p(this=0x004000a0,value=1) :<1>
+[020;000H ------------------------------------------------------------------- [021;000H Thread    cpu0   cpu1  cpu2  cpu3     Tempo total[026;000H Thread 4[026;017H  64[026;045H220[028;000H ------------------------------------------------------------------- <1>: Semaph
+ore::v(this=0x004000a0,value=0) :<1>
+<1>: Semap<ho0>: Setre ::pThr(ethis=0x004ad::priority(this=0x00083dfc,prio=1) :<
+0>
+000a0,value=1)
+[010;047Hthinking[1]<1>: Semaphore::v(this
+=0x004000a0,value=0) :<1>
+<1>: Semaphore::p(this=0x004000a0,value=1) :<1>
+[010;047H  <h2>ungry[1]<1:>: Se Smet aphor
+Thre::ev(athids=0:x:pr00ior4000a0,vaitlue=0) :<y(this=0x0009bef0,prio=2147483647
+) :<2>
+<2>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff1c) :<2>
+<3>: Set Thread::priority(this=0x0009ff44,prio=2147483647) :<3>
+<3>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff6c) :<3>
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+1>
+<1>: Semaphore::p(this=0x0008becc,value=0) :<1>
+<1>: Thread::sleep(running=0x0007bda4,q=0x0008becc) :<1>
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007bda4,next=0x0009bef0) :<1>
+<2>: Set Thread::priority(this=0x0009ff1c,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff1c,next=0x0009ff44) :<2>
+<0>: Semaphore::p(this=0x004000a0,value=1) :<0>
+[016;069H    sate[0]
+<0>: Semaphore::v(this=0x<0043>: Set Thread::priority(this=0x0009ff6c,prio=21474
+83647) :<3>
+<3>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff1c) :<3>
+000a<0>: Set Thread::priority(this=0x00083dfc,prio=1) :<0>
+0<1>: Set Thread::priority(this=0x0009bef0,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff6c) :<1>
+,value=0)
+<0>: Semaphore::v(this=0x0008bea4,value=-1) :<0>
+<0>: Thread::wakeup(running=0x00083dfc,q=0x0008bea4) :<0>
+<0>: Set Thread::priority(this=0x00083dfc,prio=1) :<0>
+<0>: Thread::dispatch(prev=0x00083dfc,next=0x00087e28) :<0>
+<0>: Semaphore::p(this=0x004000a0,value=1) :<0>
+[010;074H eatin
+g[0] <0>: Semaphore::v(this=0x004000a0,value=0) :<0>
+<2>: Set Thread::priority(this=0x0009ff44,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff44,next=0x00083dfc) :<2>
+<2>: Semaphore::v(this=0x0008be90,value=-1) :<2>
+<2>: Thread::wakeup(running=0x00083dfc,q=0x0008be90) :<2>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0007fdd0) :<2>
+<2>: Semaphore::p<3>:(this=0x00 S08be7c,valetue=1) :<2> T
+hread::priority(this=0x0009ff1c,prio=2147483647)
+<3>: Thread::dispatch(prev=0x0009ff1c,next=0x00083dfc) :<3>
+<3>: Semap<ho1>: Set Thrre::p(this=ead::priori0x00ty(th4000a0,valuis=0x0009ffe6c
+,prio==1) :<3>
+2147483647)
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x0009bef0) :<1>
+<2>: Semaphor[0e::p(this=02x0004000a0;,value=1) 00:<2>
+<02>: ThreadH ::s-le--------ep(running-=0x0007fdd--0,q=0x0040-00a0) :<2>---
+<2>: -Set-- Thread::p-riori-ty(this=0x--0007fdd0,pr-io=1) :<2>----
+-----<------2->: -T---hr--ead::dispa--tch(prev=--0x0-00--7f-dd0-,next=--0x0009ff
+--44) :<2>
+-------- [021;000H Thread    cpu0   cpu1  cpu2  cpu3     Tempo total[024;000H Thread 2[024;031H  43[024;045H238[028;000H ------------------------------------------------------------------- <3>: Semaph
+ore::v(this=0x004000a0,value=-1) :<3>
+<3>: Thread::wakeup(running=0x00083dfc,q=0x004000a0) :<3>
+<3>: Set Thread::priority(this=0x00083dfc,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x0007fdd0) :<3>
+[016;051H eating[3] <3>: Sem<1>: Set Ta
+h
+pread::priohorre::v(tity(this=0hixs0=0009bef0,prix0o=21047483647) :40<1>
+<1>: T0hread::disp0aatch(pr0,ev=0x0009bevf0a,nelxt=u0e=0x00)083 df:c) <:<11>
+><1>: 
+Semaphore::p(this=0x004000a0,value=0)
+[016;069Hthinking[1]
+<1>: Semaphore::v<(this=0x002>:4 000a0,valueSe=0t ) :<1Th>
+read::priority(this=0x0009ff44,prio=2147483647)
+<2>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff1c) :<2>
+<1>:<0>: Set T hread::prioSerity(thism=0x00087e28ap,prio=1)ho :<0>
+re::p(this=0x004000a0,value=1)
+[016;069<H  hungry[31
+>
+:]<1>: Sema phSoetre::v(this= T0x004hr000a0,valueae=0) :<1>
+d::priority(this=0x0007fdd0,prio=1)
+<1>: Semaphore::p(this=0x0008bea4,value=0) :<1>
+<1>: Thread::sleep(running=0x00083dfc,q=0x0008bea4) :<1>
+<1>: Set Thread::priority(this=0x00083dfc,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00083dfc,next=0x0009ff6c) :<1>
+<2>: Set Thread::priority(this=0x0009ff1c,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff1c,next=0x0009bef0) :<2>
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<1>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff44) :<1>
+<0>: Set Thread::priority(this=0x00087e28,prio=1) :<0>
+<2>: Set Thread::priority(this=0x0009bef0,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff1c) :<2>
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<1>: Set Thread::priority(this=0x0009ff44,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff6c) :<1>
+<2>: Set Thread::priority(this=0x0009ff1c,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff1c,next=0x0009bef0) :<2>
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<1>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff44) :<1>
+<0>: Set Thread::priority(this=0x00087e28,prio=1) :<0>
+<2>: Set Thread::priority(this=0x0009bef0,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff1c) :<2>
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<1>: Set Thread::priority(this=0x0009ff44,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff6c) :<1>
+<2>: Set Thread::priority(this=0x0009ff1c,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff1c,next=0x0009bef0) :<2>
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<0>: Set Thread::priority<(this=3>0: Sex0m008aphore::p(7et28,hispr=0x004i000a0,ov
+alu
+=1e=1) :) <0>
+:<0>
+<1>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff44) :<1>
+[016;051H    sate[3]<3>: Semaphore::v(
+this=0x004000a0,value=0) :<3>
+<3>: Semaphore::v(this=0x0008be90,value=0) :<3>
+<3>: Semaphore::v(this=0x0008be7c,value=0)<2>: S :et <3T>
+hread::priority(this=0x0009bef0,prio=2147483647)
+<2>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff1c) :<2>
+<3>: Semaphore::p(this=0x004000a0,value=1) :<3>
+[020;000H ------------------------------------------------------------------- [021;000H Thread    cpu0<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+   cpu1  cpu2  cpu3     Tempo total[025;000H Thread 3[025;031H<1>: S et Thr 1ead::pr6i0o[02r5;04i5H23t8y[0(this28;000H =-0---x----0009f----------f----4----4,---p----rio=21--47483--647) :<--1>--
+-
+-<---1---->:--- T---hr---e-------- <a3>: d:Sem:aphodire:spat:v(this=0xc0040h(00pa
+0,value=0)
+ :<3rev=>
+0x0009ff44,next=0x0009ff6c)
+<3>: Semaphore::p(this=0x004000a0,value=1) :<3>
+[01<2>: S6;et Thre05ad::pr1Hiority(tht
+his=in0x0k009ff1cin,prio=g[214743]<3>8: Semaphor3e::v6(thi4s=70x0)0400 0a0,:va<2l
+>
+<2
+u>: Thre=ead::d0)ispa :<3t>
+ch(prev=0x0009ff1c,next=0x0009bef0)
+<3>: Semaphore::pSet Thread::priority(this=0x0007fdd0,prio=1) :<3>
+(t<h0>: is=0x004Set Th00r0a0ead::pri,vority(thisal=ue=10x00087e2) 8:<3>,prio=1) 
+
+:<0>
+[016;051H  hungry[3]<3>: Semaphore::v(
+this<0>: Sem=0ax00phore::p(t40h00ais=0x0040000,a0,vavalue=0) :lu<e=03>
+<3) :<0>:> Se
+[0<m1>: 
+apSet Thhorread::e:priori:pty(thi(ths=0x00is09f=0f6c,prx0io=214007483648b7) :<1e>
+
+<
+91>: Th0,readva::displuatch(pre=ev=0x01009ff6c),next =0x0009:<f3>
+f44)
+<3>: S10e;07m4apH    sate[ho0re:]<0>: Sema:pp(thore:his=0x000:v8(thibe7c,valus=e0x0=01)4
+000a0,v
+ a:<3lue=0) :<0>>
+<3
+<0>: Se>maphore::: vSem(this=0x00ap08bebhore::p(t8,hvalueis==0x-1) :<0>
+00<0>: 4000a0,vaThlreaue=0) :<3>d:
+:wakeup(running=0x00087e28,q=0x0008beb8)
+<0>: Set Thread::priority(this=0x00087e28,prio=1) :<0>
+<0>: Thread::dispatch(prev=0x00087e28,next=0x0008be54) :<0>
+<0>: S<2>: Set Thread::priority(this=0x0009bef0,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009bef0,next=0x00087e28) :<2>
+<2>: [e<1>Semaphore0: Set ::1Threadv(6;051:
+H teating
+his=[3] <3>: S:0x00emaphore::p08bev(this=0x0ra4,v04000a0,vaialority(tluuhis=e=e0
+x000-1=9ff44,p) 0) :<ri:<3>
+3o=2147>483647)
+<1>
+: Thread::dispatch(prev=0x0009ff44,next=0x0009ff1c) :<1>
+<2>: Thread::wakeup(running=0x00087e28,q=0x0008bea4) :<2>
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00087e28,next=0x00083dfc) :<2>
+<2>: Smaphoreme::p(athis=p0x0h04000aor0,value:e=1:p(this=)0 x00:08b<0>e90,value
+=0)
+<2>: Thread::sleep(running=0x00083dfc,q=0x0008be90) :<2>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x00087e28) :<2>
+<<3>3>: Se: mSaphoreet: Thr:eap(thd:i:prsiority=0(this=0xx00400000a0,value0=0) :
+<7f2dd0,>prio=1)
+
+[<1>: Set Thread::priority(this=0x0009ff1c,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff1c,next=0x0009ff6c) :<1>
+<2>: Thread::sleep(running=0x00087e28,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00087e28,next=0x0009bef0) :<2>
+005;060H eating[0] <0>: Semaphore::v(this=0x004000a0,value=-1) :<0>
+<0>: Thread::wakeup(running=0x0008be54,q=0x004000a0) :<0>
+<0>: Set Thread::priority(this=0x0008be54,prio=1) :<0>
+<0>: Thread::dispatch(prev=0x0008be54,next=0x00087e28) :<0>
+[020;000H --------------------------------<3>: Set Thread::priority(this=0x0007fdd0,prio=
+1) :<3>
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x0008be54) :<3>
+----------------------------------- [021;000H Thread    cpu0   cpu1  cpu2  cpu3     Tempo total[023<1>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x0007fdd0) :<1>
+;000H Thread 1[023;010H  166[023;045H214[028;000H --------------------------------<2>: Set Thread::priority(this=0x0009bef0,prio=
+2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff44) :<2>
+----------------------------------- <0>: Semaphore::v(this=0x004000a0,value=0) :
+<0>
+<0>: Sema<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+phore::p(this=0x004000a0,value=1)
+[010;074Hthinki
+ng[0]<1>: Set Thread::priority(this=0x0007fdd0,prio=1) :<1>
+<0>: Semaphore::v(this=0x004000a0,value=0) :<0>
+<0>: Semaphore::p(this=0x004000a0,valuSet Thread::priority(this=0x00087e28,prio=
+1) :<0>
+e=1)
+[010;074H  hung
+ry[0]<0>: Semaphore::v(<2>: Set Thread::priority(this=0x0009ff44,prio=2147483647
+) :<2>
+<2>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff1c) :<2>
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+this=0x004000a0,value=0)
+<0>: Semaphore::p(this=0x0008beb8,value=0) :<0>
+<0>: Thread::sleep(running=0x00087e28,q=0x0008beb8) :<0>
+<0>: Set Thread::priority(this=0x00087e28,prio=1) :<0>
+<0>: Thread::dispatch(prev=0x00087e28,next=0x0009ff6c) :<0>
+<1>: Set Thread::priority(this=0x0007fdd0,prio=1) :<1>
+<2>: Set Thread::priority(this=0x0009ff1c,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff1c,next=0x0009bef0) :<2>
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<1>: Set Thread::priority(this=0x0007fdd0,prio=1) :<1>
+<2>: Set Thread::priority(this=0x0009bef0,prio=2147483647) :<2>
+<2>: Thr<1>: Seeamad:ph:dorise:pa:ptc(th(hprev=is=0x0040000ax000,09bevalue=1) :f<
+1>
+
+0,next=0x0009ff44)
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+[016;051H    sate[1]<1>: Semaphor<e:0>:
+<: Set Thr
+v3ead(>: Sem:ta:priohprihity(this=os=0x0x004re0009ff6c0:,pr0:i0ap(this=0xo=00042
+14748,03va00a0,valu64le=07) :<0>
+u)<e=0) :<1 0>
+:<3>
+>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff1c)
+<[0105;0>6: Semaph0ore::v(tHh 
+is=0x  0 s0at0e8b[3]e90,v<alue=3>S: Semaet Thread:p:hopriroriety(this=0x0::v(007
+tfdhis=d00,xp00ri4o=10) :<1>
+-00a01,)<2value=0) 
+>:: <3>
+Set Thread::priority(this=0x0009ff44,prio=2147483647)
+<2>: Thread::dispatch(prev=0x0009ff44,next=0x0009bef0) :<2>
+<3>: Se<1m>: aphore::v(Thread::wathkeup(runnis=ing=0x0007f0dxd0,0q=0x0008b0e90) 
+:<108>
+<1>: Sebet Thrcead::priorc,ity(thvis=0x0007fdadl0,purie=o=1-)1 :<)1>
+<1>: Thread
+::dispatch(prev=0x0007fdd0,next=0x00083dfc) :<1>
+<<33>: Se>maphore::p: (this=0x004T000a0,vahrlue=1) :e<1>
+ad::wakeup(running=0x0008be54,q=0x0008becc)
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0008be54,next=0x0007fdd0) :<3>
+<3<2>: Set >[016;069T:H 
+eating
+[1hr
+] <ea 1>: Semaphd:Sore::v(:emathpphis=0xrio004000a0,voriralue=0) :<tye1(t::v(thi>
+
+hi
+s=0sx=00009bxef0,pri0o=20108be47478c364,7v)alue=0)
+
+<2>: Thread::dispatch(prev=0x0009bef0,next=0x0007bda4) :<2>
+<<33>: Semaph>:ore::p(this =0x00S08beemap7ch,orvaelue=0:) :<2>
+<2:>: Sepm(this=0x0a0phore::p4(this=0x0000a0,val0ue=0) :4000a<0,value3=>1)
+[
+0<3>: Th1r0;e047H eatiang[2] <2d>: Semaph::orseleep(runn::inv(tg=0hisx=0007f0x004000a0dd,
+
+va0,lueq=-1=) :<2>
+0x004000a0)
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x0008be54) :<3>
+<3<2>: Threa>:d: :wSakeup(reumnnainpg=h0xo0007bdar4,qe=:0:x00v400(0this=0a0)x :<0
+2>
+
+008b<2>: Set Tebhre8ad,:value=-:p1ri)ori ty(this=0:<x0007bda34,>prio=1) :<2>
+
+<2>: Thread::dispatch(prev=0x0007bda4,next=0x0007fdd0) :<2>
+[020<;3>0: T0hrea0H -------d:-----:w-a-keu-p(-r--unni-ng=-0x0008-be--5--4-,--q-=---------0
+
+------x-0008--------be--b-----8---) -:<-3>-
+-< 3[>0: Set2 T1;h0r0ead::pri0orHit y(thTihs=0read    xc0p008bue054,p  r io=1c)pu1  cpu 2: <
+ cpu33>
+<     Te3m>:po  Ttohrteal[025;0ad:00:H diThread 3spat[025;024H ch (34[025;04pr5ev=0xH0008b272[028;0e5004,H -----ne--x--t-=--0-x00-----------0--7b--d--a-4) -:<3>-----------
+-<1>: Set -Thr-ead:--:p-r---------io-rit-y--(this=0x000-83-d-fc,-prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00083dfc,next=0x00087e28) :<1>
+<1>: Sem<ap2ho>:re::p(thi Ss=0x0et T0hr08bea4,vealaud::pre=i0o)rity :<1>
+(this=0x0007fdd0,prio=1)
+<2>: Thread::dispatch(prev=0x0007fdd0,next=0x0008be54) :<2>
+<2>: Semap<1>: Thhroeard::esle:ep:(p(this=0x0r0unning=40000x00087e2a8,q=0x000,va
+lue=00) 8:be<2>a4) :<
+1>
+<1>: Set Thread::priority(this=0x00087e28,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00087e28,next=0x00083dfc) :<1>
+<2>: Thread::sleep(running=0x0008be54,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x0007fdd0) :<2>
+- <2>:<3 >S: Set emaphore::Tvh(trhead::priiso=0rxi004000a0,vtyalue=-1)( :<2>th
+is=0x0007bda4,prio=1)
+<1>: Set Thread::priority(this=0x00083dfc,prio=1) :<1>
+<2>: Thread::wakeup(running=0x0007fdd0,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x0007fdd0,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007fdd0,next=0x0008be54) :<2>
+[020;000H ------------------------------------------------------------------- [0<23>: S1et Th;re00ad0:H: pTrhreaidor ity(   cpu0 t hi sc=pu1  c0xp000u27 bda4, cpu3    p
+r
+ Tempoi o=1t) :<3>o
+<3>ta: Thl[022;0re0a0d::dHispatc h(prTehvr=ea0d 0[x0007bd0a4,n2e2;024H x t=0x0001372f[02dd20;) :<30>4
+<<1>: Set 51TH209>: Semaphohre::r[028;pead::pri0(thiso=0x004000r00H -a0,vaity--l(-ue=0th----) :<3>
+is=0x00083d--f-c,-p-----rio-=1-)-
+------<1->: Th-re--ad::d-----i-spatch(prev-=0x00083dfc,next=0x0007bda4) :<1>
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x00083dfc) :<2>
+<3>: Thread::sleep(running=0x0007fdd0,q=0x004000a0) :<3>
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x0008be54) :<3>
+------------------------------ <3>: Sema<1>:p Set Threadhore::v::priorit(this=0x
+y(this=0x00007bda4,prio0=1) :<1>
+4000a0,value=-1)
+<3>: Thread::wakeup(running=0x0008be54,q=0x004000a0) :<3>
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0008be54,next=0x0007fdd0) :<3>
+[016;051<2>:Hthinkin Sge[t 3]<3Thread:
+:>:p riSoreimaphtyo(rthis=0xe000:83:dv(this=fc0,xp0r0io=1) :<2>40
+0<2>: Th0ra0,vaead::dispatluche(p=rev=0x000830d)fc :,n<ex3t>=0x0008be5
+4)
+<2>: S<0>: Setemaphore:: Thread::prp(this=i0x004000a0ority(this,value=0) =0x0009:
+<2>
+
+ff1c,prio=2147483647)
+<0>: T<3>: Semaphhorree::p(this=ad0x:0:04000a0,vadilspatch(preuv=0x0e=1) :<3>00
+9ff1c,next=0x00083dfc)
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+<[3>005;060Hth: inTkihnreadg[
+2]:<:2sl>:ee pS(reunnimaphoren:g:=v0x000(this=0x007f4000a0,ddv0a,qlue=-=01x0)040 
+:<2>
+0
+0a0)
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x0009ff6c) :<3>
+<2>: Thread::wakeup(running=0x0008be54,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x0007fdd0) :<2>
+<1>: Set T[hread::p0riority(thi1
+s=0x06;007bda4,pri0o=1) :<1>51
+<1>: ThreaHd::dispat  chh(uprev=0x0007nbda4,next=0grx0y[2]<2>:008be54) :< 1Semaph
+or>
+e::v(this=0x004000a0,value<1>=: Semaph0ore::p(this)<=0 :3>: x<Set 002Thre4000a>a0
+,value
+=
+d::priorit0)
+y(this=0x0009ff6c,prio=2147483647)
+<3>: Thread::dispatch(prev=0x0009ff6c,next=0x0007bda4) :<3>
+<1>: Thread::sleep(running=0x0008be54,q=0x004000a0) :<1>
+<1>: Set Thread::priority(this=0x0008be54,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0008be54,next=0x0009ff44) :<1>
+<2>: Thread::wakeup(running=0x0007fdd0,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x0007fdd0,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007fdd0,next=0x0008be54) :<2>
+<[005;060H 3> hungry[2:]<2>: 
+Se Smaphore::v(ethis=0t x004000a0,vTalue=0) :hr<2>
+ead::priority(this=0x0007bda4,prio=1)
+<3>: Thread::dispatch(prev=0x0007bda4,next=0x0007fdd0) :<3>
+<<11>: >Set Threa:d::priorit ySemaph(thois=0x00re::p(th09ff44,iprio=21474s=0x000
+8b83647) :<1e90,value=>0
+)
+<1>: Thread::dispatch(prev=0x0009ff44,next=0x0007bda4) :<1>
+<<3>3>: : SeThmarpehoared::sleep(r:u:pn(tnihng=0xis=0x0008b00<1>: Semec0aphore::
+pc7f(this=0x004,value=0dd000a0)0,value=1)  :,:<2>
+<2q>=0x0008be90
+)
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x0009bef0) :<3>
+[<2>:01 0;047H    Thsate[1]<1>re:ad S:emap
+hore::s:v(this=0x0le04000a0,valepue=0) :<1>(r
+unning=0x0008be54,q=0x0008becc)
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x0009ff1c) :<2>
+<1>: Semaphore::v(this=0x0008becc,value=-1) :<1>
+<1>: Thread::wakeup(running=0x0007bda4,q=0x0008becc) :<1>
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007bda4,next=0x0008be54) :<1>
+<1>: Semaphore::p(this=0x0008beb8,value=0) :<1>
+<1>: Thread::sleep(running=0x0008be54,q=0x0008beb8) :<1>
+<1>: Set Thread::priority(this=0x0008be54,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0008be54,next=0x0007bda4) :<1>
+<<3>:3>: Se Smaphore::ve(this=0x00t 08be7c,valuTe=0) :<1>hr
+ead::priority(this=0x0009bef0,prio=2147483647)
+<3>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff6c) :<3>
+<<2>: Se2>maphore::: p(this=0xSe004000at 0,value=1Th)r :<1>
+ead::priority(this=0x0009ff1c,prio=2147483647)
+<2>: Thread::dispatch(prev=0x0009ff1c,next=0x0009ff44) :<2>
+[020;000H ------------------------------------------------------------------- [021;000H Thread    cpu0   cpu1  cpu2  cpu3     Tempo total[026;000H Thread 4[026;017H  120[026;045H276[028;000H ------------------------------------------------------------------- <1>: Semaph
+ore::v(this=0x004<00>: Set 00Ta0,hrevaalue=0) :d::prior<i1>ty(this=0x
+00083dfc,prio=1)
+<<3>3: S>et :Th reSaemaphorde::p(this=:0:priorxi004000a0,tyvalue=1) :(<1>thi
+s=0x0009ff6c,prio=2147483647)
+<3>: Thread::dispatch(prev=0x0009ff6c,next=0x0009bef0) :<3>
+<[010;0427Hthin>:k Seit ng[1]<1>:Thread::p
+riority(this=0x0009ff44,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff1c) :<2>
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+ Semaphore::v(this=0x004000a0,value=0)
+<1>: Semaphore::p(this=0x004000a0,value=1) :<1>
+[010;047H  hungry[1]<1>: Semaphore::v(this
+=0x004000a0,value=<0)3>: Set  :<1>
+Thread::priority(this=0x0009bef0,prio=2147483647)
+<3>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff6c) :<3>
+<1>: Semapho<re::p(t2his=0x0008>:becc,v Saelute=0) :<1> T
+hread::priority(this=0x0009ff1c,prio=2147483647)
+<2>: Thread::dispatch(prev=0x0009ff1c,next=0x0009ff44) :<2>
+<1>: Thread::sleep(running=0x0007bda4,q=0x0008becc) :<1>
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007bda4,next=0x0009bef0) :<1>
+<3>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<3>
+<3>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff1c) :<3>
+<0>: Semaphore::p(this=0x004000a0,value=1) :<0>
+[016;069H    sate[0]
+<0>: Semaphore::v(this=0x0040Set Thread::priority(this=0x00083dfc,prio=1) :<0>
+00<2>: Set Thread::priority(this=0x0009ff44,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff6c) :<2>
+a0,value=0)
+<0>: Semaphore::v(this=0x0008bea4,value<1>: Set Thread::priority(this=0x0009bef0
+,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff44) :<1>
+=-1)
+<0>: Thread::wakeup(running=0x00083dfc,q=0x0008bea4) :<0>
+<0>: Set Thread::priority(this=0x00083dfc,prio=1) :<0>
+<0>: Thread::dispatch(prev=0x00083dfc,next=0x00087e28) :<0>
+<0>: Semaphore::p(this=0x004000a0,value=1) :<0>
+[010;074H eatin
+g[0] <0>: Semaphore::v(this=0x004000a0,value=0) :<0>
+<3>: Set Thread::priority(this=0x0009ff1c,prio=2147483647) :<3>
+<3>: Thread::dispatch(prev=0x0009ff1c,next=0x00083dfc) :<3>
+<3>: Semaphore::v(this=0x0008be90,value=-1) :<3>
+<3>: Thread::wakeup(running=0x00083dfc,q=0x0008be90) :<3>
+<3>: Set Thread::priority(this=0x00083dfc,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x0007fdd0) :<3>
+<3>: Semaphore::p(this=0x00<2>: Set T0hread::pri8bority(thise7=c0x0009ff6c,v,pri
+o=21a47483647) l:<2>
+<2>ue=1) :: Thread::<3disp>atch(prev=0x0009ff6
+c,next=0x00083dfc)
+<<3>: Sema<1ph1>: Set Th>:oread::prio Srrity(this=eme0x0009ff44ap:,prio=2147ho:p
+4r(thi8es=0x004003::p0a0,value=647) :<(t1) 3hi:<>
+<1>: Ths3read::di=0x004000>spatch(prea0
+v=0x0009ff,v4alue=14),n
+ext=0x0009bef0)
+<[020;000H3>: Thr ---------ea----------d:----:----------s----------le---------ep---------(
+ru
+n------ [0ni21;000H Thngread    cp=0u0  x cpu1  cpu002  cpu3   07  Tempo toftal[024;0dd00H Thread0, 2q=0x[0024;024H  0498[024;0405H297[02008;000H --a0---) ----------:<----------3---------->---
+-----<-3>---------:--------- S----- e<t Thread2>: Se:map:hore::v(tprhis=0iority(
+x004000a0,thvalue=-1) i:<2>
+s=0x0007fdd0,prio=1)
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x0009ff1c) :<3>
+<2>: Thread::wakeup(running=0x00083dfc,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0007fdd0) :<2>
+<1[>01:6; 0S51eHt eating[ 2T] h<r2e>: a
+d
+Semaphor:e:::vpr(ithiosr=0x0i040t00a0,yva(this=0lx000u9e=b0e) :<2>
+f0,prio=2147483647)
+<1>: Thread::dispatch(prev=0x0009bef0,next=0x00083dfc) :<1>
+<3><:1 Se>t T:hread ::Speriomraipthy(oret::p(thhiiss==0x00x040000009aff01c,,pvalr
+io=21
+4ue=07)4 :<813>647)
+
+<3>: Thread::dispatch(prev=0x0009ff1c,next=0x0009ff6c) :<3>
+[016<;2>: Set T0h
+6read9H:t:phrioriityn(ktihinsg=0[x0007fdd10,]pri<o=1)1 :<>2:> S
+emaphore::v(this=0x004000a0,value=0)
+<1>: Semaphore::p(this=Set Thread::priority(this=0x00083dfc,prio=1) :<1>
+0x004000a0,value=1)
+[016;069H  hung<r3>:y
+
+[1 ]<1>: SeSmeaphtore T:hr:eavd::p(riotrihitys=0(xt0h0is=04x0000009ff6c,priao0,=v
+
+alue2147=40)8 3:6<47)1 >:
+<3>
+<3>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff44) :<3>
+<1<2>>: S: emaphoreS:e:p(t tThhriesa=d0::pxr000i8boeria4t,yvalu(et=his=00x00)07 f
+dd0
+:,<1>pr
+io=1)
+<0>: Set Thread::priority(this=0x00087e28,prio=1) :<0>
+<1>: Thread::sleep(running=0x00083dfc,q=0x0008bea4) :<1>
+<1>: Set Thread::priority(this=0x00083dfc,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00083dfc,next=0x0009bef0) :<1>
+<3>: Set Thread::priority(this=0x0009ff44,prio=2147483647) :<3>
+<3>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff1c) :<3>
+<2>: Set Thread::priority(this=0x0007fdd0,prio=1) :<2>
+<1>: Set Thread::priority(this=0x0009bef0,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff6c) :<1>
+<2>: S<e3map>:ho Set Threadr::pe::p(this=r0iorityx(this=0x00004000a0,09ff1cv,pri
+o=214a74l8u3647) :<3>
+<3>: Thread::dispatch(prev=0x0009ff1c,next=0x0009ff44) :<3>
+<2>: Set Thread::priority(this=0x0007fdd0,prio=1) :<2>
+e=1)
+[016;051H    sate[2]<2>: Semaphore::v(
+this=0x004000a0,value<=0) :<2>1
+>: Set Thread::priority(this=0x0009ff6c,prio=2147483647)
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x0009bef0) :<1>
+<2>: Semaphore::v(this=0x0008be90,<3>: Set Tvhalue=0) r:ead::priority(this=0x<00
+09ff44,prio=2147483647) :<3>
+3<>
+3>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff1c)
+<2>: Semaphore::v(this=0x000<80>: beSe7c,vt Thread::palrioritue=0) :<2>y(t
+his=0x00087e28,prio=1)
+<2>: Semaphore::p(this=0x004000a0,value=1) :<2>
+[020;000H ------------------------------------------------------<1>: Set --Thread::priori
+ty(this=0x0009bef0,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff6c) :<1>
+<2>: Set Thread::priority(this=0x0007fdd0,prio=1) :<2>
+---<3--->: Set Threa--d::-p--r [0i2o1r;000Hit Threy(thisa=0x0d    cpu0 00  9ff1c,prio=c2p147483u6147  cpu)2   cp:<u3>
+<3>:3     Th Tread::dispeamptcho total[(p0re2v5;=0x0009ff1000Hc T,hrenaedxt=0x0009ff 44) :<33>[02
+5;024H  97[025;045H335[028;000H ------------------------------------------------------------------- <2>: Semaph
+ore::v(this=0x004000a0,<1>: Sveta Tlhruead::preiority=(0this=0)x :<0009f2>
+f6c,prio=2147483647)
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x0009bef0) :<1>
+<<3>:3 Set> Th:read::prio rityS(tehis=0x0m009ff44,prio=2147483647) :<3>
+<3>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff1c) :<3>
+<2>: Set Thread::priority(this=0x0007fdd0,prio=1) :<2>
+aphore::p(this=<00>: Sx004000et aThre0,value=1) :ad<2::p>
+riority(this=0x00087e28,prio=1)
+[016;051Hthinking[2]<2>: Semaphore::v(
+this=0x004000a0,value=0) :<2>
+<<11>>: Se: t Thread::prioSeritmay(tphhis=0ore::p(thisx0=009be0xf0004000a0,,pvar
+io=2147l483647) :<ue1>=
+<1>: T1h) :<2>
+read::dispatch(prev=0x0009bef0,next=0x0009ff6c)
+[016;051H  hungry[2]<2>: Semaphore::v(
+this=0x004000a0,value=0) :<2>
+<2>: Semaphore::p(this=0x0008be90,value=<3>1: Set)  Threa:<2d>
+::priority(this=0x0009ff1c,prio=2147483647)
+<3>: Thread::dispatch(prev=0x0009ff1c,next=0x0009ff44) :<3>
+<2>: Semaphore::p(this=0x0008be7c,value=1) :<2>
+<2>: Semaphore::p(this=0x004000a0,vaSet Thread::priority(this=0x0007fdd0,prio=1)
+ :<2>
+l<ue=1) :1<2>>: Set Thread
+::priority(this=0x0009ff6c,prio=2147483647)
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x0009bef0) :<1>
+[016;051H eating[2] <2>: Semap<hore::v
+(th3>is:=0x0040 00a0,valueS=0) :<2>et 
+Thread::priority(this=0x0009ff44,prio=2147483647)
+<3>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff1c) :<3>
+<0>: Set Thread::priority(this=0x00087e28,prio=1) :<0>
+<0>: Semaphore::p(this=0x0040<1>: Set Thread::priority(this=0x0009bef0,prio=2147
+483647) :<1>
+<1>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff6c) :<1>
+<2>: Set Thread::priority(this=0x0007fdd0,prio=1) :<2>
+<3>: Set Thread::priority(this=0x0009ff1c,prio=2147483647) :<3>
+<3>: Thread::dispatch(prev=0x0009ff1c,next=0x0009ff44) :<3>
+00a0,value=1)
+[010;074H    sa
+te[0]<0>: Semaphore::v(this=0x004000a0,value=0) :<0>
+<0>: Semaphore::v(this=0x0008beb8,value=-1) :<0>
+<0>: Thread::wakeup(running=0x00087e28,q=0x0008beb8) :<0>
+<0>: Set Thread::priority(this=0x00087e28,prio=1) :<0>
+<0>: Thread::dispatch(prev=0x00087e28,next=0x0008be54) :<0>
+<0>: S<1>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x00087e28) :<1>
+<1><2:> :S Semaphorete Th::vre(tahid:s:pr=iority(t0xh0008bea4,valuies=-1) :<1>
+=0x0007fdd0,prio=1)
+<3>: Set Thread::priority(this=0x0009ff44,prio=2147483647) :<3>
+<3>: Thread::dispatch(prev=0x0009ff44,next=0x0009bef0) :<3>
+emapho<1>: Thread::wakeup(running=0x00087e28,q=0x0008bea4) :<1>
+<1>: Set Thread::priority(this=0x00087e28,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00087e28,next=0x00083dfc) :<1>
+<<2>:2 Set Thread>::priori:ty(t hSemapihore::ps=(this=0x00008be90,vx0alue007fdd0=
+,
+0prio)=1) :<1>
+
+<2>: Thread::dispatch(prev=0x0007fdd0,next=0x00087e28) :<2>
+<<3>3>: Set :Thread::p Sreiority(thmaphorise::p=0x0009bef(th0,prio=2147i48s3647=
+0) :<3>
+<3>x004000: Ta0,value=1)hr ead:::dispa<2>
+tch(prev=0x0009bef0,next=0x0007fdd0)
+r<1>: Thread::sleep(running=0x00083dfc,q=0x0008be90) :<1>
+<1>: Set Thread::priority(this=0x00083dfc,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00083dfc,next=0x0009ff1c) :<1>
+[020;00e::0H ----p(this=0x--0-----0----------4000a0,v--al----------u----e-----------=1)--
+<0>: Thre
+a--d::sleep(r-unni-n---------g=0x0008be54,--q=--0x004000a0)  :<0[>
+021;00<0H 0>: Thread    cpSet Thu0r   cpu1  ead:cpu2  cpu3:pri or    Tempo tityo(thits=0
+x00al08b[023;000H e54,Thpriread 1[023o=1) :;0<0>
+<0>: Thr2ea4H  99d::disp[0atch23;045H265[(pr028;000H e---v=0x0----------008b--e54,-next=0x0--009------------ff6c-----) :<0>
+-<---3>: Set Th-re-ad::priority----(th-------------is--=------- <20x>: Se0007fdd
+0,maphproio=1re::v) (:<3>this
+=0x004000a0,value=-1)
+<2>: Thread::wakeup(running=0x00087e28,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00087<e28,3>nex:t=0x000 Sem8aphobre::p(theis=0x00405
+4) 
+00:a0,value=0) <3>
+[0:<05;0<1>: Se60H3t T >
+heating[2] <r2>ead: Semap::phorre::iovr(this=0x0i04t000a0,valuy(ethis==0x0) :<2>
+
+0009ff1c,prio=2147483647)
+<1>: Thread::dispatch(prev=0x0009ff1c,next=0x00087e28) :<1>
+<[016;051>1H  :  Se sate[3]<3>ma:p hSem
+oraephore::v(this:=0x004000a0:p,valu(e=0)t :<3>
+<3>: hiSems=apho0re::vx004000a0,v(alue=thi0) s=0x0008be:<910>,value
+=[010-1);074Hthi
+nki
+<3ng[1]<>: 1>: STemahpread::whorae::v(this=keu0px00(4r000a0,valueu=nn0)ing=0x 0:0
+07fdd0,q
+=0x00<01>
+8be90)
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x00083dfc) :<3>
+<3>: Semap<2>h:ore: Se:<t p1>: SemaphoThr(rethis=0x00400e::p(tad::priorit0hy(thi
+s=0x0ai008be0,value=0) s=54,:<0x004000a0pr3,io=1) :<2>
+>value=1<2
+)>:  :Thread::<disp1atch(prev=>0x000
+8be54,next=0x0007fdd0)
+<2>: <1Semaphore
+[0>::v(this=0x01: 006Th8be7c,value;0rea=6d::sle0) 9e:<2>H eating[3p(
+] <3>: Serunmaphore::v(nintg=0hisx0008=0x0040007ae0,value=-1)2 :8<,q=0x0040030a0
+>
+)
+<1>: Set Thread::priority(this=0x00087e28,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00087e28,next=0x0008be54) :<1>
+<2<3>>: S: emaThread::wakphoeurp(eru:n:nip(this=0x004ng000a=0x0000,va8l3dfuc,q=e
+=-1) 0:x004000a0<2>) :<3>
+<3>: S
+et Thread::priority(this=0x00083dfc,prio=1)
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x00087e28) :<3>
+[01<0;074H  hu2n
+
+g>ry[3]<:3> :Thr eaSdema:pho:slreep(runnineg::v(this=0x0=04000a0,valu0x0007fe=d-
+1)d0,q=0 x:<03>
+04000a0)
+<2>: Set Thread::priority(this=0x0007fdd0,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007fdd0,next=0x00083dfc) :<2>
+<3>: Thread::wakeup(running=0x00087e28,q=0x004000a0) :<3>
+<3>: Set Thread::priority(this=0x00087e28,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00087e28,next=0x0007fdd0) :<3>
+[<1>0: Set Thread20;::priority000H (th----is=0x000---8---b-e54,p-rio----=1-) ----------:<
+1>----------
+<1>:------ -------Thr--ead::d----i--spatch(prev=0-x0008be54,nex--t=------ [00x00021;000H T87hre28) :ea<1d    c>p
+<1>:u0   cpu1  c pSeumapho2  rcpu3    e: :p(Tempo totalthis=0[02x0008beb8,va5;000H lueT=0h) :<1>
+<1>read 3:[0 Thread::sle2ep5;031H  220([running=0x000087e28,q25;0=0x0008be45H3b8)95
+ :[<028;0100H -------->
+<-------------1>: Set Thr-e-----------ad::pr-iority---(th--------is=--0------x-0-
+-
+0087e28,p-ri----------o=1) : <3>:< Semapho1>
+r<1>: Te:hr:eav(this=0x004d00::dispatch(p0ra0,value=0ev=0x0) :<0087e28,n3>
+ext=0x0008be54)
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<3>: Semaphore::p(this=0x004000a0,value=1) :<3>
+[016;051Hthinking[3]<3>: Set Thread::p
+riority(this=0x0007fdd0,prio=1) :<3>
+<3>: Semaphore::v(this=0x004000a0,value=0) :<3<0>: Set Th>
+read::priority(this=0x0009ff6c,prio=2147483647)
+<0>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff44) :<0>
+<1>: Set Thread::priority(this=0x0008be54,prio=1) :<1>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<3>: Semaphore::p(this=0x004000a0,value=1) :<3>
+[016;051H  hungry[3]<3>: Semaphore::v(
+this=0x004000a0,value=0) :<3>
+<3>: Semaphore::p(this=0x0008be90,value=0) :<3>
+<3>: Thread::sleep(running=0x0007fdd0,q=0x0008be90) :<3>
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x0009bef0) :<3>
+<1>: Set Thread::priority(this=0x0008be54,prio=1) :<1>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<0>:< Set Thread1>::priorit: y(thiSes=0xmaphore::p(0this=0x0040000a0,val0ue=19ff)
+ :<1>
+
+44,prio=2147483647)
+<0>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff1c) :<0>
+<3[005;060H    >: Ssate[1]et 
+T<h1>: reSemaphore::v(ad::priorithtis=0x004y(0this=000xa00090,valbue=0) :<1>e
+f0,prio=2147483647)
+<3>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff6c) :<3>
+<1<>: Sem2>:aph Seore::t Thread::pv(riority(thisthis=0x0008be=0cc,value=x-1) :<1
+00>
+083dfc,prio=1)
+<1>: Thread::wakeup(running=0x0008be54,q=0x0008becc) :<1>
+<1>: Set Thr<2>e: Semaphoread::p(this=0x::priorit00y(this=0400x0008b0ae54,p0,val
+ue=1r)i :<2>
+o=1)
+<1>: Thread::dispatch(prev=0x0008be54,next=0x0007bda4) :<1>
+<[016;069H1>    : sSe
+ate[2ma]phor<2>: Semaphe:o:p(thre::v(this=is0=0x0x000084000a0,vable7cue=0) :<2,v>
+alu
+e=1
+<2>: Sema) p:<1>hore::v(
+<th1is=0>: Semapx0h008bea4,valoure::e=0) :<2>
+p(<this2>: Semapho=0re::v(x004000a0,vthais=0lue=1) :<1>x0008b
+[010;0e90,val4u7H ee=-1)
+<2>:ating[1 Th] <1re>: ad::wakeup(Sruemanning=0x000phore::v8(this=0x003d4000a0fc,
+
+,qva=0x0008be90)lue=0) :<1>
+<2
+>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0008be54) :<2>
+<2<3>: Se>: Set Thremaphorad::prioritey::v(th(this=0x000i9sf=0fx006c,0pr8io=2147b
+
+483647) e:<b8,v3a>l
+ue=-<1) :<2>3>
+: Thread::dispatch(prev=0x0009ff6c,next=0x0007fdd0)
+<<2>:2> Semaphore: Thread:::p(th:wisakeu=p0x000(runnin8bg=0xe7c,value=00) 008:<3
+>
+be54,q=0x0008beb8)
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x00083dfc) :<2>
+<2<3>: Threa>d::: slSeep(remaphounre:nin:g=p(0tx0his=0x004000007a0f,vaddl0,q=0x0
+00u8bee7c)= 1):<3 :><2>
+
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x00087e28) :<3>
+<3<1>:>: Semaphore::p Set Threa(td::prihis=or0x0008bea4,vialue=1) :<3>ty(this=0
+x0007bda4,prio=1)
+<1>: Thread::dispatch(prev=0x0007bda4,next=0x0008be54) :<1>
+<1>[020;000H<:  ----------3>S----: Semaphoreem-::p(aphore::p(t---this-----------his=----=0x00
+x0040--
+00a------------040----000a0,value,v-=0) alue=1) :<1---:>
+<-----------<11- [021;000>
+>: THh Thrreeaad::d   sleep( cpu0   rcpununi1ng = c0x0008be54pu,q=0x002 40 cpu3  
+  0 T0ae0mp)
+<o total[021>: Set 4;Thr000H Tehreaadd::p r2ior[0ity24(this=0x000;80be254H4,p rio 142=1) [:<1024;045H341>
+<[0281;0>00: ThrH --------ead-::dispatch(p--r-----e-v-----=-0x00-0-8----be54,nex--t----=0-
+-
+x0-0--07bd---a---4----) -:<1>----
+----------<-3>- <2>::  TShreemaphoread::v(::sleep(running=0x00087e28,q=0x004000a
+0) :<3>
+<3>: Set Thread::priority(this=0x00087e28,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00087e28,next=0x0009ff44) :<3>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+this=0x004000a0,value=-2)
+<2>: Thread::wakeup(running=0x00083dfc,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0008be54) :<2>
+<[020;000H 3>-: Se-t -T-h-r-ead:---:-prio-rity-----------(-t-hi--s--=-0-x-0009-f-f44--,p-r
+io=2147483647
+----------)- :<3->
+<3->-: -Thre----------ad-:--:dispatch(p-r-- [021;0ev0=00Hx Thread0 00   cpu09f f44,  cpu1  cpneux2t= 0x000 cpu3    83 dfTc)empo  :t<3o
+
+>t
+a<<1>:l[022;01>: Sem 0aphSet 0H ThreadoThread: 0r:priority(t[ehis=0x0007b02:da4,pr2:io=1) :<1;p(thi>024Hs=0x004
+ 0 171[022;00045H248[a028;000H -0,-------v----------al--u-----------e=------------1--------)--------
+--------- <<33>:>: Se Tmhraepadho::sleep(runrnieng:=:0xv00083(tdhfic,q=0s=0x0x00
+04004000a0,val0au0e=-1) :<2>) :<
+3>
+<3>: Set Thread::priority(this=0x00083dfc,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x0009bef0) :<3>
+<2>: Thread::wakeup(running=0x0008be54,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x00087e28) :<2>
+[0<110;074H e>:
+ Set Thatread::prioinrity(this=0gx[2] <2>: 0007bSemada4,pphrio=1) :<1or>
+<1>: Threead::::dispatch(pv(rev=0x0007bthda4is=0x00,next=0x00048000a0,vabe54) :<
+1l>
+<1>: Seuem=-1) :<2a>phor
+<2>: Threaed::wakeup(run::p(thningis=0x00400=0x00a0,value=00-1) :<1>
+87e28,q=0x004000a0)
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00087e28,next=0x0007bda4) :<2>
+<3>: Set Thread::priority(this=0x0009bef0,prio=2147483647) :<3>
+<3>: Thread::dispatch(prev=0x0009bef0,next=0x00083dfc) :<3>
+[016<1;069Ht>hinkin:g
+[3]<3>: S
+emapho rThreead:::sleep:(runninvg=0x000(this8=0bx00400e0a0,va5lue=-41) :<3,q=0x>0
+
+
+04000a0)
+<1>: Set Thread::priority(this=0x0008be54,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0008be54,next=0x00087e28) :<1>
+<2>: Set Thread::priority(this=0x0007bda4,prio=1) :<2>
+<3>: Thread::wakeup(running=0x00083dfc,q=0x004000a0) :<3>
+<3>: Set Thread::priority(this=0x00083dfc,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x0008be54) :<3>
+[005;060Hthinking[3]<3>: Sema
+phore::v(this=0x004000a0,value=0) :<3>
+<3>: Sem<1aphore>::p(thi:s=0x00 4000a0,Svalue=1e) :<3>t
+ Thread::priority(this=0x00087e28,prio=1)
+<1>: Thread::dispatch(prev=0x00087e28,next=0x00083dfc) :<1>
+<2>: Set Thread::priority(thi<s1>:=0x 0007Semaphobdra4,e::p(prithis=0xo=01) :0<2
+>
+<2>:4000a0, Tvhreaalue=1)d:: disp:at<ch(p1re>v=0x
+0007bda4,next=0x00087e28)
+[005;<060H  h1ungry[3>]<3>: T
+hr:ead::sl Semeaphoree::v(thpis=0x(004000ar0,valuue=-1) :n<ning=03x00083d>fc,q=0
+
+x004000a0)
+<1>: Set Thread::priority(this=0x00083dfc,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00083dfc,next=0x0007bda4) :<1>
+<3>: Thread::wakeup(running=0x0008be54,q=0x004000a0) :<3>
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<3>: Thread::dispatch(prev=0<x0008be154,next>=0x0008:3df cSemapho)re::p(t his=0x:
+004000
+<3>
+a0,val<0u[0>: Set T
+e=16;069H  hhre0) :uad<1>
+ngry[3::p]<3>:rio rity(thiSemaphs=o0x00re::v(t09hff1c,prio=2is=014748x0040036407a
+0,v
+)a :<0l>
+ue=<00>: T) :<3>hread:
+:dispatch(prev=0x0009ff1c,next=0x0008be54)
+<<1>: Thread::sleep(running=0x0007bda4,q=0x004000a0) :<1>
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007bda4,next=0x0009ff6c) :<1>
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<3>: Thread::wakeup(running=0x00083dfc,q=0x004000a0) :<3>
+<3>: Set Thread::priority(this=0x00083dfc,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x0007bda4) :<3>
+[010;3>047H  :   sateSe[3]<3>ma: Semaphpohr
+e::p(t
+ore:his=0x0008b:v(thiecc,vas=0x0lu0e4000a0=0),value= 0) :<:<3>
+<33>>: Sem
+<a0>: Threpad::hsleeop(rurnnine::v(tg=0his=0x0x000008becc8,valuebe=0) :<54,3>
+q=0x0008becc)
+<0>: Set Thread::priority(this=0x0008be54,prio=1) :<0>
+<0>: Thread::dispatch(prev=0x0008be54,next=0x00083dfc) :<0>
+<<1>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff44) :<1>
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<3>: Thread::wakeup(running=0x0007bda4,q=0x0008becc) :<3>
+<3>: Set Thread::priority(this=0x0007bda4,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007bda4,next=0x0008be54) :<3>
+<3>:3 Semap>:hore::p S(thisem=0x00aphore::p(t0his8=0xb000e8bbea48,value,v=0) :<a3
+>
+l
+<3>: Thread::sleep(running=0x0008be54,q=0x0008beb8) :<3>
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0008be54,next=0x0007bda4) :<3>
+<ue<1>:1 Sem>aphore:: Se:tv (this=T0hreadx000:8be7c:,vprioriaty(thisl=ue=-1)0x00 
+09ff44
+,prio=2:<3>
+147483647)
+<1>: Thread::dispatch(prev=0x0009ff44,next=0x0009bef0) :<1>
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<3>: Thread::wakeup(running=0x0007bda4,q=0x0008be7c) :<3>
+<3>: Set Thread::priority(this=0x0007bda4,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007bda4,next=0x0007fdd0) :<3>
+<=0) :<0>3
+<0>>::  Thread::slSeep(emrunning=0xaphore00083dfc,q:=0x0:008bp(thiea4) :s=<0>
+<0>: 0x0040Set Thread:00a0,:priority(tvalue=his=0x000831) :dfc,prio=1) <0>
+:<0>
+<0>: Thread::dispatch(prev=0x00083dfc,next=0x0007bda4) :<0>
+<[0160>: Semap;051Hhore::p(th eatiis=0x
+0ng[3]04000a0,val <3>: ue=1) :<0>S
+<emapho0>re::v(: Tthread::sleehis=0xp(r004000unning=0x000a0,val7bue=0) da4,q=0x0
+:0<3>
+4000a0)
+<0>: Set Thread::priority(this=0x0007bda4,prio=1) :<0>
+<0>: Thread::dispatch(prev=0x0007bda4,next=0x0009ff1c) :<0>
+<1>: Set Thread::priority(this=0x0009bef0,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff6c) :<1>
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<3>: Thread::wakeup(running=0x0007fdd0,q=0x004000a0) :<3>
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x0007bda4) :<3>
+[020;000H ------------------------------------------------------------------- [021;000H Thread    cpu<2>: Sem0  aph cpu1  cpuor2e::p(  cpu3     Ttehis=mpo total[00x200406;00a000H Thread0, valu4[e026;=0031H ) :<2>
+<2> 1: Thre32ad::s[0leep(r26;unning045H3=0x00043[028;0008H 7-e28,q----------=0x004--000a0)--- :-----------<2>
+------------<---2---->---:--- Se-----------t Threa--d-- <::prio3>:r ity(Sethmaph
+ore::is=0x0v(t0hi0s8=0x7e28,pr00400io=1)0a0,value=- :1) :<<33>>
+
+<2>: Thread::dispatch(prev=0x00087e28,next=0x0007fdd0) :<2>
+<3>: Thread::wakeup(running=0x0007bda4,q=0x004000a0) :<3>
+<3>: Set Thread::priority(this=0x0007bda4,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007bda4,next=0x00087e28) :<3>
+[010;0<74H    s
+a1>: Set Threte[3]<3>: ad::prioSemaphore::vrity(this=0x(this=0x0040009ff6c,pr000
+a0,valio=21474836ue47=0) :<1>
+<1>) :: <3>
+Thread::dispatch(prev=0x0009ff6c,next=0x0007bda4)
+<1>: Semap<3>: Shemoraphore::v(te:his=0x0008be:b8,value=-1)p (:<3>
+<3>: tThread::wakhis=0x00400eup(running=0a0x0000,va87lue=0) :<1>e28,q=0x000
+8beb8)
+<3>: Set Thread::priority(this=0x00087e28,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00087e28,next=0x0008be54) :<3>
+<3>: Semaphore::p[0(this=0x0040100a00,value
+=1;0) :<3>
+<3>47Hthinking[: Thread:1]<1>::sleep(runn Semaphore:ing=0x0008be:v(this=0x054,q=004
+000a0,vx004000a0) :alue=-1) :<<1>
+<3>: S1>
+et Thread::priority(this=0x0008be54,prio=1)
+<3>: Thread::dispatch(prev=0x0008be54,next=0x00087e28) :<3>
+<3>: Sema<phore::v(th1>is=0x0008be: Thread::waa4,value=-1keup(running) =0x0007bd
+a:4,q=0x004000<3>
+a0)
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007bda4,next=0x0008be54) :<1>
+[00<5;2060H> : eSaeting[1t] <
+1> :Thread Semaphore::::vp(this=0rixo00r40i00tay0,(thivalue=0) :<s=1>0x0007fdd
+0,prio=1)
+<2>: Thread::dispatch(prev=0x0007fdd0,next=0x0007bda4) :<2>
+<3>: Thread::wakeup(running=0x00087e28,q=0x0008bea4) :<3>
+<3>: Set Thread::pri<or2>: ity(this=0x0Se0ma0phore::p(th87ise=28,pri0o=x1)004000
+a0 :,v<3>
+alue=0)
+<3>: Thread::dispatch(prev=0x00087e28,next=0x0007fdd0) :<3>
+[010;047H  hungry[2]<2>: Semaphore::v(this
+=0x004000a0,value=0) :<2>
+<2>: Semaphore::p(this=0x0008becc,value=0) :<2>
+<2>: Thread::sleep(running=0x0007bda4,q=0x0008becc) :<2>
+<2>: Set Thread::priority(this=0x0007bda4,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007bda4,next=0x00083dfc) :<2>
+<2>: Semaph<1>: Seort eThread::::ppri(thiority(this=0sx0=008be504,xpr0io0=10) :<
+1>
+<8b1e9>:0 T,hrveaalue=0d) :<2::dispatch(p>rev=0x0008be5
+4,next=0x00087e28)
+<1>: Se<2ma>ph: Throre::p(this=ea0xd0::sle04000a0ep,v(arluue=n1) :<1>
+ning=0x00083dfc,q=0x0008be90)
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0008be54) :<2>
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+[020;00<00H ->: Set Threa-d--::-p-ri-o-ri-ty-(t-his=0x00-09-f-f1-c,-prio=214--74-83647) -:
+
+---<0>
+<0>: T--h-re-a--d:-:d-is-pa-tc-h(prev=0x00-09----ff1c,--ne-xt-=0-x0-00-9f-f4-4)- 
+
+:<-0>-
+---------------- [021;000H Thread    cpu0   cpu1  cpu2  cpu3   <1>: Set Thread::priority(this=0x00087e28,p
+rio=1) :<1>
+  Tempo total<[202>3;: 0Se00tH  ThreThadr 1ea[0d23:;:prio017H  87[0ri23t;0y45(Hthis=352[028;000x0H0 -0-08--b-----------e5-----4--,--p--r-----------io-=1-----) -:--<------2>-
+<3>: Set T-----------hread::prio--rity(this=0- <1>: Semax0007fdd0phore::v(th,is=
+0x0040prio=1) :00a0,value=<3>
+0)
+<1>: Semaphore::p(this=0x004000a0,value=1) :<1>
+[010;074Hthinki
+ng[1]<1>: Semaphore::v(this=0x004000a0,value=0)Set Thread::priority(this=0x00087
+e28,prio=1) :<1>
+
+<0>: Set Thread::priority(this=0x0009ff44,pr<io=21474831>6: Semaphor47e) ::<0>
+<:p0>(: Threatdh::dis=0x004i00spatch(pre0av0,=v0alue=x1) :0009ff44,ne<1xt=0x0009>
+
+
+bef0)
+<3>: S[010;074H 
+et T
+ hungry[hread::prio1]<1>: Semrity(this=a0x0007fdd0phore::,pvrio=1) :<3>(th
+i<s2=0x004000>a: Set T0,valuhree=ad0::p) :<ri1>
+ority(this=0x0008be54,prio=1)
+<1>: Semaphore::p(this=0x0008beb8,value=0) :<1>
+<1>: Thread::sleep(running=0x00087e28,q=0x0008beb8) :<1>
+<1>: Set Thread::priority(this=0x00087e28,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00087e28,next=0x0009ff6c) :<1>
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<3>: Semaphore::p(this=0x004000a0<,value=1) 1>: Set Thr:<3>
+ead::priority(this=0x0009ff6c,prio=2147483647)
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff1c) :<1>
+[016;051H    sate[3]<3>: Semaphore::v(
+this=0x004000a0,value=0) :<<3>
+0>: Set Thread::priority(this=0x0009bef0,prio=2147483647)
+<0>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff44) :<0>
+<3>: Semaph<o2>: Sre::v(this=et Thread0x::priority(00t0h8is=0x0008bebe54,prio=1)9
+
+0,v :alue<=2>
+-1)
+<3>: Thread::wakeup(running=0x0007fdd0,q=0x0008be90) :<3>
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x00083dfc) :<3>
+<3<>: Semaphor1>: Set Thre::ead::priorip(thity(this=0x0s=0x004000a009ff1c,pri0,vo
+=2147
+alue=1) :483647) :<1<1>
+>
+<1>: Thread::dispatch(prev=0x0009ff1c,next=0x0007fdd0) :<1>
+<1>: S[016;069He meaating[
+3]ph <3>: Semaophore::rv(theis=0x00400::0v(a0t,value=his=0x0) :<3>
+0008be7c,value=0)
+<1>: Semaphore::p(this=0x004000a0,value=1) :<1>
+[020;000H -----<2>: Set T-h-r-e-ad:-----------:p-r-i-------ori-t--y(this-=0-x---0008be54,
+-p----------r-io=1)- ----------:-<------ 2[>0
+21;000H Thread    cpu0   cpu1  cpu2  cpu3     Tempo total[025;000H Thread 3[0<25;017H  63>: Set Thr[ead::priori025;045H40ty(this=0x01
+[028;000H -
+0083dfc,prio=1) :<3>
+<1>: Set Thread::priority(this=0x0007fdd0,prio=1) :<1>
+------------------------------------------------------------------ <1>: Semaphor
+e::v(this=0x004000a0,value=0) :<1>
+<1>: Semaphore::p(this=0x004000a0,value=1) :<1>
+[016;051Hthinking[1]<1>: Semaphore::v(
+this=0x004000a0,value=0) :<1>
+<1>: Semaphore::p(this=0x004000a0,value=<0>: Set 1T)hread:: p:r<i1>
+o<rity(this=2>:0 Sex00m0aph9ff44,pore::p(thirio=21474836s4=0x0040007a0,val) u:<0e
+>
+<0>: 
+=1) :<2>Thr
+ead::dispatch(prev=0x0009ff44,next=0x0009ff6c)
+<2>: Th[rea0d::1s6le;0ep(r5un1H ning=0 
+hungry
+[x1]<1>: S00emaphor0e8:be54,q=0:x0v0(4000a0) :t<h2>
+<is=0x0040002>a:0 Se,value=-1)t  Thread::pr:iorit<1>
+y(this=0x0008be54,prio=1)
+<2>: Thread::dispatch(prev=0x0008be54,next=0x0009bef0) :<2>
+<3>: Set Thread::priority(this=0x00083dfc,prio=1) :<3>
+<1>: Thread::wakeup(running=0x0007fdd0,q=0x004000a0) :<1>
+<1>: Set Thread::priority(this=0x0007fdd0,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007fdd0,next=0x0008be54) :<1>
+[005;060H    sate[1]<1>: Sema
+phore::v(this=0x004000a0,value=0) :<1>
+<1>: Semaphore::v(this=0x0008becc,value=-1) :<1>
+<1>: Thread::wakeup(running=0x0008be54,q=0x0008becc) :<1>
+<1>: Set Thread::priority(this=0x0008be54,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0008be54,next=0x0007fdd0) :<1>
+<<2>: Semaph2>ore::p(thi: sSe=t Th0x0008readb:e:9priority(0t,hivalue=0) :s=<01x>0
+009bef0
+,pr
+io=2147483647)
+<2>: Thread::dispatch(prev=0x0009bef0,next=0x0007bda4) :<2>
+<2>: Se<3ma>: pShore:e:tp(this=0 Txhr0e0a0d8be::7pcrior,value=it1y) :<2>(
+this=0x00083dfc,prio=1)
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x0008be54) :<3>
+<<11>: Threa>: Semadphore::v:(this=0x0:008beb8,vsalue=-1) :l<3>
+eep(running=0x0007fdd0,q=0x0008be90)
+<1>: Set Thread::priority(this=0x0007fdd0,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007fdd0,next=0x00083dfc) :<1>
+<<3>3>: Semap: hoThread::wrake::p(this=eup0(runxni004ng0=000x00a008be5,value=14,)
+q=0x0008beb
+ :<8)2 :>
+<3>
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0008be54,next=0x00087e28) :<3>
+<[010;047H3 eating[2]> <2>: Sema: pShemaopr
+e::vho(this=0x00r40e::p(t00ah0,value=0)i s=:0<2>
+x0008bea4,value=0)
+<3>: Thread::sleep(running=0x00087e28,q=0x0008bea4) :<3>
+<3>: Set Thread::priority(this=0x00087e28,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00087e28,next=0x0008be54) :<3>
+<3>:<1 >Sema:phore::p( thisSe=0x00t Threa4000d::prioar0ity(this=0,vx00083dalue=1
+fc,pri)o= :<3>
+1)
+<2>: Set Thread::priority(this=0x0007bda4,prio=1) :<2>
+[020;000H ------------------------------------------------------------------- [021;000H Thread    cpu0   cpu1  cpu2  cpu3     Te<0>:m Set Thpor totalead::prior[it022;000y(Ht his=0x0Thread 0[02009f2f;06c,3p1H  rio=22174748[3647) :<0>
+0<0>: Threa22;045Hd:2:dispatc75h(prev=[0028;00x00009ff6c,next=0Hx 0009-ff1c) :<0----->-
+--<1>-:--------- -S-------et- Thread::priority(this=0x00083dfc,prio=1) :<1>
+<2>: Set Thread::priority(this=0x0007bda4,prio=1) :<2>
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+--------------------------------------- <3>: Semaphore::v(this=0x00<4000a0,value1
+=0) :<3
+>>:
+<3>: Sema Spehormape:hore::p(thi:p(this=0x00s4000a0=0,vx004000a0,value=1)al :<3u>
+
+e=
+[0)
+<1>: Th005;060Hthirnkiead::sleep(rung[3]<nni3>ng=:0x0008 3Sdfc,q=ema0xpho00r40e::v(thi00
+a0s=0x0040) :<10>0a0,valu
+<e=-1>1) ::<3> 
+Set Thread::priority(this=0x00083dfc,prio=1)
+<1>: Thread::dispatch(prev=0x00083dfc,next=0x0009ff44) :<1>
+<2>: Set Thread::priority(this=0x0007bda4,prio=1) :<2>
+<3>: Thread::wakeup(running=0x0008be54,q=0x004000a0) :<3>
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0008be54,next=0x00083dfc) :<3>
+[016;069H    sate[3]
+<3>: Semaphore::v(this=0x004000a0,value=0) :<3>
+<3>: Semaphore::v(this=0x0008bea4,value=-1) :<3>
+<3>: Thread::wakeup(running=0x00083dfc,q=0x0008bea4) :<3>
+<3>: Set Thread::priority(this=0x00083dfc,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x0008be54) :<3>
+<1>: Set Thr<e3ad::pri>: orSitemapy(htohre::ip(s=0x0009thisf=0f44,prio=x20040001
+a0,value47483=1) 6:<47) :<1>
+<1>1>
+: Thread::dispatch(prev=0x0009ff44,next=0x00087e28)
+<<2>: Sema2>ph:o Setre::p(t Thhreiad::psri=or0ity(x004000a0th,vailue=1) :<s=1>0x
+00
+07bda4,prio=1)
+<2>: Thread::dispatch(prev=0x0007bda4,next=0x00083dfc) :<2>
+<2>: Se<ma[1>: Threph0ad::or0s
+e5leep(run::;ningv(0=0xth60is=0x0008be0H 0087e28,q=09 hx00400,vu0alun0e=ga-1r0)y[3]<) 
+:< :<2>
+32>>: Semap
+<1h>: ore::v(thiSet Tshre=0x004000aa0,vd::prioralue=-i1) :<3>
+ty(this=0x00087e28,prio=1)
+<1>: Thread::dispatch(prev=0x00087e28,next=0x0007bda4) :<1>
+<2>: Thread::wakeup(running=0x00083dfc,q=0x0008be90) :<2>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0007fdd0) :<2>
+<3>: Thr<e2>:ad ::wSemakapheore::up(prunning=0x(0008tbeh5i4s=0x000,q8=0x004000a0b
+e7c
+,) valu:<3>
+<3>e=: 0Se) :<t2 T>hrea
+d::priority(this=0x0008be54,prio=1)
+<3>: Threa<d::1>:di spatcSemh(praphoev=0x0008re::p(this=0bx004000a0e,5v4,anext=0
+x00083dfc) :<3>
+<<11>: Set Thr>:ead Sem::prioraphore::p(thity(this=0xi0s007=bda4,prio0x004000a0,=
+
+1)value=0)  :<1>:<1
+>
+<1>: Thread::dispatch(prev=0x0007bda4,next=0x00087e28) :<1>
+<2>: T[010
+h;r0e74H ad::sleep(reuannitning=g0x0007fdd0,[1] <1>: q=S0x0emaphore::v00(t8bhe7c)i :s<
+
+=20>
+<2>: xSet T004hread::prio0r00a0,value=ity0(t) his=0x0007f:<1d>
+d0,prio=1)
+<2>: Thread::dispatch(prev=0x0007fdd0,next=0x0008be54) :<2>
+<2>: S<3>: Threaemdaph:o:rse::p(thiles=0x00ep(running=08becc,v0xa0008lue=0) :3<2
+>dfc,q=0x004
+000a0)
+<3>: Set Thread::priority(this=0x00083dfc,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x0007bda4) :<3>
+lue=0<) :<3>
+1>: Thread::wakeup(running=0x00087e28,q=0x004000a0)
+<1>: Set Thread::priority(this=0x00087e28,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00087e28,next=0x00083dfc) :<1>
+<2[>: Threa0d:2:sleep(ru0nning=;000x0H 0008be54,q-=0-x-0008-b---ecc) :<2>
+-<-2>: Set Thr-e-----ad::priorit-y(thi-s=0x0008be5-4,--p-----ri-o=--1)--- :--<2>-
+
+<
+---2>:- -Thr----ead-::-disp-atc-h(prev=0x0-00--8be----5-------4-,nex--t=0x00087e-
+28) :<2>
+-- 
+[0<321;000>: Thread::Hs Thread  le  cpeup(running=0   cpu10  cpux20007bda4,q =0x004000a0 
+c) :<pu3>3 
+<3>: Se    Temtpo tota lThread::prio[024;000H Thrritey(this=0x00a07db 2[024;017Hda 4,prio=1) : 110[02<34;0>
+<3>: Thre4ad5::dispatch(pH377rev=0x0[00208;000H -7-----bda-4,next=0-x0009b----ef---------0) :<3>------
+---------------------------------------- <1>: Semaphore::v(this=0x004000a0,value
+=-1) :<Set Thread::priority(this=0x00083dfc,prio=1) :<1>
+1>
+<1>: Thread::wakeup(running=0x00083dfc,q=0x004000a0) :<1>
+<1>: Set Thread::priority(this=0x00083dfc,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00083dfc,next=0x0007bda4) :<1>
+[01<02;0>: Set Thr47eadH    ::priority(tsha
+te[1]<1>
+is=: S0xemaph0o00re8:7e28:,pvrio=1) (:this<2>=0x0040
+<02>: Thread0a::dis0p,valauetch=(prev=0x000087e2)8,next=0 :x0<0083dfc) :2>
+<2>
+<<3>3>:: Set Threa d:Semap:phorrie::oritpy(th(tis=hi0x0s=0x0009bef040,prio=214007
+483647)
+ :0<a3>
+0,v<3>:a Thlrueead::di=s0patch(prev=) 0x0009be:f<0,ne2>xt
+=0x00087e28)
+<1[016;069Ht>:hink Sem
+apinhg[2]<2>: Sore::v(tehis=0x00ma08beccpho,vre::v(this=alu0x004000ea0,value=0)=
+-1) :<1 :>
+<1>: T<2h>
+read::wakeup(running=0x0007bda4,q=0x0008becc)
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007bda4,next=0x0008be54) :<1>
+<<0>0: Sem>a: pSehore:t Thread::p:prio(rthiis=0x0008betby8<2>:(,v Semthis=0x0009aa
+ff1c,prio
+l=ue=0) :
+2147483647<phore)1>
+:
+<0>: Thre:p(this=a0x0040d::di00a0,vspatch(praeluev=1) :<2>
+=0x0009ff1c,next=0x0007bda4)
+<0>: <1>: Thread::sleep(running=0x0008be54,q=0x0008beb8) :<1>
+<1>: Set Thread::priority(this=0x0008be54,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0008be54,next=0x0009ff6c) :<1>
+[016<3;069H  >: Set 
+hungry[2]<2Th>: Semaphreorad::prioritey(::v(this=0x000t87e28,prio=1his=0x004) 00
+0a0,va:<lue=0) 2>:
+<Semaphor2>e::
+<v2(this=>:0x00 S08bemaphore::pe(thi7c,vals=0x0008beuea4,value=0)= -1:<2>
+<2>: Thread::sleep(running=0x00083dfc,q=0x0008bea4) :<2>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0009ff44) :<2>
+)
+<0>: Thread::wakeup(running=0x0007bda4,q=0x0008be7c) :<0>
+<0>: Set Thread::priority(this=0x0007bda4,prio=1) :<0>
+<0>: Thread::dispatch(prev=0x0007bda4,next=0x0007fdd0) :<0>
+<<1>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x0007bda4) :<1>
+<<2>: S2et> T: Semharpehaod:re::p:p(ritority(this=0xh000i9ff44,priso==2147048x00
+40306407)a :<02>,
+<2>: Tvhreaald::udispatch(perev==01)x0 0:0<9f1f>44,next
+=0x0009bef0)
+<3>: Set Thread::priority(this=0x00087e28,prio=1) :<3>
+3[020>;:000H --- S-emaphore::p(-th-is----=-0x0--040---0----------0a0---------,-----va----l
+u-e=1)--
+<0>---------:--------- -T- [021;0hread::slee0p0H(r Thread    unncingp=0xu0   cpu1  0cpu2  cpu3  0   Te07mpof todd0,q
+=ta0xl[00204000a0) :<60>
+<0>: ;S000H Thet Thrreeaad 4[026d::;017H  145prio[0rity(this=0x20007fdd0,p6rio;045H368[0=1) :<0>
+<028>: Threa;d:000:Hdis patch(--prev=0-x00-----0-7-fdd0,next=0x0--009ff1c) :<------0>
+-------------------<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+--<2>:- Set---- Th------re-a-d::------p---------ri o<1>: Semaripty(this=0hxore::0
+009bef0,
+v(thisp=0rxio=214748360470) :<2>4
+<2000a0,valu>e=: Thread::d-i1sp)a t:<c1h(prev=>0x
+0009bef0,next=0x0009ff6c)
+<3>: Set Thread::priority(this=0x00087e28,prio=1) :<3>
+<1>: Thread::wakeup(running=0x0007bda4,q=0x004000a0) :<1>
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007bda4,next=0x0007fdd0) :<1>
+[016;051H eating[1] <1>: Semaphore::v(
+this=0x004000a0,value=0) :<1>
+<2>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff6c,next=0x0007bda4) :<2>
+<<3>: S3e>: Setm Threaaphod::priorirety(::thpis(=0x00087et28,prio=1hi) :s=0x0040
+00<a0,v3>a
+lue=1)
+[010;047Hthinking[2]<<3>: Se3ma>pho: Sree:m
+apho<re:1>: Set Thr
+::ead::priorv(pityt((his=0x004ththi000is=a0s0,va=0x004000ax000lue=0) :<20,v7fdd0
+,p>ario=1) :
+l<u1e>
+=0)
+[010;074H    sa
+te<[23]><3: Sema>phore::p(:t his=0x0Semaphore0::v(this4=0x0004000a000a0,valu,ve=
+0a)lue=0) : :<3<>3
+><3>: Semaphore::v(t
+[010;047Hhi  hungs=0ry[2]<2>:x 0008beSemba8
+,value
+p=h-or1e:):v(this=0x00 <0>:40: Set T0<3>
+hrea0ad0,:v:praluie=0)
+ority(this=0x0009ff1c,prio=2147483647)
+<0>: Thread::dispatch(prev=0x0009ff1c,next=0x0009ff44) :<0>
+<<33>: Thr>: eSemad::wakeaup(phorer:u:nning=0x0p(0087thise2=8,q0x0=008becc0x00,v0
+8beb8) :<3>
+<3>: Set Thread::priority(this=0x00087e28,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00087e28,next=0x0008be54) :<3>
+<<1>: S1emaphore>:::p(th Set This=read:0x:p0riority04(00this=00a0,vax0007flued=1
+) :<3>d0,prio=1) :
+<1>
+<1>: Thread::dispatch(prev=0x0007fdd0,next=0x00087e28) :<1>
+<<2>:2 Sema>: Set Threphador::pe:ri:ority(thvi(s=0xth00i07bs=0dxa4,0008bea4,vaprl
+io
+u=1e=-) 1):< :<1>1>
+<
+2>: Thread::dispatch(prev=0x0007bda4,next=0x0007fdd0) :<2>
+<1>:[005 Th;r06e0H eating[3ad
+::wak]e up(running=<3>: Semapho0re::vx000(8this=7e208x,q=0x0008bea004000a0,4) :v
+al<1>u
+e=<1>: Set Thr0) :<3>e
+ad::priority(this=0x00087e28,prio=1)
+<1>: Thread::dispatch(prev=0x00087e28,next=0x0007bda4) :<1>
+
+alue=0)
+<1>: Thread::sleep(running=0x0007bda4,q=0x0008becc) :<1>
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007bda4,next=0x00083dfc) :<1>
+<1>: Semap<hore::p(th2>i: Set Thrse=ad::pri0xorit0008by(e9thi0s=0x0007f,vddalu0,
+ep=r0io=)1) : :<2<2>>
+<2>: Thread
+::dispatch(prev=0x0007fdd0,next=0x00087e28)
+<<3>3>: : SeSemta Tphohrread::e::p(prthiiority(thiss=0x=004000a0,v0x0a00lue=1) 8:
+
+<2be5>4,prio=1) 
+:<3>
+<3>: Thread::dispatch(prev=0x0008be54,next=0x0007fdd0) :<3>
+<1>: Thread::sleep(running=0x00083dfc,q=0x0008be90) :<1>
+<1>: Set Thread::priority(this=0x00083dfc,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00083dfc,next=0x0008be54) :<1>
+[020;000H ------------------------------------------------------------------- [021;000H Thread    cpu0   cpu1  cpu2  cpu3     Tempo tot<3a>: Selt Thread:[023:;000H Tprhreiority(thais=0xd0007fdd0, 1pr[02io=1) :<3>3
+;024H  113[023;045H366[028;000H -----<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+--<1>----------:---------- ---S----et Th--read-:---:--prior-i-ty(-this=0x00--0--8
+
+--be--54,pr-i----o---=-1) :<1>
+----- <2>: Sem<0>: aSet Thrphoree::v(thad::priorityis=0x00400(0a0t,vahilsue=0) :=
+
+<0x0009ff442>
+,prio=2147483647)
+<0>: Thread::dispatch(prev=0x0009ff44,next=0x0009bef0) :<0>
+<2>: Semaphore::p(this=0<3>: Set x004000aTh0,valuere=1) :ad:<2:p>rio
+rity(this=0x0007fdd0,prio=1)
+[010;074Hthinki
+ng[2]<2>: Semaphore::v(this=0x<004000a0,va3>lue=0) :: <2Semaphore>
+::p(this=0x004000a0,value=0)<
+[016;20>: 51SeH    sate[m3]<aphore::p(3
+
+t>: S<1>: Set hieThrsmape=0x004000ahoa0,vare::v(thisd=0x0040:00a0,:priovarlueity
+=0) :<3>(t
+his=0x0008be54,prio=1)
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+l<ue=1) :3<2>
+[>010;074H :  hS
+ungry
+[e2]maphore::<2>: Semaphvore::(vthis=0x0(0this=0x0040000a0,va8blue=0)e9 :<0,2>
+va<2>lue=-1) :<:3>
+<3>: T Sehread::wamkeaphore::upp((trunnhising=0=0x0x00007f08bdde0,bq=80x,valu000e
+8be90) 
+=:0) <2>
+<3>:: <2S>
+et Thread::priority(this=0x0007fdd0,prio=1)
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x00083dfc) :<3>
+<<22>: Semap>: hore::pT(threadh:is=0:slx004e000a0,vaelp(ruue=1n)nin :g<3=>0
+x00087e28,q=0x0008beb8)
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00087e28,next=0x0007fdd0) :<2>
+<2>: Sem<a[1>: Sph0et
+ Threao1d::priorre6ity:;(this=0:v069Hx000(this=0x0 e8b008be7c,vatealue=0)in54 :<g[3] <3,
+prio=1)2 :<1>
+
+>
+><: 2Sem>aphore:: Semapho:rve::p(this=(0xthis=0x0004000a0,va0l4000au0,e=0) value:
+
+<3>
+=0)
+[020;<0000>: HS e-t T--hr-ead::p-----r-----iority(t---h--is=0x0-----------009be-f0,-pr-i-o
+---
+=-----214---7483-6-----4--7) :<0>
+<0--------->:- -Threa-d::di-- s[patch(pr0e2v1;0=000Hx 0Thread  0  c09bef0,nextpu0   cpu1=0x 00 cpu2  cpu09ff6c3) :<0>< 
+1
+   >:  TemSpo teotal[025;m000H Threaapd 3ho[025;024<re::pH 3( >: Sthis=0x113et Thread0[::0400025;045H41pr0a07iori,[0tvalue=0) :<12y>
+8(this=;000x000803Hd fc,prio=1)
+<1>: Thread::sleep(running=0x0008be54,q=0x004000a0) :<1>
+<1>: Set Thread::priority(this=0x0008be54,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0008be54,next=0x0009ff1c) :<1>
+<2>: Set Thread::priority(this=0x0007fdd0,prio=1) :<2>
+--------------------<3>: Set Th-read::prio------------ri-t-----------y(t---his=0
+x000-83dfc,prio=-1-) :<3----->
+----------- <2>: Semaphore::v(this=0x004000a0,value=-1) :<2>
+<2>: Thread::wakeup(running=0x0007fdd0,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x0007fdd0,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007fdd0,next=0x0008be54) :<2>
+[0<01>: 5;Se06t Thread:0H:pr i
+
+   sate[2o]<2>:rity(th Siemaps=h0x00or09e:ff1c,p:vr(iothis=0x004=214000a0,valu7e4
+=0) :<
+28>3647) :<1>
+<1
+>: Thread::dispatch(prev=0x0009ff1c,next=0x0007fdd0) :<1>
+<<2<3>: S>:3emapho >re::p(thiS:se =0mSet x00aphore::v(Th400this=0x000rea0a08d,va
+lue=be:0) :<1cc:p>
+,riorvality(this=0xu00083dfec=-1)
+,prio=1)
+<[016;20>5: Th1Hthreiankid:ng[1]<1>::w
+ Semapakhore::ve(up(trhunning=0xi0008s=0be54x,q=0x00000408b0ec0c) a:0,<2>v
+alu<2>:e Set Thre=0a)d::pr :<1ior>
+ity(this=0x0008be54,prio=1)
+<2>: Thread::dispatch(prev=0x0008be54,next=0x0007bda4) :<2>
+<2>: Semaphore::p(this=0x0008be7c,va<l1u>e=:1) :<2> Se
+<2>: mSemapaphore::p(thhois=0x00400re0a0,value::=1) :<1>
+p[0(16;this=0x051H  hu0ng04ry[100]<10a0
+,val>: Semaphueore::v(th=is1=) :<2>
+<20x004000>:a0, Thrvead::salleep(runniune=0)g=0x00 0:<7bda41>,
+q=0x004000a0)
+<2>: Set Thread::priority(this=0x0007bda4,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007bda4,next=0x0008be54) :<2>
+<<33>>: : SSet Threade::priomarpihtoyr(e:th:ivs=0x00(t0hi83dfc,prio=1s)= 0x:0008
+beb8<3>,
+<1>:va Thlure=-e1ad::wakeu) p:(<2>
+running=0x0007fdd0,q=0x004000a0)
+<1>: Set Thread::priority(this=0x0007fdd0,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007fdd0,next=0x0007bda4) :<1>
+[<2>: Threa0d::wake10;047Hup e(artingun[ni1
+] 
+<ng=10x000>8:be S54,q=0x00e0maph8beb8)o r:<2>
+<2e::>: v(tSet Threadhis=0::prxi004000ao0ri,vty(thialus=0x0008bee=0)54, :prio=<1
+)1 >
+:<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x0007fdd0) :<2>
+<<3>: S3>: Semaphet oThread::pre::prior(ity(thithiss==0x00x00000883bedfc,90,valu
+preio=1)= :<30) :<2>>
+
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x00087e28) :<3>
+<3><2: Sem>: Thraepahore::d::p(this=0xsleep0(runnin00g=0x0007fdd80b,q=0xe0a4,val0
+ue=0) :<3>
+
+08be90)
+<2>: Set Thread::priority(this=0x0007fdd0,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007fdd0,next=0x0008be54) :<2>
+<2><3: Se>: Thremaphore::pad(t::hsleep(runninis=g=00x0x00004000a87e028,q=0x000,8v
+bea4) 
+alue=:<1) 2>
+:<3>: Set Th<r2>
+ead::priority(this=0x00087e28,prio=1)
+<3>: Thread::dispatch(prev=0x00087e28,next=0x00083dfc) :<3>
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+[020;000H ------------------------------------------------------------------- [021;00<0>0:H Threa dSe t Thread   cpu0:   cp:priuority(this=1  c0x00p09uff6c,p2  crpu3  i
+o
+   Tempo tot=a214748364l<3>: Sem7)[aphore::p(t :0hi<0>
+<0>: T2s=0x0hread::dis2;000H 040pThr0aead0tch a(0[022;020p4H,rev=0 vx alue=0009ff6c,190n8) :<3>
+ex[02t2=;00x45H3002[028009ff;000H -----4--4--)-----
+-<-3>--: T-hrea-----d-----:-:sl-----e---ep(running=-0x--00083dfc,q=0x004000a0) :
+<3>
+<3>: Set Thread::priority(this=0x00083dfc,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x0009bef0) :<3>
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+-------------------------- <2>: Semaphore::v(this=0x004000a0,value=-1) :<2>
+<2>: Thread::wakeup(running=0x0008be54,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x00083dfc) :<2>
+<3>: Set[ Th
+read016::;priori06ty9H (  t sahis=0x0009betf0,prio=21474e83647[2]) <2>: S:<emapho3>r
+<3>e: Thread::::dv(ispatch(prthis=0x00400ev0=0a0,valx0009bef0,nuee=0)xt=0x0008be 
+:<
+54) :3><3
+>
+<3><: Semaphore:1>: Set T:hp(this=0x00r4e0ad::pr0iorit0a0,y(value=0t) :<3>
+his=0x0007bda4,prio=1)
+<[020>: Semaph5;or06e::v(th0Hti
+
+hinking[3s]<3>: Sema=0phx000ore8::v(thisbea4,val=0ue=-1)x0 :04<2>
+<2>: 00Th0a0,rvealue=a0d) :<3>
+::wakeup(running=0x00083dfc,q=0x0008bea4)
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x00087e28) :<2>
+<2>: Semaphore::p(this=0x004000a<0,3value=0) :>:< S<1>: Se2>et
+maph Tohreadre:::p:priorit(this=0x00y400(0at0,his=0x00v07albdaue4,prio=1)
+<=1)1>: Thread::d ispatc:<3>h(
+prev=0x0007bda4,next=0x00083dfc)
+<1><: Sem
+aph[03ore::v(10>t;07:his=0x4 Threa0H ead::sleep(ru008be90,tinvannilue=-1) :<1g[n>
+2] <2>g:=0x0008b Semae54p,q=0x004000ahore::0)v(thi :<3>
+<3>:s Set Thre=0ax00400d0a::pri0,ovalueri=-1) ty(:th<2>
+is=0x0008be54,prio=1)
+<3>: Thread::dispatch(prev=0x0008be54,next=0x0007bda4) :<3>
+<1>: Thread::wakeup(running=0x00083dfc,q=0x0008be90) :<1>
+<1>: Set Thread::priority(this=0x00083dfc,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00083dfc,next=0x0007fdd0) :<1>
+<1>: <S2emaph>:o Threrad::weak::p(eup(runninthis=0x00g=008be7c,vx0a0087e28,lue=q0
+
+=0x004000)a0) :< :<2>2>
+<2>:
+ Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00087e28,next=0x00083dfc) :<2>
+<2>: <Se3>: Smaphorete: Thread::p:rp(tiority(thishis==00x0007bda4,px0rio=10) :<3
+>
+<40003>: Ta0,vahread::dliue=0) :<sp2a>tch(prev=0x
+0007bda4,next=0x0008be54)
+[005;06<10>: ThreHad: :sleep(
+ rhungrunning=0x0007y[fdd30,q=0x0]<3>: Semaph008bore::ev(this=0x700c4000a0,v) :<
+1>
+<alu1>:e= S0) :e<3>
+t Thread::priority(this=0x0007fdd0,prio=1)
+<1>: Thread::dispatch(prev=0x0007fdd0,next=0x00087e28) :<1>
+<2>: Thread::sleep(running=0x00083dfc,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0007bda4) :<2>
+<3>: Thread::wakeup(running=0x0008be54,q=0x004000a0) :<3>
+<3>: Set Thread::pr<i2>: Seormiaty(pthish=ore::p(thi0xs0008=be0x54,prio=10)04 :<
+3>
+<03>: 00Ta0h,vareluead=0) :::<d2isp>atch(pre
+v=0x0008be54,next=0x00083dfc)
+<[1>: Set Threa020;000d::H pri------ori--ty(th-i-s-----=0x0-008-7e28,prio=-1-) :<1>
+<1>------------------------------------------------ [021;000H Thr: eThreada    cpu0  d::dispatch (prev=0cx00pu1  c0p87e2u82, next=0x0 cp008u3
+     be54) :<T1>e
+<<2>m2>: Tp:hro Seead::slee tmp(running=0oaphx0007bda4,qtaor=0x004000a0)l[e :<2024;000H:> Th:p(th
+<2>: Set ris=0x0008bTheecc,value=rea0) add::: <1>
+pri2[0o24;0rit31Hy  100(thi[024;s0=045H43x004[028;00007bH --------da4,p-rio=1)--------
+<2>: T-h---re----a--d-::---d-is---p--a-tc--h(-prev=0x-00---07bda4,ne--x--t----=-0
+
+-x-0008-----------7e28)  <:3>: S<2e>
+ma<phore::v1(th>:is=0x00 4000a0,value=-1) Thread::sle:<ep(3>running
+=0x0008be54,q=0x0008becc)
+<1>: Set Thread::priority(this=0x0008be54,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0008be54,next=0x0009ff1c) :<1>
+<3>: Thread::wakeup(running=0x00083dfc,q=0x004000a0) :<3>
+<3>: Set Thread::priority(this=0x00083dfc,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x0007bda4) :<3>
+<2>[010;047H : Set   sate[3] <Thre3>:ad: S
+em:aphorepriority(t::his=0v(xth0is=0x0087e28,pri00o=1400)0a0,v :alue=0) :<3<3>
+<2>>: Thr
+ead::dispatch(prev=0x00087e28,next=0x00083dfc)
+<2>: S<3<em>: Semapho1>: arSet Threpheado:::prioritre:v(thiy(this::p(ts=0x0009fh=f
+i
+0x0008b
+1s=eccc,prio=210x0,47483647) :040value<0=-1) :<3>
+<10a3>: Threa0,>dv
+:a:lue=d0)isp
+atch(prev=0x0009ff1c,next=0x00087e28)
+<3>: Threa[016;069d
+H:thi:wakeupnki(rnugnning=[2]<2>: S0ex00m07bda4,q=0xaphore00::0v8(thibescc=)0x0 :
+<3>
+<30>: S4et 0Threa00d:a:p0riority(th,ivsalu=0ex0007=bda4,prio=10) ) :<:<2>
+<3>:2>
+ Thread::dispatch(prev=0x0007bda4,next=0x0008be54)
+<3>: Semaphor<e::p(2>: Setmaphohirs=0x0008beeb8,val::p(tueh=0) :<3>
+<is=0x003>4:00 Thr0eada::s0,vleep(runaninlgue=1) :=0x<02>008be54,q=0
+x0008beb8)
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0008be54,next=0x0007bda4) :<3>
+<<11>>: : SeStema phoThreard::pre::v(this=i0x0ority(this=0008be7c,valuxe=00087e2
+8-1) :,prio=1) :<1>
+<1>
+[0<13>: T6;0h69Hread
+::wak eup(runn ing=0xhu0ng00r7byd[a4,q=0x00082]<2be>:7 Sc)em :<3a>p
+<3>ho: rSeet Thread::priority(this=0x0007bda4,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007bda4,next=0x0007fdd0) :<3>
+<3>: S<2>:emaphore::p Set(this=0x004 000a0,Threvad::alue=0) :<prior3>ity(t
+his=0x00083dfc,prio=1)
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0007bda4) :<2>
+<<3>:3>: Thread: S:sleeepmapho(running=0xre::p0(this=0x0070fd0400d0,q=0x0004000a
+a0,v0) :<3>
+<al3>: Set uThread::pe=riority(thi0s=)0x00 07fdd:0,prio=1) <:3<>3>
+<3
+>: Thread::dispatch(prev=0x0007fdd0,next=0x00083dfc) :<3>
+:<1>:v(this=: S0x0e0t Thre4ad000a:0:,pvralue=0) :<io3rity(this=0>x00087e28,
+prio=1)
+<2>: Thread::sleep(running=0x0007bda4,q=0x004000a0) :<2>
+<2>: Set Thread<::priority(t1hi>s=0x: Semapho0re:007bda4,pr:ip(o=1) :<2>
+t<2>: Threahd::disi=spa0tch(pxre004000v=a0x00007b,da4,nextvalu=0e=x-0009ff26) :<c
+) :<2>
+<
+3>:2>
+ Thread::wakeup(running=0x00083dfc,q=0x004000a0)
+<3>: Set Thread::priority(this=0x00083dfc,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x0007fdd0) :<3>
+<[1>: 016;051H Tehatinrge[3] <3>:ad::s
+le Sepema(rphore::v(tunning=0x0h0087eis28,q=0=x0004000a0,valux004000ae=0) :<1>-
+<12) :<3>
+>: Set Thread::priority(this=0x00087e28,prio=1)
+<1>: Thread::dispatch(prev=0x00087e28,next=0x00083dfc) :<1>
+<1><:2> : SeSemaphto Thread::repr::pi(orithis=0x0008tbeay(this=0x4000,9fvf6ac,pr
+io=21lue47=4836047)) :< :<11>>
+<2>: Thread::dispat
+ch(prev=0x0009ff6c,next=0x0009bef0)
+<3>: Thread::wakeup(running=0x0007fdd0,q=0x004000a0) :<3>
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x0007bda4) :<3>
+[<1>: Thr02ead:0:s;0l0eep(0H ---ru----------nn--------ing=0x0-0--08--------3dfc,---------q
+--
+---=0---------x-----0--0----- 0[0218;bea4000)H :<1>
+<1> : SeTt hread   T hread::pricporiu0   cput1  cypu2  cpu3  (this= 0x0 0 083dfc
+T,prio=1) :em<1>
+<1>:p Threado to::dispatch(tal[0prev26;000H Thr=ea0dx0 040[083dfc,next=026;031Hx0007  190[026f;0dd0) 4:5H426<[028;01>
+0<2>: Se0t H -Thr-e----a---d::pri-or-i---------t-y(---------t-h-is=0x0009---b----ef-
+
+0---------,prio--=-21----47483-6--------4-7-) : <<23>: S>emaph
+<o2re::v>(:t hTis=h0x004000a0r,valuead::edisp=-atc1)h(pr e:v<=30>x0009bef0,next=
+0x0009ff1c)
+
+<3>: Thread::wakeup(running=0x0007bda4,q=0x004000a0) :<3>
+<3>: Set Thread::priority(this=0x0007bda4,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007bda4,next=0x00087e28) :<3>
+<[0101>: S
+;et 074H    saTte[3]<3h>r: Semaphoreead::pri::ov(rthis=0x004i0ty(t00a0,valuehis=0x00=0
+7fd
+0d0,p) :<3>
+rio=1)
+<1>: Thread::dispatch(prev=0x0007fdd0,next=0x0007bda4) :<1>
+<1<>: S2>: Set Thremaphoreea:d:::priopri(ty(tthis=his0=0x004x00009ff1c0,pr0io=a0
+,2147483647)v a:l<2>
+<2u>: Three=0) :<1>
+ad::dispatch(prev=0x0009ff1c,next=0x0007fdd0)
+<3>: Sema[phor01e0;047Hth::v(this<0inking=0x000>:[8
+ S1bebet Thread::]<8,value=-1)pr1> :<3>io: 
+rSityemaphore::v((thits=his0x004000a0,=va0lx000ue=0)
+9ff44,prio=2147483647)
+<0>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff6c) :<0>
+<3>: Thread::wa<keup(runnin1>: Segm=0x0a00pho8r7e::e28,q=0x00p0(this=0x0804000a0b
+eb8
+) :<,3>value=1)
+<3>:  S:<1>
+et Thread::priority(this=0x00087e28,prio=1)
+<3>: Thread::dispatch(prev=0x00087e28,next=0x0008be54) :<3>
+<3>: [<S0102>:e; Set Tmaphore::p(047H  hrethadhu
+n:
+isg:priority(=0rthis=0x0007xy[1]fd0<1>d04000: Sem0,a0,appvaluehore::vr=(io1) t=1
+:<3>
+h)is=0x00
+<2>: Thread:40:0d0ispatcha0(pr,veavlue=0=)0x0007fdd0 :<1>,next=0
+x00087e28)
+<<3>: Threa3>d:: Semap:sholeepre::v(r(unnithis=ng=0x0008be054,q=x0008b0x0e040a40
+0,a0) :<3>v
+<3>: aSet Tlue=-1h)re ad:::pri<2>
+ority(this=0x0008be54,prio=1)
+<3>: Thread::dispatch(prev=0x0008be54,next=0x0007fdd0) :<3>
+<1>: Thread::wakeup(running=0x0007bda4,q=0x004000a0) :<1>
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007bda4,next=0x0008be54) :<1>
+<2>[:005; T0hr6ead::wakeu0p(H 
+running
+=eat0x000i87en28,q=0x00g0[1] <81b>: eSema4a) :p<h2>or
+<e:2>:: Svet Thread:(:prtiohirs=0x00ity(this=04000a0,vx0alue=00087e2)8,pr io:=1<)
+1>
+ :
+<2>
+<2>: Thread::dispatch(prev=0x00087e28,next=0x0007bda4) :<2>
+<<3>3>: :Se tS Themaphorerad:e:::p(tprhiiority(ts=0x00h0is=80bxecc,v0alue=0) :<20
+
+07>fdd0,prio=1)
+
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x00083dfc) :<3>
+<<2>: Threa2>d:: Semaphore::s:pl(ethis=0x0e008bp(reunning=0x0900,value=007bda)4,
+ :q=<30>x
+0008becc)
+<2>: Set Thread::priority(this=0x0007bda4,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007bda4,next=0x00087e28) :<2>
+<2<>: Se3m>a: Tphohread::slere::p(etp(runnhisi=ng=0x000x40000a00083dfc,q=,0x0008
+be9value0) :<3>
+<=1) :<2>3
+>: Set Thread::priority(this=0x00083dfc,prio=1)
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x0007fdd0) :<3>
+<1>: Set Thread::priority(this=0x0008be54,prio=1) :<1>
+[020;000H ------------------------------------------------------------------- [021;000H Thread    cpu0   cpu1  cpu2  cpu3     Tempo total[023;000H Thread 1[023;024H  125[023;0<2>: Set Thread::priority(this=0x00
+087e28,prio=1) :<2>
+4<35H>:37 Se8t Thr[ead:02:pr8;i000Hority(this --=0-x0007--fd---d0,-pr--i-o=-1) :--------<3->
+<1>--:-- S---------et Th---r----------ead::p----------riority(thi--s=0x00-------0
+
+8be54 <2>: Sema,phorepr::iov(th=i1s) :=0x004000<a1>0,value=0
+)
+<2>: Semaphore::p(th<0>: isS=0x004000a0et Th,vreaalue=1) d:<2>
+::priority(this=0x0009ff6c,prio=2147483647)
+<0>: Thread::dispatch(p<r3e>v=0x0009f:f Sema6c,npext=0x0009hore:bef0) :<0>:
+[010;p(07t4Hthih
+
+s=0inking[2x]<2>:00 Se4maphore::00v(t0ah0,valisue=1) :<3>=0x004000a0,value=0
+<) 3:<>:2 Thre>a
+d::sleep(running=0x0007fdd0,q=0x004000a0)
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x0009ff1c) :<3>
+<2>: Thread::wakeup(running=0x00087e28,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00087e28,next=0x0007fdd0) :<2>
+<[011>: S6et Thre;0ad::p51rioriH    sa
+tte[2]<2>:y( Semaphorethis::=0x000v8be54(t,prihis=o0x0=104000a0,va)lue=0) :< 1>
+:<1>
+<1>: Thread::dispatch(prev=0x0008be54,next=0x00087e28) :<1>
+<<3>: 3>: SemSeat phorThreea::v(thisd:=0x00:priority(t08bhi<e90,s1v=0x>: Salue=-0e
+1) :<2>
+
+009ff
+1c,prmapio=214748h3647)
+<o3>: Thre::pread(::dispattch(prevhis=0=x0x000004000a90,ff1c,nexvt=0alue=x10)008
+be54) : :<1>
+<1>
+[0<2>: T
+hr1ea0d:;:wakeup(ru0nn7i4ng=0xH 0 0hu07fndgry[1]<d01>: S,q=0x0008beme90a)ph :ore<2::>
+v(t<h2i>: Set Thrsead::prio=0ritxy(this=0x00007fdd0,04pr0i00a0,value=o0) =1): :<
+2><2
+<2>
+>: Thread::dispatch(prev=0x0007fdd0,next=0x00083dfc)
+<2><1: Semaphor>: e::p(this=0Sex004000a0,mvalue=0) a:<2p>
+[016hore::p(thi;
+s=0x00080beb8,va69lue=0)H 
+<1>: eThreaatdi:ng[2] <2>::s Semleep(aprunningh=0ox0008r7e::v(thies28,q=0x000=8b
+eb80x00400)0a 0,:<v1alue=0) >
+<1>:<2: Set Th>r
+ead::priority(this=0x00087e28,prio=1)
+<1>: Thread::dispatch(prev=0x00087e28,next=0x0007fdd0) :<1>
+<1<3>: Sem>:aphore Set T:hread::p:v(thrioriis=0ty(this=0xx0008be7c0008be5,4valu,
+eprio=1) :<=0) :<1>
+1>
+<1>: Semaphore::p(this=0x004000a0,value=1) :<1>
+[020;000H ------------------------------------------------------------------- [021;00<0H T2>hrea: dSe    t cpThuread::pr0   ioricpu1ty  cpu(2  cthpu3 is    =0xTemp000o
+ 83totadfl[0c,25;0pr00H ioT=hre1) :<2>
+ad 3[025;017H  16[025;04<1>: Set Thread::priority(this=0x00
+07fdd0,prio=1) :<1>
+5<3>H: Set427 Thr[ea0d::p28;0rior00H ity(-this-=0x0-008b-e54,----pr----i--o=1----) :<-3>
+----<-0>: ---Set ----------T--hre--ad::--prio--rity----(--this--=0x---0009--b--e
+f--0----- <,pri1>o=21: S474ema8phore:3:647)v (:<0th>is=0x0
+<004>: T0h00a0,readvalue::=0<disp) 3at:>: ch(<Semapr1phorev>e=
+:0x0009be:p(f0,thisne=x0x0t=00x4000000a0,9fvfalu44)e
+<1>:=0) Semaphore: :<3:p(t>his=0x0040
+[00a0,value=<001)2>: 5 :S
+;
+<et 01T6>
+hrea0H    d::psartiorie[ty(th3]is<3=>: 0x000Se83dfcma,priphoo=1) re:::v(this=0<2>x
+
+004<1>: T000ahre0,vaalue=d::s0)leep (run:<3>ning
+=0x0007fdd0,q=0x004000a0)
+<1>: Set Thread::priority(this=0x0007fdd0,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007fdd0,next=0x0009ff6c) :<1>
+<3>: Thread::wakeup(running=0x0008be54,q=0x004000a0) :<3>
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0008be54,next=0x0007fdd0) :<3>
+<[2>: 016;051HthinSking[3]<3>et : Sema
+phorThe::v(treadhis=0x00400::pr0a0,value=0iori) :<3>t
+y(this=0x00083dfc,prio=1)
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0008be54) :<2>
+<2>: Semaphore::<1>v(this=0x00: Se08bt Thecreadc,value=-1) ::<:pri2>orit
+<y(th3is=0>: Sxema0009phoff6cre::,priop=21(t4748hi3647s=0x004000a0) :<1>
+<1>:,value=1) Thre :<3>
+ad::dispatch(prev=0x0009ff6c,next=0x00083dfc)
+<2>: Thread::wakeup(running=0x0008be54,q=0x0008becc) :<2>
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x0007bda4) :<2>
+<2>: Semapho[0re::p1(thi6s=;005x001H08b
+e7c,v alue=1) :<2> hun
+<2>: Semapgrhore::p(this=y[0x004000a0,v3]a<3>: Slue=0) :<2>e
+<2m>: aTphread::hosleep(rre::unniv(ngthis=0x004=0x0007bda4,00q0a=00,vx004000a0) a
+
+lue=0) :<3:<3>
+<>2>: Set Thre
+ad::priority(this=0x0007bda4,prio=1)
+<2>: Thread::dispatch(prev=0x0007bda4,next=0x0008be54) :<2>
+<2>: S<3emaphore:>::v(this= Th0x0008beb8rea,d::wavalue=-1) :<ke2u>
+p(running=0x0007fdd0,q=0x004000a0)
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x0007bda4) :<3>
+[010;047<H eating[3] 1>: Set Thre<3>: Semaa
+phore::v(
+d::priorithis=0x004ty(this=0x00000083a0,value=0)dfc,prio=1)  :<1:<1>
+<1>: >
+Thread::dispatch(prev=0x00083dfc,next=0x0007fdd0)
+<<22>: Semaphor>: e::p(this=0xThr0ea008be90,valud:e=0:) :<1>wa
+keup(running=0x0008be54,q=0x0008beb8)
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x00083dfc) :<2>
+<1>: Thread::sleep(running=0x0007fdd0,q=0x0008be90) :<1>
+<1>: Set Thread::priority(this=0x0007fdd0,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007fdd0,next=0x00087e28) :<1>
+<1>: Semaphore::p(this=0x0008bea4,value=0) :<1>
+<1>: Thread::sleep(running=0x00087e28,q=0x0008bea4) :<1>
+<1>: Set Thread::priority(this=0x00087e28,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00087e28,next=0x0008be54) :<1>
+<1>: Semaphore::p(this=0x004000a0,value=1) :<1>
+[020;000H ------------------------------------------------------------------- [021;000H Thread    cpu0   cpu1  cpu2  cpu3     Tempo total[022;000H Thread 0[022;017H  77[022;045H379[028;000H ---------------------<3>: Set Th-------------read::priorit----y(this=0x000-----
+-----7bda4,prio=1)------------ :<3>
+------- <1>: Semaphore::v(this=0x004000a0,val<2u>: Set The=0) :<1>
+read::priority(this=0x00083dfc,prio=1)
+<1>: Semaphore::p(this=0x004000a0,value=1) :<1>
+[005;060Hthinking[1]<1>: Sema
+phore::v(this=0x004000<<0>a0,0>: Semaph:vore: Set Thread::al:priuep(tority(this=
+=0h0x0009ff44,p) :is=rio=214748364<107) :<0>
+<>x0>: 
+0040Thread:00a0,value:dispatch(pre=0)
+v=0x0009ff44,next=0x0009ff1c)
+[016;069H    sate[2]
+<2>: Semaphore::v(th<is=01>: Semaphorx0e::p(this=0x040004000a0,val00aue=0) :<1>
+0,<1>: Threadv::sleep(runnaling=0x0008be5ue4,q=0x004000=0a0) :<1>
+)<
+1>: Set Thread::priority(this=0x0008be54,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0008be54,next=0x0009bef0) :<1>
+<2>: Thread::wakeup(running=0x00083dfc,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0008be54) :<2>
+[005;06<03>: SetH  hungry[2] <
+2>: Semap
+Thorehr:e:vad::prio(this=0x0040rit00a0,y(value=0)th :<2>
+is=0x0007bda4,prio=1)
+<3>: Thread::dispatch(prev=0x0007bda4,next=0x00083dfc) :<3>
+<3>: Semapho<2r>: e::v(this=0xSe0maph0ore::p(this=080beax0008becc,v4a,luevalue=-
+1=0) ):<3 :<2>
+<2>>: Thread::
+sleep(running=0x0008be54,q=0x0008becc)
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x0007bda4) :<2>
+<3>: Thread::wakeup(running=0x00083dfc,q=0x0008bea4) :<3>
+<3>: Set Thread::priority(this=0x00083dfc,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x00087e28) :<3>
+<3>:< 1>: Set ThrSemapead::phore::p(thisriority=0x004000a0,(vthias=0x0009belue=1f
+)
+0,p :<3>
+rio=2147483647)
+<1>: Thread::dispatch(prev=0x0009bef0,next=0x00083dfc) :<1>
+<[010;107>4H: ea
+ting[3 ] <3>: SemapShore::v(thies=0x004000a0ma,value=0)ph :<3>
+ore::v(this=0x0008be90,value=-1)
+<1>: Thread::wakeup(running=0x00083dfc,q=0x0008be90) :<1>
+<1>: Set Thread::priority(this=0x00083dfc,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00083dfc,next=0x0007fdd0) :<1>
+<<22>: >: SSeemaphore::t Thp(trhis=0x000e8ad::bepriori7tcy(t,value=0) :his<1>=0
+x0007bda4,prio=1)
+<2>: Thread::dispatch(prev=0x0007bda4,next=0x00083dfc) :<2>
+<2<1>: Thread:>:s:l Semaeep(phore::prunni(ng=t0x0h007fdd0,q=0xis=00008x0040be7c)
+ 00:<1>
+<1>:a0, value=1) S:e<2t Thread::>pr
+iority(this=0x0007fdd0,prio=1)
+<1>: Thread::dispatch(prev=0x0007fdd0,next=0x0007bda4) :<1>
+<[03>:20;000H ---- S-et ----------Threa-------d:--:-p--r--i---ority(------t--------hi-s=0
+-x0-0--0-87e28,--p-rio=--1--)- -:--<--3->- 
+[021;000H Thread    cpu0   cpu1  cpu2  cpu3     Tempo total[024;000H Thread 2[024;024H  166[024;045H458[028;000H -----------------------------<2>: Set Thread::priority(this=0x00083dfc,prio=1) 
+:<2>
+------------------------<1>--------: -Se--t T-hre-ad:-:pr iority(this<=0x20007bd
+a4,>pr: io=1S) e:<m1>aphore
+:<0>: Se:t Thread::prv(this=0x004iority(000a0,value=this=0x00090) :<2>
+ff1c,prio=2147483647)
+<0>: Thread::dispatch(prev=0x0009ff1c,next=0x0009ff6c) :<0>
+<2>: Sem<3ap>: Set Threhad::ore::p(this=pr0ixority004000a0,val(tuhis=e=01) x:00<0
+8
+2>
+7e28,prio=1)
+[016;069Hthinking[2]
+<2>: Semaphore::v(this=0x004000a0,value=<1>: Se0)m :<a2>p
+hore::p(this=0x004000a0,value=0)
+[010;047H    sate[1]<<2>2:> Semaphore: ::S
+v(this=0x00em4aphore0::p(this0=0a00,value=x0) :<1>
+<1004000a0>,valu:e =Semaphore::v0() :t<2h>is=0x0
+0<1>: Set Th
+read::priority(this=0x0007bda4,prio=1) :<1>
+08be<cc,2va>l:u See=-1)t : <Thread::pri1o>r
+ity(this=0x00083dfc,prio=1)
+[0<1>: Thread1::w6a;069H  hungkeurp(y[2running=0x0]007<bda24,>q=0x0008: becSc) e:<maph1or>
+
+<
+e::v1>: (Setthi Thread::pris=or0itxy(0this=0x00007bd4a4,0pri0o=01) a0:<1>
+<1>:, Tvalhread::dispueatch(p=re0v)= 0x:000<7bda4,ne2>xt=
+0x0008be54)
+<1<<3>>: 3>: Semaph: SoSemret Tae::phread::priop(trity(this=0horxe::p(this=hi00x
+0008bs0eb8,value=0)=00 :<1>
+x08008bea4,va7el28,ue=0)p
+rio=1)
+<3>: Thread::dispatch(prev=0x00087e28,next=0x0007bda4) :<3>
+<<1>: Semaphor1>: Thread::e::v(this=0xsl0008be7c,vaeelup(runninge=-1) :<3>=0
+x0008be54,q=0x0008beb8)
+<1>: Set Thread::priority(this=0x0008be54,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0008be54,next=0x00087e28) :<1>
+<2>: Thread::sleep(running=0x00083dfc,q=0x0008bea4) :<2>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0009ff44) :<2>
+<3>: Thread::wakeup(running=0x0007bda4,q=0x0008be7c) :<3>
+<3>: Set Thread::priority(this=0x0007bda4,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007bda4,next=0x0007fdd0) :<3>
+<3>: Semaphore::p(this=0x004000a0,value=1) :<3>
+[016;051H eating[3] <3>: Semaphore::v(
+<1>: Set thThread::prioisrity(this=0x=000087e28,priox=1) :<1>
+<100>: T4h0read::dispat00ch(prev=0x00a0087e28,next=,v0x0007bda4) al:<1>
+<1>: Suee=0)m apho:<3>
+re::p(this=0x004000a0,value=0)
+[020;000H ------------------------------------------------------------------- [021;000H Thr<ea2>d: Set     cpu0T hr  cpead::priu1o  ricptu2y(  thcispu3     Tem=0pxo 0t0
+
+09fotal[026f4;0400,pH riThread 4[0o=262;104748317H  204[064726);0 45:H485[<202>8;00
+<0H2> -:- T------------h--r--e-------ad--:--:-dis-pa-----t--c--h--(p---------re---
+------v=--0--x--00- <1>09: fSef4ma4phore::v(thi,s=ne0x0040xt00=a0,value=00)x 0:0<
+1>
+
+087e28)
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<1>: S<emapho0>: Set Thrreade::priority(::thp(thiis=0x00400s=00x00a090ff6,valc,p
+rio=2147483647) :<0>
+<0>: Thread::dispatch(prev=0x0009ff6c,next=0x0009bef0) :<0>
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+ue=1)
+[010;047Hthinking[1]<1>: Semaphore::v(this
+=0x004000a0,value=0) :<1>
+<1>: Semapho<re::p(this=2>0: x00S40et00 Ta0hr,veaald::priorityue(t=1h) is:<=01>x
+000
+87e28,prio=1)
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+[010;047H  hungry[1]<1>: Semaphore::v(this
+=0x004000a0,value=Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+0)
+<1>: Semaphore::p(thi<0>: Set Ts=hre0ad::priorxity0(t0h08becis=0x0009c,bevf0al,pu
+r
+e=io0) :=2147483<16>
+47)
+<0>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff1c) :<0>
+<1>: Thread::sleep(running=0x0007bda4,q=0x0008becc) :<1>
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007bda4,next=0x0009ff44) :<1>
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<3>: Set Thread::priority(this=0x0007fdd0,prio=1) :<3>
+<2>: Semaphore::p(this=0x004000a0,value=1) :<2>
+[010;074H    sa
+te[2]<2>: Semaphore::v(this=0x004000a0<,value=0)1 >:: Se<2>t 
+Thread::priority(this=0x0009ff44,prio=2147483647)
+<1>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff6c) :<1>
+<<3>: Set 3Th>: read::prioriSemty(this=0x00aph07fdd0,proreio=1) :<3::>v(t
+his=0x0008beb8,value=-1)
+<2>: Thread::wakeup(running=0x00087e28,q=0x0008beb8) :<2>
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00087e28,next=0x0008be54) :<2>
+<<1>: Sem1>:aph ore::p(thiSs=0x004000eta0,value Th=1rea) d:<2>
+::priority(this=0x0009ff6c,prio=2147483647)
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x00087e28) :<1>
+<1>[<: 003>:Se5 Setma; Tpho060H 
+ehread::priorating[2] rite::<yv(t2>: Semapho(thire::v(this=0his=0x004000a0,vs=0x
+alue=0) :x00<2>
+0008be07fa4d,dva0,lpue=-rio1=1))
+
+<1>: Thread::wakeup(running=0x00087e28,q=0x0008bea4) :<1>
+<1>: Set Thread::priority(this=0x00087e28,prio=1) :<1>
+<1>: Thread::dis<pa3>tch:(pr Semev=aph0x0ore0087e::p(th28,nisext=0x000=830xd0fc)0
+
+4 :0<01>0a
+<<33>:> S:em Seat Tphhore::p(thisrea=d:0x0:00p8briority(te9his=0x00007f,vaddlue0
+,prio=0=1))  :<:<1>1
+>
+<3>: Thread::dispatch(prev=0x0007fdd0,next=0x00087e28) :<3>
+<<1>1>::  ThSreeadm::sleep(runaphnoingre:=0:px(t00083hdfics=0,x0q04=000x000a008b,
+e
+9value=1) :0) :<<11>>
+<1>: 
+Set Thread::priority(this=0x00083dfc,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00083dfc,next=0x0007fdd0) :<1>
+0,<2>: Set vTalhrueaed:=0):pri ority(th:is=0<x010>0
+8be54,prio=1)
+<[1>: Thread02::s0l;0eep00H --(ru-nn-----ing-=0x000--7f-d-----d-0,-------------q=0--x00--4
+--
+00---0---a0)---- :<---1>---
+<------------1>-: S- e[0t T21;000H Thhrereaad:d :pr   icpou0rit  y(th cpisu=01 x00 cpu207 fd d0cp,pru3io=   1) 
+ 
+ :Te<m1>po 
+<1total[023;00>: 0ThrH Tehread::dispatad c1h[(02pre3v=;00x031007Hf  1d8d[0,n0e23xt=;040x5000H39b9e6[0f0)28; :<1>
+<3>: Set Thread::priority(this=0x00087e28,prio=1) :<3>
+0<200>H:  Se----------t T-----------hre-----------a------d::priority(---t-hi-s-=0--x-
+-
+0008b-e54------,-pr--io=--------- <13>): Sem aphore:<::v(th2i>s
+=0x004000a0,value=-1)
+<3>: Thread::wakeup(running=0x00087e28,q=0x004000a0) :<3>
+<3>: Set Thread::priority(this=0x00087e28,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00087e28,next=0x0007fdd0) :<3>
+<[016;051H   1>: sa Stet e[3T]<hre3ad:>
+
+: Semaph:proreior::vity(th(tish=0is=x00x004009bef0,00pri0a0o=2,va14l748u36e=47)0 
+
+:) <3>:<
+<1>: Th3>read
+::dispatch(prev=0x0009bef0,next=0x00087e28)
+<1<>:2> : Set ThreadS::prioerity(this=0max0008be5ph4,oprio=1)re :::<2>p(thi
+<3>s=0x: Se00ma4000a0,valuphe=0)or :<1>
+[0e:1:0;07v(t4Ht
+hinki
+hng[1]<1>:is<0>: Set Th S=read::priem0xority(this=0ap000x0009ff1c,phor8berio=214
+74e:90,83647) :<0>:vval
+<0>:(this=0xue Thread::di004=-spatch(prev=001) 0x0009ff1c0a0:<3>,n,
+exvta=lue=0)0x0
+009ff44)
+<3>: Thread::wak<eu1p(>ru:nn inSeg=0xma00p07hfodrde0:,:q=0xp0(008be90) th:i<s3>=
+<3>: Set
+ T0hxr00e40a0d:0a:p0riority(this,=0x0007fdd0va,prliou=e=11) ):< 1>:<1>
+<3
+>: Thread::dispatch(prev=0x0007fdd0,next=0x00083dfc) :<3>
+<3[010<>;02>: 
+Set :74Th SHreademaphore::  ::priority(tphuhi(ngs=0trxhis=0x004y00000a0,val[08be54,
+u1prio=1) :<e=]<2>
+<2>: T1)2>h r:e<3>
+ad::dispatch(prev=0x0008be54,next=0x0007fdd0)
+<<3>3>:: Thread::s leep(runnSiengm=aphore::v(0tx000h83dfc,q=0ix004000as0) :<3=>0
+x0008b
+e<73>: Set Tchre,avalue=0) d:::<2>pr
+iority(this=0x00083dfc,prio=1)
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x0008be54) :<3>
+<1>: Set Thread::priority(this=0x00087e28,prio=1) :<1>
+:<2>: Se maphoSre::p(thiemaphores=::0x00v4000a0,(tvalue=-1)his=0x004 0:0<2>
+<2>0a: Thread0,::sleevalp(running=0uex0007fdd0,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this==0) :<1>
+0x0007fdd0,prio=1)
+<2>: Thread::dispatch(prev=0x0007fdd0,next=0x0009ff6c) :<2>
+<1>: Thread::wakeup(running=0x00087e28,q=0x004000a0) :<1>
+<1>: Set Thread::priority(this=0x00087e28,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00087e28,next=0x00083dfc) :<1>
+<2>: Set [0Th
+r1ead::priori6t;y(this=0x000609ff6c,pr9ioH =e2a14748364t7)i :n<g2>
+<2>: [Thread::d1i]spatch(pr <ev1=0x0009ff6c>,n:ext=0x000 87e28) :Sem<a2>
+<<3ph3>:o>: Sre Se:emaphore:t T::p(this=hv0x0008bebrea(8dt,va:hlu:is=0xe=p004000
+a0)r0 :<i,v2>oa
+rity(this=l0uxe0008be54,pr=-1)io=1)
+
+<2>: Thread::sleep(running=0x00087e28,q=0x0008beb8) :<2>
+<2>: Set Thread::priority(this<=03>x0: 00Se8map7eh2o8,re::pprio=1) :<(t2h>is
+<=02>x004000a0,v: alThuer=e-a1) :<3>
+d::dispatch(prev=0x00087e28,next=0x0009bef0)
+<3>: Thread::sleep(running=0x0008be54,q=0x004000a0) :<3>
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0008be54,next=0x0009ff1c) :<3>
+<1>: Thread::wakeup(running=0x00083dfc,q=0x004000a0) :<1>
+<1>: Set Thread::priority(this=0x00083dfc,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00083dfc,next=0x0007fdd0) :<1>
+<2>: Set[ T0hr1e6ad::priorit;y(thi0s5=0x100
+09bef0,Hpr  io=21474836do47ne[1)] :  <2<>1>: 
+Se<2>: Threamad:ph:doisrpaetch(prev=:0x00:09vbef0,next=0(x00083dfc) t:h<2>
+<is3>=:0x0 0S4e0t0 0Ta0,value=-h1r)e a:d::prior<1>
+ity(this=0x0009ff1c,prio=2147483647)
+<3>: Thread::dispatch(prev=0x0009ff1c,next=0x0009ff6c) :<3>
+<1>: Thread::wakeup(running=0x0007fdd0,q=0x004000a0) :<1>
+<1>: Set Thread::priority(this=0x0007fdd0,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007fdd0,next=0x0008be54) :<1>
+[<02>05:;060H   S  et Thread:s
+:priority(this=0x000
+83dafc,tprio=1) e:[<2>
+<2>: T1hr]ea<d::d1is>p: Semaphore:at:chv(prev=0x00(0t83dhfis=c0,xnext=0x00070fdd0
+0) :<
+4020>
+0<a2>: Thre0a,dv:a:exit(stlatus=u1e0=0) )[ r:u<n1n>ing=0
+x0007fdd0]
+<2>: Set Thread::priority(this=0x0007fdd0,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007fdd0,next=0x00083dfc) :<2>
+<3>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<3>
+<3>: Thread::dispatch(prev=0x0009ff6c,next=0x0009bef0) :<3>
+<1>: Semaphore::v(this=0x0008becc,value=-1) :<1>
+<1>: Thread::wakeup(running=0x0008be54,q=0x0008becc) :<1>
+<1>: Set Thread::priority(this=0x0008be54,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0008be54,next=0x0007bda4) :<1>
+<1>: <2Semaph>: oreSet Thread::p(this=0x00:0:priorit8be7c,y(tvaluhie=1)s= :0x000<
+83dfc,
+1>
+prio=1)
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x0008be54) :<2>
+<2<>:3 >: Set TShread::pemriaophore:ri:v(tty(this=0xhis0009bef0,p=rio=2147480364
+x7) :0<030>
+<83>: Threabd:eb8,val:ue=d-ispatch1) :<(pr2e>
+v=0x0009bef0,next=0x00083dfc)
+<<2>: Th2read>::: wakeup(Semaprhore::p(unthis=ni0ng=0x0008bxe5004000a4,0,vq=a0x0
+008bleue=1) :b8) :<2>
+<<2>:2 Set> Thread
+::priority(this=0x0008be54,prio=1)
+<2>: Thread::dispatch(prev=0x0008be54,next=0x00087e28) :<2>
+<2[010;047>:H S eatemaphore:i:np(tghis=0[x0
+1] <1>00: Sem8baphea4,valuoe=0) r:<2e>::v(this=0x00400
+<02>: aThrea0,vald:u:es=leep0) :<(1runnin>g=0x0008
+7e28,q=0x0008bea4)
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00087e28,next=0x0008be54) :<2>
+<2<>3>: :Set Thre Saed::prioritmy(athis=0x0008p3dfc,prio=1h)ore ::<:p(t3>
+his=0x004000a0,value=0)
+[020;000H ------------------------------------------------------------------<- [0201;000H Th>read:  S   et Thread:cpu:0pr   icorpu1  ity(thcpu2 i cpu3     s=T0emxp0o00 9
+to
+ftfa4l4[0,22p;00rio=21474830H Th647) :r<ead0>
+<0> : 0Threa[d:022:;024H  2disp13atc[022;045h(prevH=0x0009ff443,next94=[00x0009ff12c8;00)0H ------- :<0>
+-<1>: --Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+-<3>:- -Set- Thr-----ea-d-:--------:-pri-o-rity(th-i-s--=--0x00083----df--c-----
+---,pr-io=-1) :<-3>
+------------ <2>: Semaphore::v(this=0x004000a0,value=0) :<2>
+<2>: Semaphore::p(this=0x004000a0,value=1) :<2>
+[005;060Hthinking[2]<2>: Sema
+<1>:p Shore::v(theis=0x004000ta T0h,vralead::upe=0) :<2rior>i
+ty(this=0x0007bda4,prio=1)
+<3>: Sem<a2>: pSehore::p(this<=20x004>000a0,valu:e= 1S)et Thread::priority(this=
+0x0008be54,prio=1) :<2>
+map<h3o>r: Sete Thread:::priority(t:p(this=0x00083his=df0xc,prio00400=0a01) :<3>
+,va
+
+[016l;ue=1)
+<206>: Thread9H:: sleep  ( rsateu[3]<3>: Snenmaphoire::v(thisng==0x00008xbe540,q=00x
+004000a0)4 :<0200>
+a<2>0,value=-1: )S :e<t 3Th>
+read::priority(this=0x0008be54,prio=1)
+<2>: Thread::dispatch(prev=0x0008be54,next=0x0009ff6c) :<2>
+<3>: Thread::wakeup(running=0x00083dfc,q=0x004000a0) :<3>
+<3>: Set Thread::priority(this=0x00083dfc,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x0008be54) :<3>
+[<01>: 05;060H  hSunget rThrye
+ad::prio
+r[3]<3>: Seity(thmis=0apx0007bda4,prihoo=1) :<1>r
+e::v(this=<01>: Threadx::00d4is000patach(pr0ev=0x0007,vbdaalue=0) :<34,n>
+ext=0x00083dfc)
+<<33>: Semapho>:re:: Semaphore:p(:v(thitshis=0x0008bea4=0x,0008value=-1) :bec<c,1
+>
+<1>: 
+vaThlue=0) :<r3>
+ead::wakeup(running=0x00083dfc,q=0x0008bea4)
+<1>: Set Thread::priority(this=0x00083dfc,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00083dfc,next=0x0007bda4) :<1>
+<2>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff6c,next=0x00087e28) :<2>
+<2>: Se<m3>: Threaad::pshleoerp(ruenni:ng:=0x0008bpe54,(q=t0hxi0008becc) s:<3=>
+<3>: S0et x004000aThr0e,advalu::prioreity(this==1)0x0 :<2>008be54
+,prio=1)
+<3>: Thread::dispatch(prev=0x0008be54,next=0x00083dfc) :<3>
+<<1>: 1>: SetSem apThreadhor::pe::riorivt(y(thits=0x0007hbda4,prio=1) is=0x000:<
+1>
+8[010;074H eabet
+ing[2] <2
+9>: 0Se,vmaphore::v(althis=0x00400ue0a0,valu=0)e= 0) ::<2>
+<3>: <2>
+Semaphore<:0>::p(this=0x0 S04000a0,vetalu eThread=::priority0) :<3(>
+this=0x0009ff1c,prio=2147483647)
+<0>: Thread::dispatch(prev=0x0009ff1c,next=0x0009bef0) :<0>
+[020;000H ------------------------------------<---1>: Semaph---o-------r----e:----:-p----(
+-
+this=0x--0-0- [021;000H 40Thr0<2>: Se0et Tad a0hre ,valuead: =: 0)pcpu0   cpu1  :<1>rio 
+ritycp(u2  thiscp=0x00087eu32     Tempo8 tota,lpr[i0o24;00=1)
+0H Thread 2[<1>: 0Thr24;0ead:31H  :117[024;s045H475[leep028(;running=0x0000007bdaH 4---------,q--=0x004-000a0)---------- -:<1>
+<------1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007bda4,next=0x0009ff44) :<1>
+<3>: Set Thread::priority(this=0x00083dfc,prio=1) :<3>
+--<2>----------: Set- T--h---------r------------ead:--:priori <ty(3>: Sethis=0x0m
+aph
+or0087ee28,:pri:ov(this==10) :<2>x0
+04000a0,value=-1)
+<3>: Thread::wakeup(running=0x00083dfc,q=0x004000a0) :<3>
+<3>: Set Thread::priority(this=0x00083dfc,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00083dfc,next=0x0007bda4) :<3>
+[<011>: Set Thr0;04ead::prio7rity(this=H  
+0x0009ff  s44ate[3]<3,pri>: Semapo=h21474or83e647)::v(this=0x0 04000a0,:v<alue=0
+) :3<>
+<1>3>: T
+hread::dispatch(prev=0x0009ff44,next=0x00083dfc)
+<1>: S<2em>:a Set Threadpho::rpriority(tehi::p(ts=h0x000i87es2=0x0084000,prio=1)
+ a0:<,valu2>
+<3>: See=ma0phore::v(t) his=:0x0008b<1e>cc,value=-1)
+[016;069Hthin
+king<3>[1]<1:>: Semaphor eThread::w::v(aktheup(runningi=0x000s=0x004000a70,bda4,
+q=valu0xe=0000) :<1>8becc)
+
+<3>: Set Thread::priority(this=0x0007bda4,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007bda4,next=0x0008be54) :<3>
+<3>: Semaphore::p(this=0x0008beb<18>:,value=0)  S:emap<hor3>
+<3>: The::pre(this=0x0040a00d::slae0,vaelpue=1() r:unn<in1>
+g=0x0008be54,q=0x0008beb8)
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0008be54,next=0x0007bda4) :<3>
+<[<2>:016;069H  2 hu>
+:Semaphore::ngry[1]<1>: Sv et(Se Threthis=0x0mapad0h:0ore::p8:v(this=riob0rity(e
+7c,valxthis=0x00u00408e=000a7e28,prio00,va=1lue=0) :) )<2>: :<3<>
+3>
+<1
+>: Semap<3>: hoSemaphore::re::p(pthi(s=th0x0i0s=0x0008400bea4,valu0a0e=0) :<1>,v
+alue=
+1)< 1>: Thr:<3>ead:
+:sleep(running=0x00083dfc,q=0x0008bea4)
+<1>: Set Thread::priority(this=0x00083dfc,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00083dfc,next=0x0009ff6c) :<1>
+[020;000H --<2>----------: Set Th--read----------::---------priority--(th-----------is=0x-
+----------
+-00--------- 087e[028,prio=1) :2<2>1;
+000H Thread    <cpu0   cpu12> : S cpue2 maphore:: cppu3(this=0x0  0   4000a0,valTeume
+=0)
+ po :<2>
+<2t>: Threotad:al[026;00:sle0Hep(ru Tnninhread 4[0g=0x0002687;e28,q031H  2=0x00402400a0[026) :<2>
+<;2>: 0Set Thr45He5a19[028;d::pri00or0H ity(--this=0x00087-e28,--pr----------io--=1----------) :<2-->----------
+<2>: Thre
+-ad:--:dispa--tch(pr--ev=----------0x000--8--------- 7e2<38,next=0x0>:009 ff1cSe)
+ :<2>
+<
+0>: maphoSet Thread::priority(this=0x0009bef0,prio=2147483647) :<0>
+<0>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff44) :<0>
+<3>: Set Thread::priority(this=0x0007bda4,prio=1) :<3>
+re::v(this=0x004000a0,value=-1)
+<3>: Thread::wakeup(running=0x0007bda4,q=0x004000a0) :<3>
+<3>: Set Thread::priority(this=0x0007bda4,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007bda4,next=0x00087e28) :<3>
+[<01>:10;074 H S
+   s
+aet Thread::tperiority([3]t<3>: Semahisph=0x0009ffore::v(t6c,phisri=0xo=214748306
+0400
+47) :<1>0a
+<0,v1al>u:e=0) Thread::di spa:t<3>c
+h(prev=0x0009ff6c,next=0x0007bda4)
+<1<2>>: Se:t Th read:Se:pmariorpity(thihors=0xe0009:ff:p(this=01cx004000a,p0r,vi
+o=214alue=740) :<1>836
+47)
+<2>: Thread::dispatch(prev=0x0009ff1c,next=0x0009bef0) :<2>
+<[0103>;: S047Hthinkiemnaphg[1]<1>: Soere:m
+a:v(tphhoreis=0x0008b::eb8,valvu(thies=0x=0-1)04000a0,v :<a3>lue=0)
+
+<3>: Threa<d::wakeup1>:(r uSemapnnhing=0x000o8re::p(th7eis=0x0040280,q0a0,value==
+
+1) :<01x0008b>eb
+8)
+<3>: Set Thread::priority(this=0x00087e28,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00087e28,next=0x0008be54) :<3>
+<3>: Semapho[0r10;e::p(this0=0x004000a470,vH 
+ hungralyue=1[1]<1>: S)e :<3>
+<maphor3>e: Threa::v(this=0xd:0:sle0e4000p(a0,varulue=nning=0x000)08be54,q= :<1>
+0
+x004000a0)
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0008be54,next=0x00087e28) :<3>
+<3>:< 1Sema>ph: Thread::ore::v(twakhis=0eup(rxu0nning=0x000007b8beada4,q=0x4,val
+0u04e000a0=)- :<1) :<33>>
+
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007bda4,next=0x0008be54) :<1>
+[005<;060H ea2t>in: Sg[1]et  <
+1>: Sema
+Tphrhoearde::v(this=:0x:pr00io4r00i0a0,tyvalue(this=0x00=009bef0,pr) :<1>io
+=2147483647)
+<2>: Thread::dispatch(prev=0x0009bef0,next=0x0007bda4) :<2>
+<2>: <3Sem>: Thraead::wphakoeup(re::p(rutnnhis=0ing=0x00x0080087e28,beqcc,value==
+0) :<2
+0x0008be>a
+4)
+<3>: Set Thread::priority(this=0x00087e28,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00087e28,next=0x00083dfc) :<3>
+<3><2:> :S eThmaphoreread:::p:(stlehis=0x00e0p8(rube90,valuenning=0x00=01) :<3>7
+
+bda4,q=0x0008becc)
+<2>: Set Thread::priority(this=0x0007bda4,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007bda4,next=0x00087e28) :<2>
+<<3>3>:: S Semaemaphorep<1::p(thho>ir: Sse:e=0:p(thitx004s= Thre00a00a0,value=x0d1
+) :<2>
+::p
+
+ri04000a0,voalrue=i1t)y(th
+is=0x0008be54,prio=1)
+<3[>: Th0rea2d0;000H -:-:sleep-(-ru-n-n-i--ng=0----x-00-----08-3-df-c,q=-----0-x0------04-
+0
+0--------0-a0) :<3>--
+-<3>: Set------- -Thread:-:-p--------ri-ority(-t [02his=0x1;000083dfc00H Th,pread    rcipu0   oc=1) :p<u13>  cpu2  cpu
+3<3>:     T hrTeempado to::tal[023d;ispa000H Thrtech(apdrev=0x 01[00803d23fc,;next=0x00024H  1510[023;0459Hff6c) :<4322[>02
+8;000H --------------------------------------<2>: Set Thread::priority(this=0x00087e28
+,prio=1) :<2>
+-<-----1>: Se-t Thread::-p-r---ior---ity(t--his=--0x0----------0 <20>8b: eSemaph
+or5e::4v,pr(io=this=0x004100)0 :a0,v<alue=-1)1 >
+:<2>
+<2>: Thread::wakeup(running=0x00087e28,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00087e28,next=0x00083dfc) :<2>
+<3>: [01Se6t Th;
+read::p0riority6(9this=0H ex0ating0[09ff6c2,prio=2147] <4823>: Sem647aph) :<3>o
+r<3>e::: Thread::disv(patch(prev=th0isx=0x0009004000fa0,valufe=0)6c ,n:<ext=02>x
+0
+0087e28)
+<3>: Semaphore::p(<1t>:h iSes=0x0t040 0T0hread::pria0,valueo=rity(this=0) :<3>0x
+0008be54,
+prio=1)
+[010;074Hthinki
+ng[3]<3>: Semaphore::v(this=0x004000a0,value=0) :<3>
+<0>: Set Th<r3>: Seeadm:ap:hore::p(prtiority(thhis=is0x004=0000ax0009ff44,pr0i,vo
+
+=214748alu36e=1) :<437>)
+<0>: Thre
+ad::dispatch(prev=0x0009ff44,next=0x0009ff1c) :<0>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+[010;074H  hung
+ry[3]<3><1>: S: Seemt Taphorehre:ad::priority:v(th(this=0x00is08be54,pri=o0x0=1)0
+
+ :4000a0,value<1>
+=0)
+<3>: SSet Thread::priority(this=0x00087e28,prio=1) :<3>
+emaphore::p(this=0x0008beb8,value=0)
+<3>: Thread::sleep(running=0x00087e28,q=0x0008beb8) :<3>
+<3>: Set Thread::priority(this=0x00087e28,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00087e28,next=0x0009bef0) :<3>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<1>: Set Thread::priority(this=0x0008be54,prio=1) :<1>
+<<1>: S1e>: Setmaphor e::p(Tthis=0x00hr4000a0,evad::parliue=1) :ority(this=0<1>
+x0009bef0,prio=2147483647)
+<3>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff6c) :<3>
+[005;06<0H    sate2>:[1]<1>:  
+Semapho
+Sre::evt Thread(::prtihis=0ox004000a0ri,ty(this=0xvalue=0) :<10>008
+3dfc,prio=1)
+<1>: Semaphore::v(this<0>:=0x0008becc, valSeue=t T-1) :<1>
+hread::priority(this=0x0009ff1c,prio=2147483647)
+<0>: Thread::dispatch(prev=0x0009ff1c,next=0x0009ff44) :<0>
+<1>: Thread::wakeup(running=0x0008be54,q=0x0008becc) :<1>
+<1>: Set Thread::priority(this=0x0008be54,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0008be54,next=0x0007bda4) :<1>
+<<2>:2>: Se St Thread::pemrioriaty(this=0x0phor008e::p(t3hdfc,pis=0x000ri8ob=1) 
+:<2>e
+7c,<2va>:l ue=1) Th:<rea1d>::d
+ispatch(prev=0x00083dfc,next=0x0008be54)
+<<3>: Set 3>: ThSeremaphore:ad:::v(this=pr0iorixt0y(t008bhebi8s=0x0,value0=-09ff1
+) :
+6<c,p2rio=21>47483647)
+<
+3>: Thread::dispatch(prev=0x0009ff6c,next=0x00083dfc) :<3>
+<<2>2: S>:em Tahrephoread::wakeu:p(running=0x0008be:p(this=0x004000a0,value=1) :
+<1>
+54,q=0x0008beb8)
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x00087e28) :<2>
+<2>:[010; Semaphore:047:p(this=0xH0008bea4, 
+ea
+tvainglue=0) :<2[1>] <1>
+: Sem<2>: Threada::sleep(runnping=0x00087hoere28,:q=0x0008bea:v(4) :<2>
+<2this>:=0x00400 S0et Ta0,valuhre=0e) ad:<1>:
+:priority(this=0x00087e28,prio=1)
+<2>: Thread::dispatch(prev=0x00087e28,next=0x0008be54) :<2>
+<2>: Semaphore::p(this=0x004000a0,value=0<3) :<2>>:
+ Set Thread::priority(this=0x00083dfc,prio=1)
+[020;000H ---------------------<--------1>-: -Set Thread-::priority-(-this=0x0--0-07-bd--a
+----
+4----------,p--ri-o=--1) -:--<1>----- [02
+1;000H Thread    cpu0   cpu1  cpu2  cpu3     Tempo total[022;000H Thread 0[022;024H  231[0<23>:2; S045H4e1maphore::p2[02(8;0t00hH -------i---s=<20x004000a0,>va:lue=0) : <3S>
+et Thread::priority(this=0x0008be54,prio=1)
+-<-3>-: --T-h----re-a-d::sleep(---runn-ing=---0x0-0083--d----fc,q=0x0040-0-0-a0-
+)- :<3>
+<3>-----: S-e-t-- Thre-a-d::priori---ty----(-this=0-----x-00-0 83d<f2c,>: prSio=e
+1) :<3>
+m
+<3>aph: Threado::dispratche(p::vre(v=t0xh0008is3d=0xf0c0,400ne0xt=0x0a0090bef0) 
+:,<3>v
+<alue1>: Set Thr=e-ad1) :<2>:
+:priority(this=0x0007bda4,prio=1)
+<2>: Thread::wakeup(running=0x0008be54,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x00083dfc) :<2>
+[016;06<9H   0>: S e
+t Thsateread[::prio2]rity<(2>this=0x0009: Seff44,prio=21maph474ore83::v647() :<t0
+
+>
+<0>: hTis=0x0hread0::dis4000apa0,valtch(prev=0uxe000=0)9ff44,next= :<2>
+0x0008be54)
+<<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+<2>: Sema<p3hore::v(t>:h iSets Thre=0xa0d::00pr8iority(tbhis=0ea4x0,009value=-1)b
+
+ef0,pr i:o=2147483<2>
+647)
+<3>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff1c) :<3>
+3<2>: Thread::wakeup(running=0x00083dfc,q=0x0008bea4) :<2>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x00087e28) :<2>
+<2>><: Se1ma>p: Set Thohreread::pri::oripty(this=0(tx0007bdha4,priois==01x004) :0
+0
+<1>0a0,value=1)
+
+<1>: Thread::dispatch(prev=0x0007bda4,next=0x00083dfc) :<1>
+<1[010;<>: 074H e
+atiSng[23>: Semapho]er t e<Threa::2>: Semapd:v(h:prthis=ore::v(thisi0x0008b=orie0t
+
+x004000a
+90,vay(th0lis=,vue=0a0x00l)09ff1c,priou :<2=2147483647e=0>) )
+:
+<3>
+<3>: Thread::dispatch(prev=0x0009ff1c,next=0x0007bda4) :<3>
+: Sema<1p>: Semahoreph:ore::p(this:=0x00400p0a0,value=0)( thi:s<=0x1>004
+00[0016;a069H 0,val ud
+on
+e=0e)[1]
+  <1>: Se<ma0p>: Thhorread::sleee:p:v(th(irs=u0nnx004in00g0a0,val=ue=0)0x000 8:<
+1>
+be54,q=0x004000a0)
+<0>: Set Thread::priority(this=0x0008be54,prio=1) :<0>
+<0>: Thread::dispatch(prev=0x0008be54,next=0x0009ff6c) :<0>
+<1>: Thread::wakeup(running=0x00083dfc,q=0x004000a0) :<1>
+<1>: Set Thread::priority(this=0x00083dfc,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x00083dfc,next=0x0008be54) :<1>
+[00<5;2>: Set Thr06e0ad::priHt
+h
+oinking[ri1t]y<1>: S(tehmaisphore=:0x0:v00(8t7his=e208,prx004000ai0,voa=l1)ue :<=
+
+2>
+<02>): Thr ead::<:dispa1tch(pre>v=0x00087e2
+8,next=0x00083dfc)
+<2>: Thread::exit(status=10) [running=0x00083dfc] :<2>
+<2>: Set Thread::priority(this=0x00083dfc,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00083dfc,next=0x00087e28) :<2>
+<3>: Set Thread::priority(this=0x0007bda4,prio=1) :<3>
+<1>: Semaphore::p(this=0x004000a0<3>:,v Salueemaphore::p(th=1i)s=0 x004000a0,:<v
+a1>
+[005;0l60H  uhungre=1)y[1]<1>
+:  :<Semaphore::v3>
+<(3t>: Thread::hsislee=0x00p400(ru0na0n,ing=0xv000alue=0) 7:<1>bda4,q=0x00
+4000a0)
+<3>: Set Thread::priority(this=0x0007bda4,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0007bda4,next=0x0009ff44) :<3>
+<1>: Thread::wakeup(running=0x0008be54,q=0x004000a0) :<1>
+<1>: Set Thread::priority(this=0x0008be54,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0008be54,next=0x0007bda4) :<1>
+[01<02>: Set ;Th047Hrea    satde::[1]<1>: 
+Sempraphorioerity(this=0x:00087e28,pr:v(thiis=o=1) :<2>
+<02>:x T00h40r00a0ea,vda:l:due=0) is:<1>
+patch(prev=0x00087e28,next=0x0008be54)
+<<11>: Sem>:a Semphore::p(thias=phor0x0008becc,e:va:v(tlue=0) :<2>his
+<2>: Thr=0xead0008becc,::vsleep(runninalueg=0=x00008be5)4 :<1>
+,q=0x0008becc)
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x00087e28) :<2>
+<3>: Set Thread::priority(this=0x0009ff44,prio=2147483647) :<3>
+<3>: Thread::dispatch(prev=0x0009ff44,next=0x0009bef0) :<3>
+<1>: Thread::wakeup(running=0x0007bda4,q=0x0008becc) :<1>
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007bda4,next=0x0008be54) :<1>
+<<22>: Set>:  ThSemareapdh:o:priorriety(:thi:sp(t=0hix000s87e2=8,0prio=x10)00 8:b
+<
+2>eb
+8<2,>:v aThlrueead=0:): d:i<s1p>a
+tch(prev=0x00087e28,next=0x0007bda4)
+<<3>: S3>: emaphorSeet ::Thv(this=0x0008rebade7c,v::priority(talue=0) hi:s<2>
+=0x0009bef0,prio=2147483647)
+<3>: Thread::dispatch(prev=0x0009bef0,next=0x00087e28) :<3>
+<1>: Thread::sleep(running=0x0008be54,q=0x0008beb8) :<1>
+<1>: Set Thread::priority(this=0x0008be54,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0008be54,next=0x0009ff1c) :<1>
+<2>: Semaphore::p(this=0x004000a0,value=1) :<2>
+[020;000H ------------------------------------------------------------------- [021;000H Thread    cpu0   cpu1  cpu<2  c3>: Semaphorpeu3  ::p(this=0x0  0 Tem400p0ao0,va 
+total[0
+l2ue=06;000H T) h:<3>read 4[026
+<3;024H  53[>:026;045H572[ Th0r28;ead::sleep(0running=000x0H ------0-------------087-e-28-------,q=-------------0x-
+004000a0) 
+-:<--------3>--
+--<3----------->: -S <et2>: Sema Tphore::v(thishre=a0x004d000a0,value=:-1) :<:pr2
+>
+
+iority(this=0x00087e28,prio=1)
+<3>: Thread::dispatch(prev=0x00087e28,next=0x0009ff44) :<3>
+<2>: Thread::wakeup(running=0x0007bda4,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x0007bda4,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007bda4,next=0x00087e28) :<2>
+[<10>: 10;074H S
+et
+   sat Thread::e[priority2](<2this>: =0x0009ff1c,pSermiaphoo=2147483647)re ::<:v1
+>
+<1
+(>: Thread::disthpiats=ch0x(prev=0x0009f004f01c00a,0next=0x0,v007bda4) :<1>al
+<1>: Sue=e0<maphor) :<2>
+0e>:::p Set Thr(tead::priority(htihis=0s=0x004000a0x0,v009ff6c,alpurio=2147e=483
+647)
+<00) >:<1>: Thread
+::dispatch(prev=0x0009ff6c,next=0x0009bef0)
+<1>: Thread::sleep(running=0x0007bda4,q=0x004000a0) :<1>
+<1>: Set Thread::priority(this=0x0007bda4,prio=1) :<1>
+<1>: Thread::dispatch(prev=0x0007bda4,next=0x0009ff1c) :<1>
+<2>: Thread::wakeup(running=0x00087e28,q=0x004000a0) :<2>
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00087e28,next=0x0007bda4) :<2>
+<3[010;04>:7Ht Shiet Thread::nking[2]pri<2o
+>: Semaph
+riore:ty:(this=0x00v0(this=0x09ff040440,prio0a0=2147483647),value=0)  :<:<33>>
+
+<3>: Thread::dispatch(prev=0x0009ff44,next=0x00087e28) :<3>
+<3>: Semaphore::v(this=0x0008beb8,value=-1) <:2>: <3>
+<3>: ThSemreaapd:h:wore::pake(thiups=(r0unx004000a0ni,vngalue=1=0x00087e28),q=0x 
+:
+00<208>
+beb8)
+<3>: Set Thread::priority(this=0x00087e28,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x00087e28,next=0x0008be54) :<3>
+<3<>:1>: Set Threa Semad::ppriorithorey::(thp(this=0xis=0x0004000a0,valu009ff1e=c
+,pri
+o=21474836417)) :<3 :>
+<1>
+<1>: Thread::dispatch(prev=0x0009ff1c,next=0x00087e28) :<1>
+<[010;047<3>:H3 >:  hT Sungrhreaemapy[2]<2>
+: d:hore::v(thiSe:sms=al0x0pe008bea4,vahelop(runninure::gev(this=0x0=0=0x04000) 
+:<1>
+0008bea0,5v4,q=0x004a000lue=a0)-1)
+
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<3>: Thread::dispatch(prev=0x0008be54,next=0x0009ff6c) :<3>
+<1<2>:> : Thread::Semwakeup(rapunning=0x000hore::p7b(this=0x0da044000,q=0x004000a
+0,value=-1
+a)0)  ::<2><2>
+<2>: S
+et Thread::priority(this=0x0007bda4,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0007bda4,next=0x0008be54) :<2>
+<[001>: Thread:5;0:sleep(r6
+unning=0x0H0 00eating[2] <82>: Semapho7e2re::v(this=8,q=00xx000404000a0) :0<01>
+<1>0: Set Tah0,vreaalude::pri=ori-t1) :<2>
+y(this=0x00087e28,prio=1)
+<1>: Thread::dispatch(prev=0x00087e28,next=0x0007bda4) :<1>
+<<2>:2> Semaph: oreThre:a:pd::w(akthis=0euxp0008(running=0bxec00c,0v8abe54,q=0lu
+ex004=0000a)0 :<1>) :<
+2>
+<2>: Set Thread::priority(this=0x0008be54,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x0008be54,next=0x00087e28) :<2>
+[02<30;0>0: Set Thr0H --ead::priori------t-y-(this=0-x0---009ff6c,pri-o---=214748364--7-)
+ :<3>--
+<--3->-: Thr-ead::disp-atch(prev=0x0-0-09ff-6c-,nex-t-----=-0x0008be5-4) ------:-
+
+------<3->--
+-<--1->: Thread::-s----l- eep([021;000Hrunning=0x0 007bda4Th,qre=0xad0008b    cpu0   ecc)cpu :1<1 > cpu
+<1>: 2 Set Th cpu3     reaTdemp:o :priorityt(otal[023thi;0s00H Threa=d0x0007bda4, 1p[02r3i;024H  18o=8[023;0451H459) :[0<128;0>00H -----------
+<1-->-: -T-hread-----------:----:--d-isp---a--t-c-h-(p-r-ev=0--x----0--------007
+b-da4,-n----ext--- <2>:= 0x0009ffSem44)ap h:<1or>e
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+::v(this=0x004000a0,value=0)< 3>: Set Th:re<ad2>::
+priority(this=0x0008be54,prio=1)
+<2>: Semaphore::p(this=0x004000a0,value=1) :<2>
+[010;074Hthinki
+ng[2]<2>: Semaphore::v(this=0x004000a0,value=0) :<2>
+<2>: Semaphore::p(this=0x004000a0,value=1) :<2>
+[010;074H  hung
+ry[2]<2>: Semaphore::v(this=0x004000a0,value=0) :<2>
+<2>: Semaphore::p(this=0x0008beb8,value=0) :<2>
+<2>: Thread::sleep(running=0x00087e28,q=0x0008beb8) :<2>
+<2>: Set Thread::priority(this=0x00087e28,prio=1) :<2>
+<2>: Thread::dispatch(prev=0x00087e28,next=0x0009ff1c) :<2>
+<1>: Set Thread::priority(this=0x0009ff44,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff6c) :<1>
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<2>: Set Thread::priority(this=0x0009ff1c,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff1c,next=0x0009ff44) :<2>
+<1>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff1c) :<1>
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<2>: Set Thread::priority(this=0x0009ff44,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff44,next=0x0009ff6c) :<2>
+<0>: Set Thread::priority(this=0x0009bef0,prio=2147483647) :<0>
+<0>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff44) :<0>
+<1>: Set Thread::priority(this=0x0009ff1c,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009ff1c,next=0x0009bef0) :<1>
+<2>: Set Thread::priority(this=0x0009ff6c,prio=2147483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff6c,next=0x0009ff1c) :<2>
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+<1>: Set Thread::priority(this=0x0009bef0,prio=2147483647) :<1>
+<1>: Thread::dispatch(prev=0x0009bef0,next=0x0009ff6c) :<1>
+<2>: Set Thread::priority(this=0x0009ff1c,prio=2147<3>: 483647) :<2>
+<2>: Thread::dispatch(prev=0x0009ff1c,next=0x0009bef0) :<2>
+<3>: Set Thread::priority(this=0x0008be54,prio=1) :<3>
+Semaphore::p(this=0x004000a0,value=1)
+[
