@@ -9,6 +9,7 @@
 #include <machine.h>
 #include <system.h>
 #include <scheduler.h>
+#include <ic.h>
 
 extern "C" { void __exit(); }
 
@@ -100,10 +101,13 @@ public:
 
     static Thread * volatile self() { return running(); }
     static void yield();
+
+    unsigned int queue() { return link()->rank().queue(); }
+
     static void exit(int status = 0);
 
     static unsigned int next_cpu() {
-		return 0; // _scheduler.queue_min_size();
+		return _scheduler.queue_min_size();
 	}
 
     Queue::Element * link() { return &_link; }
@@ -151,6 +155,10 @@ protected:
 
 private:
     static void init();
+
+    static void reschedule_handler(const IC::Interrupt_Id &);
+    static void suspend_handler(const IC::Interrupt_Id &);
+    static void send_interruption_to_core(Thread *);
 
 protected:
     char * _stack;

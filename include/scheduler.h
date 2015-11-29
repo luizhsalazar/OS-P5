@@ -106,24 +106,20 @@ namespace Scheduling_Criteria
 
             static const bool timed = true;
             static const bool dynamic = false;
-            static const bool preemptive = false;
-
-
-        private:
-
-            static unsigned int next_cpu() { return T::next_cpu();  } // Random::random() % 4; }
+            static const bool preemptive = true;
+            unsigned int _affinity;
 
         public:
             // DEFINE A CPU QUE A THREAD TERÁ AFINIDADE (Baseado no número de threads em cada lista)
             CFS(int p = NORMAL): Priority(p),
-            	     _affinity( ((p == IDLE) || (p == MAIN)) ?  Machine::cpu_id() : next_cpu()) {}
+            	     _affinity( ((p == IDLE) || (p == MAIN)) ?  Machine::cpu_id() : T::next_cpu()) {}
 
             static unsigned int current_queue(){ return Machine::cpu_id(); };
 
         	const unsigned int queue() const { return _affinity; }
 
-        private:
-            unsigned int _affinity;
+//        private:
+//            unsigned int _affinity;
         };
 }
 
@@ -230,7 +226,7 @@ private:
 
 public:
     typedef typename T::Criterion Criterion;
-    typedef Multihead_Scheduling_List<T, Criterion> Queue;
+    typedef Scheduling_Multilist<T, Criterion> Queue;
     typedef typename Queue::Element Element;
 
 public:
@@ -250,65 +246,25 @@ public:
     void insert(T * obj) {
        db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::insert(" << obj << ")" << endl;
 
-       // MIGRAÇÃO?
-
        Base::insert(obj->link());
-
-       unsigned int affinity = obj->link()->rank().queue();
-
-       if(affinity != Machine::cpu_id())
-			APIC::ipi_send(affinity,49);
-    }
-
-    /* Not being used at time */
-    int choose_list(){
-    	int ncpus = Machine::n_cpus();
-    	unsigned int menor = 100;
-    	int lista;
-    	for(int i= 0; i < ncpus; i++){
-    		if(Base::_list[i].size()<menor){
-    			lista = i;
-    			menor = Base::_list[i].size();
-    		}
-    	}
-
-    	return lista;
     }
 
     T * remove(T * obj) {
         db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::remove(" << obj << ")" << endl;
 
-        // MIGRAÇÃO?
-
-        unsigned int affinity = obj->link()->rank().queue();
-        T * o = Base::remove(obj->link()) ? obj : 0;
-
-        if( affinity != Machine::cpu_id())
-			APIC::ipi_send(affinity,49);
-
-        return o;
+        return Base::remove(obj->link()) ? obj : 0;
     }
 
     void suspend(T * obj) {
         db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::suspend(" << obj << ")" << endl;
 
-        unsigned int affinity = obj->link()->rank().queue();
-
         Base::remove(obj->link());
-
-        if(affinity != Machine::cpu_id())
-        	APIC::ipi_send(affinity, 49);
     }
 
     void resume(T * obj) {
         db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::resume(" << obj << ")" << endl;
 
-        unsigned int affinity = obj->link()->rank().queue();
-
         Base::insert(obj->link());
-
-        if(affinity != Machine::cpu_id())
-        	IC::ipi_send(affinity,49);
     }
 
     T * choose() {

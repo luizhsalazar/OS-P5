@@ -51,15 +51,15 @@ void Thread::constructor_epilog(const Log_Addr & entry, unsigned int stack_size)
     if((_state != READY) && (_state != RUNNING))
     	_scheduler.suspend(this);
 
-    if(preemptive && (_state == READY) && (_link.rank() != IDLE))
-        reschedule();
-    else
+    if(preemptive && (_state == READY) && (_link.rank() != IDLE)){
+//        reschedule();
+    	send_interruption_to_core(this);
+    } else {
         if((_state == RUNNING) || (_link.rank() != IDLE)) // Keep interrupts disabled during init_first()
             unlock(false);
         else
             unlock();
-
-//    this->link()->rank() .set_affinity(0); // _scheduler.choose_list());
+    }
 }
 
 
@@ -123,7 +123,8 @@ void Thread::priority(const Priority & c)
     }
 
     if(preemptive) {
-        reschedule();
+//        reschedule();
+    	send_interruption_to_core(this);
     }
 }
 
@@ -166,6 +167,18 @@ void Thread::pass()
     Thread * prev = running();
     Thread * next = _scheduler.choose(this);
 
+    /*if(prev->queue() == this->queue()){
+    	next = _scheduler.choose(this);
+    	if(next)
+    		dispatch(prev, next, false);
+		else {
+			db<Thread>(WRN) << "Thread::pass => thread (" << this << ") not ready!" << endl;
+			unlock();
+		}
+	} else {
+		unlock();
+	}*/
+
     if(next)
         dispatch(prev, next, false);
     else {
@@ -203,8 +216,11 @@ void Thread::resume()
         _state = READY;
         _scheduler.resume(this);
 
-        if(preemptive)
-            reschedule();
+        if(preemptive){
+//        	reschedule();
+        	send_interruption_to_core(this);
+        }
+
     } else {
         db<Thread>(WRN) << "Resume called for unsuspended object!" << endl;
 
@@ -280,8 +296,10 @@ void Thread::wakeup(Queue * q)
         t->_waiting = 0;
         _scheduler.resume(t);
 
-        if(preemptive)
-            reschedule();
+        if(preemptive){
+        	send_interruption_to_core(t);
+//            reschedule();
+        }
     } else
         unlock();
 }
@@ -302,7 +320,8 @@ void Thread::wakeup_all(Queue * q)
             _scheduler.resume(t);
 
             if(preemptive) {
-                reschedule();
+            	send_interruption_to_core(t);
+//                reschedule();
                 lock();
             }
          }
@@ -327,9 +346,6 @@ void Thread::reschedule()
 
 void Thread::time_slicer(const IC::Interrupt_Id & i)
 {
-////	Display::position(0, 0);
-//	cout << " time slicer ";
-
 	lock();
 
 	reschedule();
@@ -369,6 +385,19 @@ bool Thread::migration_needed(){
 	return true;
 }
 
+void Thread::reschedule_handler(const IC::Interrupt_Id & i)
+{
+	lock();
+
+ 	reschedule();
+}
+
+void Thread::send_interruption_to_core(Thread * t)
+{
+	IC::ipi_send(t->queue(), IC::INT_RESCHEDULER);
+	unlock();
+}
+
 void Thread::dispatch(Thread * prev, Thread * next, bool charge)
 {
 //	int percentage=0;
@@ -393,7 +422,8 @@ void Thread::dispatch(Thread * prev, Thread * next, bool charge)
                              // The analysis of whether it could get scheduled by another CPU while its context is being saved by CPU::switch_context()
                              // must focus on the time it takes to save a context and to reschedule a thread. If this gets stringent for a given architecture,
                              // then unlocking must be moved into the mediator. For x86 and ARM it doesn't seam to be the case.
-//        prev->end_time=prev->_timer->read();//thread rodando
+        prev->end_time=prev->_timer->read();//thread rodando
+
         CPU::switch_context(&prev->_context, next->_context);
     } else
         if(smp)
@@ -401,6 +431,7 @@ void Thread::dispatch(Thread * prev, Thread * next, bool charge)
 
     CPU::int_enable();
 }
+
 int Thread::idle()
 {
     while(_thread_count > Machine::n_cpus()) { // someone else besides idles
