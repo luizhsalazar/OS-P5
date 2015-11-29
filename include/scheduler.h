@@ -90,6 +90,7 @@ namespace Scheduling_Criteria
         static unsigned int current_head() { return Machine::cpu_id(); }
     };
 
+    template<typename T>
     class CFS: public Priority
         {
         public:
@@ -107,19 +108,22 @@ namespace Scheduling_Criteria
             static const bool dynamic = false;
             static const bool preemptive = false;
 
+
+        private:
+
+            static unsigned int next_cpu() { return T::next_cpu();  } // Random::random() % 4; }
+
         public:
             // DEFINE A CPU QUE A THREAD TERÁ AFINIDADE (Baseado no número de threads em cada lista)
             CFS(int p = NORMAL): Priority(p),
-            	     _affinity( ((p == IDLE) || (p == MAIN)) ?  Machine::cpu_id() : 0) {}
+            	     _affinity( ((p == IDLE) || (p == MAIN)) ?  Machine::cpu_id() : next_cpu()) {}
 
             static unsigned int current_queue(){ return Machine::cpu_id(); };
 
-        	const volatile int & queue() const volatile { return _affinity; }
-
-//        	void set_affinity(int aff) { _affinity = aff; }
+        	const unsigned int queue() const { return _affinity; }
 
         private:
-             volatile int _affinity;
+            unsigned int _affinity;
         };
 }
 
@@ -218,7 +222,8 @@ class Scheduling_Queue_Multi_List: public Scheduling_Multilist<T, R> {};
 // Scheduler_MultiList
 // Using Multihead_Scheduling_List instead of Scheduling_List
 template<typename T>
-class Scheduler_MultiList: public Scheduling_Queue_Multi_List<T, Scheduling_Criteria::CFS>
+//		 typename R = typename T::Criterion>
+class Scheduler_MultiList: public Scheduling_Queue_Multi_List<T, Scheduling_Criteria::CFS<T>>
 {
 private:
     typedef Scheduling_Queue_Multi_List<T> Base;
@@ -245,22 +250,17 @@ public:
     void insert(T * obj) {
        db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::insert(" << obj << ")" << endl;
 
-//       unsigned int list;
-//       if(obj->link()->rank() == Criterion::IDLE || obj->link()->rank() == Criterion::MAIN){
-//			list = Machine:: cpu_id();
-//		}else
-//			list = choose_list();
-
        // MIGRAÇÃO?
 
        Base::insert(obj->link());
 
-//		obj->link()->cpu_id = list;
-//		Base::insert(obj->link());
-//		if(list != Machine::cpu_id())
-//			APIC::ipi_send(list,49);
+       unsigned int affinity = obj->link()->rank().queue();
+
+       if(affinity != Machine::cpu_id())
+			APIC::ipi_send(affinity,49);
     }
 
+    /* Not being used at time */
     int choose_list(){
     	int ncpus = Machine::n_cpus();
     	unsigned int menor = 100;
@@ -280,27 +280,35 @@ public:
 
         // MIGRAÇÃO?
 
-//        unsigned int list = obj->link()->cpu_id;
+        unsigned int affinity = obj->link()->rank().queue();
         T * o = Base::remove(obj->link()) ? obj : 0;
-//        if( list!= Machine::cpu_id())
-//			APIC::ipi_send(list,49);
+
+        if( affinity != Machine::cpu_id())
+			APIC::ipi_send(affinity,49);
+
         return o;
     }
 
     void suspend(T * obj) {
         db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::suspend(" << obj << ")" << endl;
-//        unsigned int list = obj->link()->cpu_id;
+
+        unsigned int affinity = obj->link()->rank().queue();
+
         Base::remove(obj->link());
-//        if( list!= Machine::cpu_id())
-//        	APIC::ipi_send(list,49);
+
+        if(affinity != Machine::cpu_id())
+        	APIC::ipi_send(affinity, 49);
     }
 
     void resume(T * obj) {
         db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::resume(" << obj << ")" << endl;
-//        unsigned int list = obj->link()->cpu_id;
+
+        unsigned int affinity = obj->link()->rank().queue();
+
         Base::insert(obj->link());
-//        if( list!= Machine::cpu_id())
-//        	IC::ipi_send(list,49);
+
+        if(affinity != Machine::cpu_id())
+        	IC::ipi_send(affinity,49);
     }
 
     T * choose() {

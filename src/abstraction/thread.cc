@@ -16,13 +16,14 @@ __BEGIN_SYS
 
 //OStream cout;
 
-
 // Class attributes
 volatile unsigned int Thread::_thread_count;
 Scheduler_Timer * Thread::_timer;
-//Scheduler<Thread> Thread::_scheduler;;
-Scheduler_MultiList<Thread> Thread::_scheduler;;
+//Scheduler<Thread> Thread::_scheduler;
+
+Scheduler_MultiList<Thread> Thread::_scheduler;
 Spin Thread::_lock;
+Thread::List Thread::toSuspend[Thread::Criterion::QUEUES];
 
 // Methods
 void Thread::constructor_prolog(unsigned int stack_size)
@@ -370,10 +371,10 @@ bool Thread::migration_needed(){
 
 void Thread::dispatch(Thread * prev, Thread * next, bool charge)
 {
-	int percentage=0;
+//	int percentage=0;
 	if(charge) {
 		if(Criterion::timed){
-			percentage = _timer->reset();
+			/*percentage =*/ _timer->reset();
 //			prev->calculate_priority(percentage, prev);
 		}
 	}
@@ -392,7 +393,7 @@ void Thread::dispatch(Thread * prev, Thread * next, bool charge)
                              // The analysis of whether it could get scheduled by another CPU while its context is being saved by CPU::switch_context()
                              // must focus on the time it takes to save a context and to reschedule a thread. If this gets stringent for a given architecture,
                              // then unlocking must be moved into the mediator. For x86 and ARM it doesn't seam to be the case.
-        prev->end_time=prev->_timer->read();//thread rodando
+//        prev->end_time=prev->_timer->read();//thread rodando
         CPU::switch_context(&prev->_context, next->_context);
     } else
         if(smp)

@@ -71,6 +71,8 @@ public:
     // Thread Queue
     typedef Ordered_Queue<Thread, Criterion, Scheduler<Thread>::Element> Queue;
 
+    typedef Simple_List<Thread> List;
+
 public:
     template<typename ... Tn>
     Thread(int (* entry)(Tn ...), Tn ... an);
@@ -100,13 +102,19 @@ public:
     static void yield();
     static void exit(int status = 0);
 
+    static unsigned int next_cpu() {
+		return 0; // _scheduler.queue_min_size();
+	}
+
+    Queue::Element * link() { return &_link; }
+
 protected:
     void constructor_prolog(unsigned int stack_size);
     void constructor_epilog(const Log_Addr & entry, unsigned int stack_size);
 
     static Thread * volatile running() { return _scheduler.chosen(); }
 
-    Queue::Element * link() { return &_link; }
+//    Queue::Element * link() { return &_link; }
 
     Criterion & criterion() { return const_cast<Criterion &>(_link.rank()); }
 
@@ -154,9 +162,10 @@ protected:
 
     static volatile unsigned int _thread_count;
     static Scheduler_Timer * _timer;
-//    static Scheduler<Thread> _scheduler;
+
     static Scheduler_MultiList<Thread> _scheduler;
     static Spin _lock;
+    static List toSuspend [];
 };
 
 

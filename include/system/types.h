@@ -91,7 +91,7 @@ namespace Scheduling_Criteria
     class FCFS;
     class RR;
     class GRR;
-    class CFS;
+    template<typename> class CFS;
 };
 
 class Address_Space;
