@@ -31,6 +31,9 @@ void Thread::constructor_prolog(unsigned int stack_size)
     lock();
 
     _thread_count++;
+
+    _affinity = ((_link.rank() == IDLE) || (_link.rank() == MAIN)) ?  Machine::cpu_id() : next_cpu();
+
     _scheduler.insert(this);
     soma_percentage = 0;
     count = 0;
@@ -400,11 +403,12 @@ void Thread::send_interruption_to_core(Thread * t)
 
 void Thread::dispatch(Thread * prev, Thread * next, bool charge)
 {
-//	int percentage=0;
+	int percentage=0;
+
 	if(charge) {
 		if(Criterion::timed){
-			/*percentage =*/ _timer->reset();
-//			prev->calculate_priority(percentage, prev);
+			percentage = _timer->reset();
+			prev->calculate_priority(percentage, prev);
 		}
 	}
 

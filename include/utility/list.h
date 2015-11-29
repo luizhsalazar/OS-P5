@@ -1238,11 +1238,11 @@ public:
     }
 
     void insert(Element * e) {
-        _list[e->rank().queue()].insert(e);
+    	_list[e->object()->_affinity].insert(e);
     }
 
     Element * remove(Element * e) {
-         return _list[e->rank().queue()].remove(e);
+    	return _list[e->object()->_affinity].remove(e);
      }
 
     Element * choose() {
@@ -1254,7 +1254,7 @@ public:
     }
 
     Element * choose(Element * e) {
-        return _list[e->rank().queue()].choose(e);
+    	return _list[e->object()->_affinity].choose(e);
     }
 
 private:

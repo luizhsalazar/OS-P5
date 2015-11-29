@@ -91,18 +91,24 @@ public:
     void pass();
     void suspend() { suspend(false); }
     void resume();
+
+	void calculate_priority(int percentage, Thread * prev);
+	int get_soma_percentage(){return soma_percentage;}
+
     unsigned long get_time(){return _timer->read();};
     unsigned long get_end_time(){return end_time;};
-    void calculate_priority(int percentage, Thread * prev);
+
     unsigned long end_time;
     int soma_percentage;
-    int tempo_execucao[5];
+    int tempo_execucao[3];
     int count;
+
+    unsigned int _affinity;
 
     static Thread * volatile self() { return running(); }
     static void yield();
 
-    unsigned int queue() { return link()->rank().queue(); }
+    unsigned int queue() { return _affinity; }
 
     static void exit(int status = 0);
 

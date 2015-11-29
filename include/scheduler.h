@@ -101,25 +101,15 @@ namespace Scheduling_Criteria
             };
             static const unsigned int QUEUES = 4; // Informa o número da sublista na lista
 
-            // POR QUE ISTO TEM QUE DE ESTAR AQUI PARA COMPILAR? CORRIGIR!!
-            static const unsigned int HEADS = Traits<Machine>::CPUS;
-
-            static const bool timed = true;
+		    static const bool timed = true;
             static const bool dynamic = false;
             static const bool preemptive = true;
-            unsigned int _affinity;
 
         public:
             // DEFINE A CPU QUE A THREAD TERÁ AFINIDADE (Baseado no número de threads em cada lista)
-            CFS(int p = NORMAL): Priority(p),
-            	     _affinity( ((p == IDLE) || (p == MAIN)) ?  Machine::cpu_id() : T::next_cpu()) {}
+            CFS(int p = NORMAL): Priority(p) {}
 
             static unsigned int current_queue(){ return Machine::cpu_id(); };
-
-        	const unsigned int queue() const { return _affinity; }
-
-//        private:
-//            unsigned int _affinity;
         };
 }
 
@@ -242,6 +232,87 @@ public:
 //    	return const_cast<T * volatile>((Base::chosen()) ? Base::chosen()->object() : 0);
     	return const_cast<T * volatile>(Base::chosen()->object());
     }
+
+    void migration_needed(Thread * next_thread){
+		int ncpus = Machine::n_cpus();
+		double media_cpu[ncpus];
+		double menor= 100000000;
+		unsigned int id_menor_cpu = 0;
+		double maior= 0;
+		unsigned int id_maior_cpu = 0;
+
+		for(int i=0; i<ncpus; i++){
+			int soma_cpu=0;
+			Element * e = Base::_list[i].head();
+			T * t =e->object();
+			soma_cpu += t->get_soma_percentage();
+			for(unsigned int j=0;j<Base::_list[i].size()-1;j++){
+				e=e->next();
+				t=e->object();
+				soma_cpu += t->get_soma_percentage();
+			}
+			media_cpu[i] = soma_cpu/Base::_list[i].size();
+			if(media_cpu[i]<menor){
+				menor = media_cpu[i];
+				id_menor_cpu = i;
+			}else if(media_cpu[i]>maior){
+				maior = media_cpu[i];
+				id_maior_cpu = i;
+			}
+
+		}
+		if(Machine::cpu_id()==id_maior_cpu){
+			if((maior/menor)>1.5){//outra fila 1/3 maior
+				int qtd = Base::_list[id_maior_cpu].size()-Base::_list[id_menor_cpu].size()/2;
+				migrate(id_menor_cpu,qtd,next_thread);
+			}
+		}
+
+		//para cada elemento de _list
+		//para cada thread de _list[i]
+		//get thread->soma_percentage
+		//calcula media das somas de cada cpu
+		//se minha cpu possui media muito menor
+		//faz migracao
+	}
+
+	void migrate(int receive, int qtd_threads, Thread * next){
+		for(int i=0; i<qtd_threads;i++){
+			T * thread = choose();
+			if(thread != next){//NAO SEI SE DA PRA FAZER ESSA COMPARACAO
+				thread = choose_another();//verificar se da pra usar esse metodo
+			}
+
+			remove(thread);
+//			thread->cpu_id = receive; //alterar a cpu da thread removida para "receive"
+			insert(thread);
+		}
+	}
+
+	int calculate_fairness(){
+		int ncpus = Machine::n_cpus();
+		double menor= 100000000;
+		double maior= 0;
+
+		for(int i=0; i<ncpus; i++){
+			int soma_thread=0;
+			Element * e = Base::_list[i].head();
+			T * t =e->object();
+			soma_thread += t->get_soma_percentage();
+
+			for(unsigned int j=0;j<Base::_list[i].size()-1;j++){
+				e=e->next();
+				t=e->object();
+				soma_thread += t->get_soma_percentage();
+				if(soma_thread < menor){
+				   menor = soma_thread;
+				} else if(soma_thread>maior){
+					maior = soma_thread;
+				}
+			}
+		}
+		return maior - menor;
+   }
 
     void insert(T * obj) {
        db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::insert(" << obj << ")" << endl;
