@@ -236,8 +236,9 @@ public:
     	return const_cast<T * volatile>(Base::chosen()->object());
     }
 
-    void migration_needed() { //Thread * next_thread){
-		int ncpus = Machine::n_cpus();
+    void migration_needed() {
+
+    	int ncpus = Machine::n_cpus();
 		double media_cpu[ncpus];
 		double menor= 100000000;
 		unsigned int id_menor_cpu = 0;
@@ -271,47 +272,37 @@ public:
 			if(media_cpu[i] < menor){
 				menor = media_cpu[i];
 				id_menor_cpu = i;
-			}else if(media_cpu[i] > maior){
+			}
+
+			if(media_cpu[i] > maior){
 				maior = media_cpu[i];
 				id_maior_cpu = i;
 			}
 		}
 
-		if(Machine::cpu_id() == id_menor_cpu && maior != menor){
-			if((maior/menor) >= 1.5){ //outra fila 1/3 maior
-				int qtd = ((Base::_list[id_maior_cpu].size() - Base::_list[id_menor_cpu].size()) /2) + 1;
-				migrate(id_maior_cpu, qtd);
-			}
+		if(Machine::cpu_id() == id_maior_cpu && maior != menor){
+			int qtd = ((Base::_list[id_maior_cpu].size() - Base::_list[id_menor_cpu].size()) /2) + 1;
+			migrate(id_menor_cpu, qtd);
 		}
 	}
 
 	void migrate(int new_affinity, int qtd_threads) {
 
-//		db<Scheduler_MultiList>(TRC) << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << qtd_threads << endl;
+		for(int i = 0; i < qtd_threads; i++){
 
-		for(int i = 0; i < qtd_threads;i++){
-			T * thread = choose();
-
+			T * thread = Base::_list[Machine::cpu_id()].head()->object();
 
 			if (thread->link()->rank() == Criterion::IDLE){
 				return;
 			}
 
-
-			 Display::position(2, 0);
-			 cout << " TENTO FAZER A TROCA IXCROTA E NUM DEU!!!";
-
-			 db<Scheduler_MultiList>(TRC) << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl;
-
 			remove(thread);
-
 			thread->_affinity = new_affinity;
-			Display::position(3, 0);
 			insert(thread);
-//			APIC::ipi_send(Machine::cpu_id(),IC::INT_RESCHEDULER);
-//			APIC::ipi_send(new_affinity,IC::INT_RESCHEDULER);
-			cout << " +++++===+=+===++_+-+-+-+-+--+-=_=_=-=-------------------------------------!!!";
+
+			APIC::ipi_send(new_affinity, IC::INT_RESCHEDULER);
 		}
+
 	}
 
 	int calculate_fairness(){

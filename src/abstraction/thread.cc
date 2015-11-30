@@ -353,6 +353,13 @@ void Thread::time_slicer(const IC::Interrupt_Id & i)
 {
 	lock();
 
+	count_migrate[Machine::cpu_id()] ++;
+
+	if(count_migrate[Machine::cpu_id()] >= 4){
+		count_migrate[Machine::cpu_id()] = 0;
+		_scheduler.migration_needed();
+	}
+
 	reschedule();
 }
 
@@ -397,47 +404,36 @@ void Thread::send_interruption_to_core(Thread * t)
 
 void Thread::dispatch(Thread * prev, Thread * next, bool charge)
 {
-	int percentage = 0;
+		int percentage = 0;
 
-	if(charge) {
-		if(Criterion::timed){
-			percentage = _timer->reset();
-			prev->calculate_priority(percentage, prev);
+		if(charge) {
+			if(Criterion::timed){
+				percentage = _timer->reset();
+				prev->calculate_priority(percentage, prev);
+			}
 		}
-	}
 
-   if(prev != next) {
-        if(prev->_state == RUNNING)
-            prev->_state = READY;
-        next->_state = RUNNING;
+		if(prev != next) {
+			if(prev->_state == RUNNING)
+				prev->_state = READY;
+			next->_state = RUNNING;
 
-        db<Thread>(TRC) << "Thread::dispatch(prev=" << prev << ",next=" << next << ")" << endl;
-        db<Thread>(INF) << "prev={" << prev << ",ctx=" << *prev->_context << "}" << endl;
-        db<Thread>(INF) << "next={" << next << ",ctx=" << *next->_context << "}" << endl;
+			db<Thread>(TRC) << "Thread::dispatch(prev=" << prev << ",next=" << next << ")" << endl;
+			db<Thread>(INF) << "prev={" << prev << ",ctx=" << *prev->_context << "}" << endl;
+			db<Thread>(INF) << "next={" << next << ",ctx=" << *next->_context << "}" << endl;
 
-        if(smp)
-            _lock.release(); // Note that releasing the lock here, even with interrupts disabled, allows for another CPU to select "prev".
-                             // The analysis of whether it could get scheduled by another CPU while its context is being saved by CPU::switch_context()
-                             // must focus on the time it takes to save a context and to reschedule a thread. If this gets stringent for a given architecture,
-                             // then unlocking must be moved into the mediator. For x86 and ARM it doesn't seam to be the case.
+			if(smp)
+				_lock.release(); // Note that releasing the lock here, even with interrupts disabled, allows for another CPU to select "prev".
+								 // The analysis of whether it could get scheduled by another CPU while its context is being saved by CPU::switch_context()
+								 // must focus on the time it takes to save a context and to reschedule a thread. If this gets stringent for a given architecture,
+								 // then unlocking must be moved into the mediator. For x86 and ARM it doesn't seam to be the case.
 
-        CPU::switch_context(&prev->_context, next->_context);
-    } else
-        if(smp)
-            _lock.release();
+			CPU::switch_context(&prev->_context, next->_context);
+		} else
+			if(smp)
+				_lock.release();
 
-
-   	count_migrate[Machine::cpu_id()] ++;
-   if(count_migrate[Machine::cpu_id()] >= 4){
-		CPU::int_disable();
-		_lock.acquire();
-		if (running()->link()->rank() != IDLE){
-			_scheduler.migration_needed();
-		}
-		count_migrate[Machine::cpu_id()] =0;
-		_lock.release();
-   }
-    CPU::int_enable();
+	   CPU::int_enable();
 }
 
 int Thread::idle()
