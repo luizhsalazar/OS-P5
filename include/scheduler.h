@@ -7,6 +7,9 @@
 #include <cpu.h>
 #include <machine.h>
 #include <utility/random.h>
+#include <utility/ostream.h>
+#include <display.h>
+
 
 __BEGIN_SYS
 
@@ -208,7 +211,6 @@ class Scheduling_Queue_Multi_List: public Scheduling_Multilist<T, R> {};
 // Scheduler_MultiList
 // Using Multihead_Scheduling_List instead of Scheduling_List
 template<typename T>
-//		 typename R = typename T::Criterion>
 class Scheduler_MultiList: public Scheduling_Queue_Multi_List<T, Scheduling_Criteria::CFS<T>>
 {
 private:
@@ -218,6 +220,7 @@ public:
     typedef typename T::Criterion Criterion;
     typedef Scheduling_Multilist<T, Criterion> Queue;
     typedef typename Queue::Element Element;
+    OStream cout;
 
 public:
     Scheduler_MultiList() {}
@@ -233,7 +236,7 @@ public:
     	return const_cast<T * volatile>(Base::chosen()->object());
     }
 
-    void migration_needed(Thread * next_thread){
+    void migration_needed() { //Thread * next_thread){
 		int ncpus = Machine::n_cpus();
 		double media_cpu[ncpus];
 		double menor= 100000000;
@@ -241,51 +244,73 @@ public:
 		double maior= 0;
 		unsigned int id_maior_cpu = 0;
 
-		for(int i=0; i<ncpus; i++){
-			int soma_cpu=0;
+		for(int i=0; i < ncpus; i++){
+
+			int size_list = (int) Base::_list[i].size();
+			int soma_cpu = 0;
+
 			Element * e = Base::_list[i].head();
-			T * t =e->object();
+			if (e == 0) {
+				return;
+			}
+
+			T * t = e->object();
 			soma_cpu += t->get_soma_percentage();
-			for(unsigned int j=0;j<Base::_list[i].size()-1;j++){
-				e=e->next();
-				t=e->object();
+
+			/* size - 2 para a next() nunca ser a IDLE */
+			for(int j=0; j < size_list-2; j++){
+				e = e->next();
+				t = e->object();
 				soma_cpu += t->get_soma_percentage();
 			}
-			media_cpu[i] = soma_cpu/Base::_list[i].size();
-			if(media_cpu[i]<menor){
+
+			if (size_list != 0){
+				media_cpu[i] = soma_cpu/size_list;
+			}
+
+			if(media_cpu[i] < menor){
 				menor = media_cpu[i];
 				id_menor_cpu = i;
-			}else if(media_cpu[i]>maior){
+			}else if(media_cpu[i] > maior){
 				maior = media_cpu[i];
 				id_maior_cpu = i;
 			}
-
 		}
-		if(Machine::cpu_id()==id_maior_cpu){
-			if((maior/menor)>1.5){//outra fila 1/3 maior
-				int qtd = Base::_list[id_maior_cpu].size()-Base::_list[id_menor_cpu].size()/2;
-				migrate(id_menor_cpu,qtd,next_thread);
+
+		if(Machine::cpu_id() == id_menor_cpu && maior != menor){
+			if((maior/menor) >= 1.5){ //outra fila 1/3 maior
+				int qtd = ((Base::_list[id_maior_cpu].size() - Base::_list[id_menor_cpu].size()) /2) + 1;
+				migrate(id_maior_cpu, qtd);
 			}
 		}
-
-		//para cada elemento de _list
-		//para cada thread de _list[i]
-		//get thread->soma_percentage
-		//calcula media das somas de cada cpu
-		//se minha cpu possui media muito menor
-		//faz migracao
 	}
 
-	void migrate(int receive, int qtd_threads, Thread * next){
-		for(int i=0; i<qtd_threads;i++){
+	void migrate(int new_affinity, int qtd_threads) {
+
+//		db<Scheduler_MultiList>(TRC) << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << qtd_threads << endl;
+
+		for(int i = 0; i < qtd_threads;i++){
 			T * thread = choose();
-			if(thread != next){//NAO SEI SE DA PRA FAZER ESSA COMPARACAO
-				thread = choose_another();//verificar se da pra usar esse metodo
+
+
+			if (thread->link()->rank() == Criterion::IDLE){
+				return;
 			}
 
+
+			 Display::position(2, 0);
+			 cout << " TENTO FAZER A TROCA IXCROTA E NUM DEU!!!";
+
+			 db<Scheduler_MultiList>(TRC) << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl;
+
 			remove(thread);
-//			thread->cpu_id = receive; //alterar a cpu da thread removida para "receive"
+
+			thread->_affinity = new_affinity;
+			Display::position(3, 0);
 			insert(thread);
+//			APIC::ipi_send(Machine::cpu_id(),IC::INT_RESCHEDULER);
+//			APIC::ipi_send(new_affinity,IC::INT_RESCHEDULER);
+			cout << " +++++===+=+===++_+-+-+-+-+--+-=_=_=-=-------------------------------------!!!";
 		}
 	}
 
@@ -297,12 +322,12 @@ public:
 		for(int i=0; i<ncpus; i++){
 			int soma_thread=0;
 			Element * e = Base::_list[i].head();
-			T * t =e->object();
+			T * t = e->object();
 			soma_thread += t->get_soma_percentage();
 
 			for(unsigned int j=0;j<Base::_list[i].size()-1;j++){
-				e=e->next();
-				t=e->object();
+				e = e->next();
+				t = e->object();
 				soma_thread += t->get_soma_percentage();
 				if(soma_thread < menor){
 				   menor = soma_thread;

@@ -93,15 +93,17 @@ public:
     void resume();
 
 	void calculate_priority(int percentage, Thread * prev);
-	int get_soma_percentage(){return soma_percentage;}
+	int get_soma_percentage(){ return soma_percentage; }
 
-    unsigned long get_time(){return _timer->read();};
-    unsigned long get_end_time(){return end_time;};
+    unsigned long get_time(){ return _timer->read();};
+    unsigned long get_end_time(){ return end_time; };
 
     unsigned long end_time;
     int soma_percentage;
     int tempo_execucao[3];
     int count;
+
+    static unsigned int count_migrate[4];
 
     unsigned int _affinity;
 

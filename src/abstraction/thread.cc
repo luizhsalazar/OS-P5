@@ -25,6 +25,8 @@ Scheduler_MultiList<Thread> Thread::_scheduler;
 Spin Thread::_lock;
 Thread::List Thread::toSuspend[Thread::Criterion::QUEUES];
 
+unsigned int Thread::count_migrate[4];
+
 // Methods
 void Thread::constructor_prolog(unsigned int stack_size)
 {
@@ -355,37 +357,29 @@ void Thread::time_slicer(const IC::Interrupt_Id & i)
 }
 
 void Thread::calculate_priority(int percentage, Thread * prev){
-	if(prev->priority()!=MAIN && prev->priority()!=IDLE){
-		int size = sizeof(tempo_execucao);
-		if(count>=size)
-			count=0;
+	if(prev->priority()!= MAIN && prev->priority() != IDLE){
+		int size = 3;
+		if(count >= 3)
+			count = 0;
+
 		tempo_execucao[count] = percentage;
 		count++;
 
-		int j=0;
-		int soma=0;
-		for(int i=0; i<size;i++){
-			if(tempo_execucao[i]!=0){
-				soma +=tempo_execucao[i];
+		int j = 0;
+		int soma = 0;
+		for(int i = 0; i<size; i++){
+			if(tempo_execucao[i] != 0){
+				soma += tempo_execucao[i];
 			}else{
 				j++;
 			}
 		}
+
+		soma_percentage = soma;
+
 		Priority p = soma/size-j;
 	    prev->set_priority(p+1);
   	}
-}
-
-bool Thread::migration_needed(){
-    //pega atributo _list
-	//para cada elemento de _list
-	//para cada thread de _list[i]
-	//get thread->soma_percentage
-	//calcula media das somas de cada cpu
-	//se minha cpu possui media muito menor (definir o quanto menor)
-	//faz migracao
-
-	return true;
 }
 
 void Thread::reschedule_handler(const IC::Interrupt_Id & i)
@@ -403,7 +397,7 @@ void Thread::send_interruption_to_core(Thread * t)
 
 void Thread::dispatch(Thread * prev, Thread * next, bool charge)
 {
-	int percentage=0;
+	int percentage = 0;
 
 	if(charge) {
 		if(Criterion::timed){
@@ -426,13 +420,23 @@ void Thread::dispatch(Thread * prev, Thread * next, bool charge)
                              // The analysis of whether it could get scheduled by another CPU while its context is being saved by CPU::switch_context()
                              // must focus on the time it takes to save a context and to reschedule a thread. If this gets stringent for a given architecture,
                              // then unlocking must be moved into the mediator. For x86 and ARM it doesn't seam to be the case.
-        prev->end_time=prev->_timer->read();//thread rodando
 
         CPU::switch_context(&prev->_context, next->_context);
     } else
         if(smp)
             _lock.release();
 
+
+   	count_migrate[Machine::cpu_id()] ++;
+   if(count_migrate[Machine::cpu_id()] >= 4){
+		CPU::int_disable();
+		_lock.acquire();
+		if (running()->link()->rank() != IDLE){
+			_scheduler.migration_needed();
+		}
+		count_migrate[Machine::cpu_id()] =0;
+		_lock.release();
+   }
     CPU::int_enable();
 }
 

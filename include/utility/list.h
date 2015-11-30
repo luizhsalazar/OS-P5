@@ -1257,7 +1257,6 @@ public:
     	return _list[e->object()->_affinity].choose(e);
     }
 
-private:
     L _list[Q];
 };
 
