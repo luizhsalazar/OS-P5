@@ -1,0 +1,810 @@
+Index: ../eposP5/app/parallel_philosophers_dinner.cc
+===================================================================
+--- ../eposP5/app/parallel_philosophers_dinner.cc	(revision 3794)
++++ ../eposP5/app/parallel_philosophers_dinner.cc	(working copy)
+@@ -6,6 +6,7 @@
+ #include <thread.h>
+ #include <semaphore.h>
+ #include <alarm.h>
++#include <string.h>
+ 
+ using namespace EPOS;
+ 
+@@ -22,7 +23,32 @@
+ void think(unsigned long long n);
+ void eat(unsigned long long n);
+ unsigned long long busy_wait(unsigned long long n);
++unsigned long coutTotalTime[5];
++unsigned long coutTotalTimeCore[5][4];
+ 
++void printThreads(int i){
++    table.p();
++    Display::position(19, 0);
++    cout << " ------------------------------------------------------------------- ";
++    Display::position(20, 0);
++	cout << " Thread "<<"   cpu0   cpu1  cpu2  cpu3    "<<" Tempo total ";
++    	Display::position(21 + (i), 0);
++    	cout << " Thread " << i;
++		coutTotalTime[i] = coutTotalTime[i]+phil[i]->get_time();
++		coutTotalTimeCore[i][Machine::cpu_id()] += phil[i]->get_time();
++		Display::position(21 + (i),10+ Machine::cpu_id()*7);
++		cout << "  " <<coutTotalTimeCore[i][Machine::cpu_id()];
++    	Display::position(21 + (i), 10+ 5*7);
++    	cout<<coutTotalTime[i];
++    Display::position(27, 0);
++    cout << " ------------------------------------------------------------------- ";
++    table.v();
++}
++
++
++
+ int main()
+ {
+     table.p();
+@@ -30,28 +56,30 @@
+     Display::position(0, 0);
+     cout << "The Philosopher's Dinner:" << endl;
+ 
+-    for(int i = 0; i < 5; i++)
++    for(int i = 0; i < 5; i++){
+         chopstick[i] = new Semaphore;
++        coutTotalTime[i] = 0;
++    }
+ 
+-    phil[0] = new Thread(&philosopher, 0,  5, 30);
+-    phil[1] = new Thread(&philosopher, 1, 10, 44);
+-    phil[2] = new Thread(&philosopher, 2, 16, 39);
+-    phil[3] = new Thread(&philosopher, 3, 16, 21);
+-    phil[4] = new Thread(&philosopher, 4, 10, 17);
++    phil[0] = new Thread(&philosopher, 0,  5, 60);
++    phil[1] = new Thread(&philosopher, 1, 10, 74);
++    phil[2] = new Thread(&philosopher, 2, 16, 69);
++    phil[3] = new Thread(&philosopher, 3, 16, 51);
++    phil[4] = new Thread(&philosopher, 4, 10, 47);
+ 
+     cout << "Philosophers are alive and hungry!" << endl;
+ 
+-    Display::position(7, 44);
++    Display::position(7, 74);
+     cout << '/';
+-    Display::position(13, 44);
++    Display::position(13, 74);
+     cout << '\\';
+-    Display::position(16, 35);
++    Display::position(16, 65);
+     cout << '|';
+-    Display::position(13, 27);
++    Display::position(13, 57);
+     cout << '/';
+-    Display::position(7, 27);
++    Display::position(7, 57);
+     cout << '\\';
+-    Display::position(19, 0);
++    Display::position(18, 30);
+ 
+     cout << "The dinner is served ..." << endl;
+     table.v();
+@@ -59,9 +87,10 @@
+     for(int i = 0; i < 5; i++) {
+         int ret = phil[i]->join();
+         table.p();
+-        Display::position(20 + i, 0);
++        Display::position(30 + i, 0);
+         cout << "Philosopher " << i << " ate " << ret << " times " << endl;
+         table.v();
++
+     }
+ 
+     for(int i = 0; i < 5; i++)
+@@ -81,12 +110,13 @@
+ 
+     for(int i = iterations; i > 0; i--) {
+ 
++    	printThreads(n);
+         table.p();
+         Display::position(l, c);
+         cout << "thinking[" << Machine::cpu_id() << "]";
+         table.v();
+ 
+-        think(1000000);
++        think(1100000);
+ 
+         table.p();
+         Display::position(l, c);
+@@ -101,7 +131,7 @@
+         cout << " eating[" << Machine::cpu_id() << "] ";
+         table.v();
+ 
+-        eat(500000);
++        eat(510000);
+ 
+         table.p();
+         Display::position(l, c);
+@@ -117,9 +147,11 @@
+     cout << "  done[" << Machine::cpu_id() << "]  ";
+     table.v();
+ 
++
+     return iterations;
+ }
+ 
++
+ void eat(unsigned long long n) {
+     static unsigned long long v;
+     v = busy_wait(n);
+Index: ../eposP5/app/parallel_philosophers_dinner_traits.h
+===================================================================
+--- ../eposP5/app/parallel_philosophers_dinner_traits.h	(revision 3794)
++++ ../eposP5/app/parallel_philosophers_dinner_traits.h	(working copy)
+@@ -28,7 +28,7 @@
+     enum {Legacy};
+     static const unsigned int MODEL = Legacy;
+ 
+-    static const unsigned int CPUS = 8;
++    static const unsigned int CPUS = 4;
+     static const unsigned int NODES = 1; // > 1 => NETWORKING    
+ };
+ 
+@@ -119,7 +119,8 @@
+ {
+     static const bool smp = Traits<System>::multicore;
+ 
+-    typedef Scheduling_Criteria::GRR Criterion;
++    // Alteração para utilizar nova política de escalonamento
++    typedef Scheduling_Criteria::CFS Criterion;
+     static const unsigned int QUANTUM = 100000; // us
+ 
+     static const bool trace_idle = hysterically_debugged;
+
+Index: ../eposP5/include/scheduler.h
+===================================================================
+--- ../eposP5/include/scheduler.h	(revision 3794)
++++ ../eposP5/include/scheduler.h	(working copy)
+@@ -6,7 +6,11 @@
+ #include <utility/list.h>
+ #include <cpu.h>
+ #include <machine.h>
+
+ __BEGIN_SYS
+ 
+ // All scheduling criteria, or disciplines, must define operator int() with
+@@ -88,6 +92,28 @@
+ 
+         static unsigned int current_head() { return Machine::cpu_id(); }
+     };
++
++    template<typename T>
++    class CFS: public Priority
++        {
++        public:
++            enum {
++                MAIN   = 0,
++                NORMAL = 1,
++                IDLE   = (unsigned(1) << (sizeof(int) * 8 - 1)) - 1
++            };
++            static const unsigned int QUEUES = 4; // Informa o número da sublista na lista
++
++	     static const bool timed = true;
++            static const bool dynamic = false;
++            static const bool preemptive = true;
++
++        public:
++            // DEFINE A CPU QUE A THREAD TERÁ AFINIDADE (Baseado no número de threads em cada lista)
++            CFS(int p = NORMAL): Priority(p) {}
++
++            static unsigned int current_queue(){ return Machine::cpu_id(); };
++        };
+ }
+ 
+ 
+@@ -178,8 +200,192 @@
+ 
+         return obj;
+     }
++
+ };
++// Scheduling_Queue_Multi_List
++template<typename T,
++		 typename R = typename T::Criterion>
++class Scheduling_Queue_Multi_List: public Scheduling_Multilist<T, R> {};
+ 
++
++// Scheduler_MultiList
++// Using Multihead_Scheduling_List instead of Scheduling_List
++template<typename T>
++class Scheduler_MultiList: public Scheduling_Queue_Multi_List<T, Scheduling_Criteria::CFS>
++{
++private:
++    typedef Scheduling_Queue_Multi_List<T> Base;
++
++public:
++    typedef typename T::Criterion Criterion;
++    typedef Scheduling_Multilist<T, Criterion> Queue;
++    typedef typename Queue::Element Element;
++    OStream cout;
++
++public:
++    Scheduler_MultiList() {}
++
++    unsigned int schedulables() { return Base::size(); }
++
++    T * volatile chosen() {
++    	// If called before insert(), chosen will dereference a null pointer!
++    	// For threads, we this won't happen (see Thread::init()).
++    	// But if you are unsure about your new use of the scheduler,
++    	// please, pay the price of the extra "if" bellow.
++//    	return const_cast<T * volatile>((Base::chosen()) ? Base::chosen()->object() : 0);
++    	return const_cast<T * volatile>(Base::chosen()->object());
++    }
++
++    void migration_needed() {
++
++    	int ncpus = Machine::n_cpus();
++		double media_cpu[ncpus];
++		double menor= 100000000;
++		unsigned int id_menor_cpu = 0;
++		double maior= 0;
++		unsigned int id_maior_cpu = 0;
++
++		for(int i=0; i < ncpus; i++){
++
++			int size_list = (int) Base::_list[i].size();
++			int soma_cpu = 0;
++
++			Element * e = Base::_list[i].head();
++			if (e == 0) {
++				return;
++			}
++
++			T * t = e->object();
++			soma_cpu += t->get_soma_percentage();
++
++			/* size - 2 para a next() nunca ser a IDLE */
++			for(int j=0; j < size_list-2; j++){
++				e = e->next();
++				t = e->object();
++				soma_cpu += t->get_soma_percentage();
++			}
++
++			if (size_list != 0){
++				media_cpu[i] = soma_cpu/size_list;
++			}
++
++			if(media_cpu[i] < menor){
++				menor = media_cpu[i];
++				id_menor_cpu = i;
++			}
++
++			if(media_cpu[i] > maior){
++				maior = media_cpu[i];
++				id_maior_cpu = i;
++			}
++		}
++
++		if(Machine::cpu_id() == id_maior_cpu && maior != menor){
++			int qtd = ((Base::_list[id_maior_cpu].size() - Base::_list[id_menor_cpu].size()) /2) + 1;
++			migrate(id_menor_cpu, qtd);
++		}
++	}
++
++	void migrate(int new_affinity, int qtd_threads) {
++
++		for(int i = 0; i < qtd_threads; i++){
++
++			T * thread = Base::_list[Machine::cpu_id()].head()->object();
++
++			if (thread->link()->rank() == Criterion::IDLE){
++				return;
++			}
++
++			remove(thread);
++			thread->_affinity = new_affinity;
++			insert(thread);
++
++			APIC::ipi_send(new_affinity, IC::INT_RESCHEDULER);
++		}
++
++	}
++
++    void insert(T * obj) {
++       db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::insert(" << obj << ")" << endl;
++
++       Base::insert(obj->link());
++    }
++
++    T * remove(T * obj) {
++        db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::remove(" << obj << ")" << endl;
++
++        return Base::remove(obj->link()) ? obj : 0;
++    }
++
++    void suspend(T * obj) {
++        db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::suspend(" << obj << ")" << endl;
++
++        Base::remove(obj->link());
++    }
++
++    void resume(T * obj) {
++        db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::resume(" << obj << ")" << endl;
++
++        Base::insert(obj->link());
++    }
++
++    T * choose() {
++        db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::choose() => ";
++
++        T * obj = Base::choose()->object();
++
++        db<Scheduler_MultiList>(TRC) << obj << endl;
++
++        return obj;
++    }
++
++    T * choose_another() {
++        db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::choose_another() => ";
++
++        T * obj = Base::choose_another()->object();
++
++        db<Scheduler_MultiList>(TRC) << obj << endl;
++
++        return obj;
++    }
++
++    T * choose(T * obj) {
++        db<Scheduler_MultiList>(TRC) << "Scheduler[chosen=" << chosen() << "]::choose(" << obj;
++
++        if(!Base::choose(obj->link()))
++            obj = 0;
++
++        db<Scheduler_MultiList>(TRC) << obj << endl;
++
++        return obj;
++    }
++};
++
+ __END_SYS
+ 
+ #endif
+Index: ../eposP5/include/system/traits.h
+===================================================================
+--- ../eposP5/include/system/traits.h	(revision 3794)
++++ ../eposP5/include/system/traits.h	(working copy)
+@@ -28,7 +28,7 @@
+     enum {Legacy};
+     static const unsigned int MODEL = Legacy;
+ 
+-    static const unsigned int CPUS = 1;
++    static const unsigned int CPUS = 4;
+     static const unsigned int NODES = 1; // > 1 => NETWORKING
+ };
+ 
+@@ -119,7 +119,8 @@
+ {
+     static const bool smp = Traits<System>::multicore;
+ 
+-    typedef Scheduling_Criteria::RR Criterion;
++    // Alteração para utilizar nova política de escalonamento
++    typedef Scheduling_Criteria::CFS Criterion;
+     static const unsigned int QUANTUM = 10000; // us
+ 
+     static const bool trace_idle = hysterically_debugged;
+Index: ../eposP5/include/system/types.h
+===================================================================
+--- ../eposP5/include/system/types.h	(revision 3794)
++++ ../eposP5/include/system/types.h	(working copy)
+@@ -91,6 +91,7 @@
+     class FCFS;
+     class RR;
+     class GRR;
++    class CFS;
+ };
+ 
+ class Address_Space;
+Index: ../eposP5/include/thread.h
+===================================================================
+--- ../eposP5/include/thread.h	(revision 3794)
++++ ../eposP5/include/thread.h	(working copy)
+@@ -9,6 +9,7 @@
+ #include <machine.h>
+ #include <system.h>
+ #include <scheduler.h>
++#include <ic.h>
+ 
+ extern "C" { void __exit(); }
+ 
+@@ -18,7 +19,8 @@
+ {
+     friend class Init_First;
+     friend class System;
+-    friend class Scheduler<Thread>;
++    friend class Scheduler_MultiList<Thread>;
+     friend class Synchronizer_Common;
+     friend class Alarm;
+     friend class IA32;
+
+@@ -87,10 +92,34 @@
+     void suspend() { suspend(false); }
+     void resume();
+ 
++	void calculate_priority(int percentage, Thread * prev);
++	int get_soma_percentage(){ return soma_percentage; }
++
++    unsigned long get_time(){ return _timer->read();};
++    unsigned long get_end_time(){ return end_time; };
++
++    unsigned long end_time;
++    int soma_percentage;
++    int tempo_execucao[3];
++    int count;
++
++    static unsigned int count_migrate[4];
++
++    unsigned int _affinity;
++
+     static Thread * volatile self() { return running(); }
+     static void yield();
++
++    unsigned int queue() { return _affinity; }
++
+     static void exit(int status = 0);
+ 
++    static unsigned int next_cpu() {
++	return _scheduler.queue_min_size();
++    }
++
+
+@@ -130,9 +159,15 @@
+ 
+     static int idle();
+ 
++    static bool migration_needed();
++
+ private:
+     static void init();
+ 
++    static void reschedule_handler(const IC::Interrupt_Id &);
++    static void suspend_handler(const IC::Interrupt_Id &);
++    static void send_interruption_to_core(Thread *);
++
+ protected:
+     char * _stack;
+     Context * volatile _context;
+@@ -143,8 +178,10 @@
+ 
+     static volatile unsigned int _thread_count;
+     static Scheduler_Timer * _timer;
+-    static Scheduler<Thread> _scheduler;
++
++    static Scheduler_MultiList<Thread> _scheduler;
+     static Spin _lock;
+ };
+ 
+ 
+Index: ../eposP5/include/utility/list.h
+===================================================================
+--- ../eposP5/include/utility/list.h	(revision 3794)
++++ ../eposP5/include/utility/list.h	(working copy)
+@@ -1205,6 +1205,21 @@
+     bool empty() const { return _list[R::current_queue()].empty(); }
+ 
+     unsigned int size() const { return _list[R::current_queue()].size(); }
++
++    unsigned int queue_min_size() const {
++		unsigned int min = -1;
++		unsigned int queue = -1;
++
++		for(unsigned int i = 0; i < Q; i++)
++			if(min > _list[i].size()){
++				min = _list[i].size();
++				queue = i;
++			}
++
++		return queue;
++	}
++
++
+     unsigned int total_size() const {
+         unsigned int s = 0;
+         for(unsigned int i = 0; i < Q; i++)
+@@ -1223,11 +1238,11 @@
+     }
+ 
+     void insert(Element * e) {
+-        _list[e->rank().queue()].insert(e);
++    	_list[e->object()->_affinity].insert(e);
+     }
+ 
+     Element * remove(Element * e) {
+-         return _list[e->rank().queue()].remove(e);
++    	return _list[e->object()->_affinity].remove(e);
+      }
+ 
+     Element * choose() {
+@@ -1239,10 +1254,9 @@
+     }
+ 
+     Element * choose(Element * e) {
+-        return _list[e->rank().queue()].choose(e);
++    	return _list[e->object()->_affinity].choose(e);
+     }
+ 
+-private:
+     L _list[Q];
+ };
+ 
+Index: ../eposP5/src/abstraction/thread.cc
+===================================================================
+--- ../eposP5/src/abstraction/thread.cc	(revision 3794)
++++ ../eposP5/src/abstraction/thread.cc	(working copy)
+@@ -4,6 +4,8 @@
+ #include <system.h>
+ #include <thread.h>
+ #include <alarm.h> // for FCFS
++#include <utility/ostream.h>
++#include <display.h>
+ 
+ // This_Thread class attributes
+ __BEGIN_UTIL
+@@ -12,12 +14,19 @@
+ 
+ __BEGIN_SYS
+ 
++//OStream cout;
++
+ // Class attributes
+ volatile unsigned int Thread::_thread_count;
+ Scheduler_Timer * Thread::_timer;
+-Scheduler<Thread> Thread::_scheduler;
++//Scheduler<Thread> Thread::_scheduler;
++
++Scheduler_MultiList<Thread> Thread::_scheduler;
+ Spin Thread::_lock;
+ 
++unsigned int Thread::count_migrate[4];
++
+ // Methods
+ void Thread::constructor_prolog(unsigned int stack_size)
+ {
+@@ -24,8 +33,12 @@
+     lock();
+ 
+     _thread_count++;
++
++    _affinity = ((_link.rank() == IDLE) || (_link.rank() == MAIN)) ?  Machine::cpu_id() : next_cpu();
++
+     _scheduler.insert(this);
+-
++    soma_percentage = 0;
++    count = 0;
+     _stack = new (SYSTEM) char[stack_size];
+ }
+ 
+@@ -41,15 +54,17 @@
+                     << "," << *_context << "}) => " << this << endl;
+ 
+     if((_state != READY) && (_state != RUNNING))
+-        _scheduler.suspend(this);
++    	_scheduler.suspend(this);
+ 
+-    if(preemptive && (_state == READY) && (_link.rank() != IDLE))
+-        reschedule();
+-    else
++    if(preemptive && (_state == READY) && (_link.rank() != IDLE)){
++//        reschedule();
++    	send_interruption_to_core(this);
++    } else {
+         if((_state == RUNNING) || (_link.rank() != IDLE)) // Keep interrupts disabled during init_first()
+             unlock(false);
+         else
+             unlock();
++    }
+ }
+ 
+ 
+@@ -113,11 +128,19 @@
+     }
+ 
+     if(preemptive) {
+-        reschedule();
++//        reschedule();
++    	send_interruption_to_core(this);
+     }
+ }
+ 
+ 
++void Thread::set_priority(const Priority & c)
++{
++    db<Thread>(TRC) << "Set Thread::priority(this=" << this << ",prio=" << c << ")" << endl;
++
++    _link.rank(Criterion(c));
++
++}
+@@ -186,8 +221,11 @@
+         _state = READY;
+         _scheduler.resume(this);
+ 
+-        if(preemptive)
+-            reschedule();
++        if(preemptive){
++//        	reschedule();
++        	send_interruption_to_core(this);
++        }
++
+     } else {
+         db<Thread>(WRN) << "Resume called for unsuspended object!" << endl;
+ 
+@@ -263,8 +301,10 @@
+         t->_waiting = 0;
+         _scheduler.resume(t);
+ 
+-        if(preemptive)
+-            reschedule();
++        if(preemptive){
++        	send_interruption_to_core(t);
++//            reschedule();
++        }
+     } else
+         unlock();
+ }
+@@ -285,7 +325,8 @@
+             _scheduler.resume(t);
+ 
+             if(preemptive) {
+-                reschedule();
++            	send_interruption_to_core(t);
++//                reschedule();
+                 lock();
+             }
+          }
+@@ -310,43 +351,91 @@
+ 
+ void Thread::time_slicer(const IC::Interrupt_Id & i)
+ {
+-    lock();
++	lock();
+ 
+-    reschedule();
++	count_migrate[Machine::cpu_id()] ++;
++
++	if(count_migrate[Machine::cpu_id()] >= 4){
++		count_migrate[Machine::cpu_id()] = 0;
++		_scheduler.migration_needed();
++	}
++
++	reschedule();
+ }
+ 
++void Thread::calculate_priority(int percentage, Thread * prev){
++	if(prev->priority()!= MAIN && prev->priority() != IDLE){
++		int size = 3;
++		if(count >= 3)
++			count = 0;
+ 
++		tempo_execucao[count] = percentage;
++		count++;
++
++		int j = 0;
++		int soma = 0;
++		for(int i = 0; i<size; i++){
++			if(tempo_execucao[i] != 0){
++				soma += tempo_execucao[i];
++			}else{
++				j++;
++			}
++		}
++
++		soma_percentage = soma;
++
++		Priority p = soma/size-j;
++	    prev->set_priority(p+1);
++  	}
++}
++
++void Thread::reschedule_handler(const IC::Interrupt_Id & i)
++{
++	lock();
++
++ 	reschedule();
++}
++
++void Thread::send_interruption_to_core(Thread * t)
++{
++	IC::ipi_send(t->queue(), IC::INT_RESCHEDULER);
++	unlock();
++}
++
+ void Thread::dispatch(Thread * prev, Thread * next, bool charge)
+ {
+-    if(charge) {
+-        if(Criterion::timed)
+-            _timer->reset();
+-    }
++		int percentage = 0;
+ 
+-    if(prev != next) {
+-        if(prev->_state == RUNNING)
+-            prev->_state = READY;
+-        next->_state = RUNNING;
++		if(charge) {
++			if(Criterion::timed){
++				percentage = _timer->reset();
++				prev->calculate_priority(percentage, prev);
++			}
++		}
+ 
+-        db<Thread>(TRC) << "Thread::dispatch(prev=" << prev << ",next=" << next << ")" << endl;
+-        db<Thread>(INF) << "prev={" << prev << ",ctx=" << *prev->_context << "}" << endl;
+-        db<Thread>(INF) << "next={" << next << ",ctx=" << *next->_context << "}" << endl;
++		if(prev != next) {
++			if(prev->_state == RUNNING)
++				prev->_state = READY;
++			next->_state = RUNNING;
+ 
+-        if(smp)
+-            _lock.release(); // Note that releasing the lock here, even with interrupts disabled, allows for another CPU to select "prev".
+-                             // The analysis of whether it could get scheduled by another CPU while its context is being saved by CPU::switch_context()
+-                             // must focus on the time it takes to save a context and to reschedule a thread. If this gets stringent for a given architecture,
+-                             // then unlocking must be moved into the mediator. For x86 and ARM it doesn't seam to be the case.
++			db<Thread>(TRC) << "Thread::dispatch(prev=" << prev << ",next=" << next << ")" << endl;
++			db<Thread>(INF) << "prev={" << prev << ",ctx=" << *prev->_context << "}" << endl;
++			db<Thread>(INF) << "next={" << next << ",ctx=" << *next->_context << "}" << endl;
+ 
+-        CPU::switch_context(&prev->_context, next->_context);
+-    } else
+-        if(smp)
+-            _lock.release();
++			if(smp)
++				_lock.release(); 
+-    CPU::int_enable();
++			CPU::switch_context(&prev->_context, next->_context);
++		} else
++			if(smp)
++				_lock.release();
++
++	   CPU::int_enable();
+ }
+ 
+-
+ int Thread::idle()
+ {
+     while(_thread_count > Machine::n_cpus()) { // someone else besides idles
+Index: ../eposP5/src/abstraction/thread_init.cc
+===================================================================
+--- ../eposP5/src/abstraction/thread_init.cc	(revision 3794)
++++ ../eposP5/src/abstraction/thread_init.cc	(working copy)
+@@ -14,8 +14,12 @@
+     // Letting reschedule() happen during thread creation is harmless, since
+     // MAIN is created first and dispatch won't replace it nor by itself
+     // neither by IDLE (which has a lower priority)
+-    if(Criterion::timed && (Machine::cpu_id() == 0))
++    if(Criterion::timed && (Machine::cpu_id() == 0)) {
+         _timer = new (SYSTEM) Scheduler_Timer(QUANTUM, time_slicer);
++
++        IC::int_vector(IC::INT_RESCHEDULER, reschedule_handler);
++        IC::enable(IC::INT_RESCHEDULER);
++    }
+ }
+ 
+ __END_SYS
+Index: ../eposP5/src/machine/pc/timer_init.cc
+===================================================================
+--- ../eposP5/src/machine/pc/timer_init.cc	(revision 3794)
++++ ../eposP5/src/machine/pc/timer_init.cc	(working copy)
+@@ -9,7 +9,7 @@
+ {
+     db<Init, Timer>(TRC) << "Timer::init()" << endl;
+ 
+-    CPU::int_disable();
++//    CPU::int_disable();
+     
+     Engine::config(0, Engine::clock() / FREQUENCY);
+ 
+@@ -16,7 +16,7 @@
+     IC::int_vector(IC::INT_TIMER, int_handler);
+     IC::enable(IC::INT_TIMER);
+ 
+-    CPU::int_enable();
++//    CPU::int_enable();
+ }
+ 
+ __END_SYS
